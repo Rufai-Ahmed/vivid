@@ -49,19 +49,24 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-background flex">
       {/* Left Side - Form */}
-      <div className="flex-1 flex flex-col justify-center px-8 py-12 lg:px-16">
-        <div className="absolute top-6 left-6 flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="Vividstream Pro" className="h-10 w-auto" />
-          </Link>
-        </div>
-        <div className="absolute top-6 right-6">
-          <ThemeToggle />
-        </div>
-
+      <div className="flex-1 flex flex-col justify-center px-8 py-9 lg:px-16">
         <div className="mx-auto w-full max-w-md">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Welcome back</h1>
+            <div className="flex items-center justify-between mb-2">
+              {" "}
+              <h1 className="text-3xl font-bold ">Welcome back</h1>
+              <div className="absolute top-8 right-10 lg:right-0">
+                <ThemeToggle />
+              </div>
+              <Link
+                to="/"
+                className="hidden lg:block bg-[#00A987] py-1 px-2 rounded-md items-center gap-2"
+              >
+                <h2 className="text-sm text-secondary font-bold ">
+                  Back to Home
+                </h2>
+              </Link>
+            </div>
             <p className="text-muted-foreground">
               Sign in to access your dashboard and manage your tickets.
             </p>
@@ -117,13 +122,15 @@ const Login = () => {
 
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="rounded border-border"
-                />
-                <span className="text-sm text-muted-foreground">Remember me</span>
+                <input type="checkbox" className="rounded border-border" />
+                <span className="text-sm text-muted-foreground">
+                  Remember me
+                </span>
               </label>
-              <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-primary hover:underline"
+              >
                 Forgot password?
               </Link>
             </div>
@@ -142,7 +149,10 @@ const Login = () => {
 
           <p className="mt-8 text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-primary font-medium hover:underline">
+            <Link
+              to="/signup"
+              className="text-primary font-medium hover:underline"
+            >
               Sign up
             </Link>
           </p>
@@ -153,7 +163,7 @@ const Login = () => {
       <div className="hidden lg:flex flex-1 gradient-hero items-center justify-center p-16 relative overflow-hidden">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse-slow" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse-slow" />
-        
+
         <div className="relative z-10 text-center max-w-md">
           <div className="w-24 h-24 mx-auto rounded-3xl gradient-primary flex items-center justify-center mb-8 animate-float">
             <Ticket className="w-12 h-12 text-primary-foreground" />
@@ -162,7 +172,8 @@ const Login = () => {
             Your Ticket to the World
           </h2>
           <p className="text-muted-foreground">
-            Access exclusive events, manage your visa applications, and book premium accommodations all in one place.
+            Access exclusive events, manage your visa applications, and book
+            premium accommodations all in one place.
           </p>
         </div>
       </div>

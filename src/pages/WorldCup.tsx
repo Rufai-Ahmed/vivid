@@ -1,20 +1,28 @@
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
-import { Trophy, Calendar, MapPin, Clock, Users, Star, ArrowRight } from "lucide-react";
+import {
+  Trophy,
+  Calendar,
+  MapPin,
+  Clock,
+  Users,
+  Star,
+  ArrowRight,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 const WorldCup = () => {
   // Country code mapping for flags
   const countryFlags: Record<string, string> = {
-    "USA": "us",
-    "Brazil": "br",
-    "Germany": "de",
-    "France": "fr",
-    "Argentina": "ar",
-    "Spain": "es",
-    "England": "gb-eng",
-    "Portugal": "pt",
+    USA: "us",
+    Brazil: "br",
+    Germany: "de",
+    France: "fr",
+    Argentina: "ar",
+    Spain: "es",
+    England: "gb-eng",
+    Portugal: "pt",
   };
 
   const matches = [
@@ -78,7 +86,9 @@ const WorldCup = () => {
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 mb-6">
               <Trophy className="w-4 h-4 text-accent" />
-              <span className="text-sm font-medium text-accent">World Cup 2026</span>
+              <span className="text-sm font-medium text-accent">
+                World Cup 2026
+              </span>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -87,7 +97,8 @@ const WorldCup = () => {
             </h1>
 
             <p className="text-lg text-muted-foreground mb-8">
-              Place your predictions on World Cup matches, earn Vividstream rewards, and compete for the top of the leaderboard.
+              Place your predictions on World Cup matches, earn Vividstream
+              rewards, and compete for the top of the leaderboard.
             </p>
 
             <div className="flex flex-wrap justify-center gap-4">
@@ -111,7 +122,9 @@ const WorldCup = () => {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl font-bold mb-2">Upcoming Matches</h2>
-              <p className="text-muted-foreground">Place your predictions before kickoff</p>
+              <p className="text-muted-foreground">
+                Place your predictions before kickoff
+              </p>
             </div>
             <Button variant="outline">View All</Button>
           </div>
@@ -133,7 +146,9 @@ const WorldCup = () => {
                   <div className="text-center flex-1">
                     <div className="w-20 h-20 mx-auto rounded-2xl bg-secondary/50 border border-border flex items-center justify-center mb-3 overflow-hidden group-hover:scale-105 transition-transform duration-300">
                       <img
-                        src={`https://flagcdn.com/w160/${countryFlags[match.teamA]}.png`}
+                        src={`https://flagcdn.com/w160/${
+                          countryFlags[match.teamA]
+                        }.png`}
                         alt={`${match.teamA} flag`}
                         className="w-14 h-10 object-cover rounded shadow-md"
                       />
@@ -148,7 +163,9 @@ const WorldCup = () => {
                   <div className="text-center flex-1">
                     <div className="w-20 h-20 mx-auto rounded-2xl bg-secondary/50 border border-border flex items-center justify-center mb-3 overflow-hidden group-hover:scale-105 transition-transform duration-300">
                       <img
-                        src={`https://flagcdn.com/w160/${countryFlags[match.teamB]}.png`}
+                        src={`https://flagcdn.com/w160/${
+                          countryFlags[match.teamB]
+                        }.png`}
                         alt={`${match.teamB} flag`}
                         className="w-14 h-10 object-cover rounded shadow-md"
                       />
@@ -163,17 +180,36 @@ const WorldCup = () => {
                 </div>
 
                 <div className="grid grid-cols-3 gap-2">
-                  <Button variant="outline" className="flex-col h-auto py-3 hover:bg-primary/10 hover:border-primary/50">
-                    <span className="text-xs text-muted-foreground">{match.teamA}</span>
-                    <span className="font-bold text-primary">{match.odds.teamA}x</span>
+                  <Button
+                    variant="outline"
+                    className="flex-col h-auto py-3 hover:bg-primary/10 hover:border-primary/50"
+                  >
+                    <span className="text-xs text-muted-foreground">
+                      {match.teamA}
+                    </span>
+                    <span className="font-bold text-primary">
+                      {match.odds.teamA}x
+                    </span>
                   </Button>
-                  <Button variant="outline" className="flex-col h-auto py-3 hover:bg-primary/10 hover:border-primary/50">
+                  <Button
+                    variant="outline"
+                    className="flex-col h-auto py-3 hover:bg-primary/10 hover:border-primary/50"
+                  >
                     <span className="text-xs text-muted-foreground">Draw</span>
-                    <span className="font-bold text-primary">{match.odds.draw}x</span>
+                    <span className="font-bold text-primary">
+                      {match.odds.draw}x
+                    </span>
                   </Button>
-                  <Button variant="outline" className="flex-col h-auto py-3 hover:bg-primary/10 hover:border-primary/50">
-                    <span className="text-xs text-muted-foreground">{match.teamB}</span>
-                    <span className="font-bold text-primary">{match.odds.teamB}x</span>
+                  <Button
+                    variant="outline"
+                    className="flex-col h-auto py-3 hover:bg-primary/10 hover:border-primary/50"
+                  >
+                    <span className="text-xs text-muted-foreground">
+                      {match.teamB}
+                    </span>
+                    <span className="font-bold text-primary">
+                      {match.odds.teamB}x
+                    </span>
                   </Button>
                 </div>
               </div>
@@ -228,8 +264,12 @@ const WorldCup = () => {
                       )}
                     </div>
                     <span className="font-medium">{player.name}</span>
-                    <span className="text-center text-muted-foreground">{player.wins}</span>
-                    <span className="text-right font-bold text-primary">{player.points.toLocaleString()}</span>
+                    <span className="text-center text-muted-foreground">
+                      {player.wins}
+                    </span>
+                    <span className="text-right font-bold text-primary">
+                      {player.points.toLocaleString()}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -243,7 +283,9 @@ const WorldCup = () => {
         <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-2xl font-bold mb-2">How It Works</h2>
-            <p className="text-muted-foreground">Simple steps to start winning</p>
+            <p className="text-muted-foreground">
+              Simple steps to start winning
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">

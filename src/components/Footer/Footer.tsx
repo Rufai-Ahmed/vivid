@@ -12,8 +12,8 @@ const Footer = () => {
       <div className="container mx-auto">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <img src={logo} alt="Vividstream Pro" className="h-10 w-auto" />
+            <Link to="/" className="flex items-center gap-2">
+              <img src={logo} alt="Vividstream Pro" className="h-20 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground">
               Your trusted platform for ticket redemption, visa services, and

@@ -1,12 +1,27 @@
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plane, ArrowRight, ArrowLeft, CheckCircle, Clock, User, FileText, MapPin } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Plane,
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle,
+  Clock,
+  User,
+  FileText,
+  MapPin,
+} from "lucide-react";
 import { toast } from "sonner";
 
 const VisaApplication = () => {
@@ -48,7 +63,9 @@ const VisaApplication = () => {
   };
 
   const handleSubmit = () => {
-    toast.success("Visa application submitted successfully! Check your email for confirmation.");
+    toast.success(
+      "Visa application submitted successfully! Check your email for confirmation."
+    );
     setStep(1);
     setFormData({
       firstName: "",
@@ -79,10 +96,14 @@ const VisaApplication = () => {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
               <Plane className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Visa Application</span>
+              <span className="text-sm font-medium text-primary">
+                Visa Application
+              </span>
             </div>
             <h1 className="text-3xl font-bold mb-2">Apply for Your Visa</h1>
-            <p className="text-muted-foreground">Complete the form below to start your visa application process.</p>
+            <p className="text-muted-foreground">
+              Complete the form below to start your visa application process.
+            </p>
           </div>
 
           {/* Progress Steps */}
@@ -100,12 +121,23 @@ const VisaApplication = () => {
                     >
                       <s.icon className="w-5 h-5" />
                     </div>
-                    <span className={`text-xs mt-2 ${step >= s.number ? "text-primary font-medium" : "text-muted-foreground"}`}>
+                    <span
+                      className={`text-xs mt-2 ${
+                        step >= s.number
+                          ? "text-primary font-medium"
+                          : "text-muted-foreground"
+                      }`}
+                    >
                       {s.title}
                     </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className={`w-full h-1 mx-2 rounded ${step > s.number ? "bg-primary" : "bg-secondary"}`} style={{ minWidth: "40px" }} />
+                    <div
+                      className={`w-full h-1 mx-2 rounded ${
+                        step > s.number ? "bg-primary" : "bg-secondary"
+                      }`}
+                      style={{ minWidth: "40px" }}
+                    />
                   )}
                 </div>
               ))}
@@ -117,14 +149,18 @@ const VisaApplication = () => {
             {/* Step 1: Personal Info */}
             {step === 1 && (
               <div className="space-y-6 animate-fade-in">
-                <h2 className="text-xl font-semibold mb-6">Personal Information</h2>
+                <h2 className="text-xl font-semibold mb-6">
+                  Personal Information
+                </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName">First Name</Label>
                     <Input
                       id="firstName"
                       value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, firstName: e.target.value })
+                      }
                       placeholder="Enter first name"
                     />
                   </div>
@@ -133,7 +169,9 @@ const VisaApplication = () => {
                     <Input
                       id="lastName"
                       value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lastName: e.target.value })
+                      }
                       placeholder="Enter last name"
                     />
                   </div>
@@ -145,7 +183,9 @@ const VisaApplication = () => {
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       placeholder="Enter email"
                     />
                   </div>
@@ -154,7 +194,9 @@ const VisaApplication = () => {
                     <Input
                       id="phone"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
                       placeholder="+1 234 567 890"
                     />
                   </div>
@@ -166,12 +208,22 @@ const VisaApplication = () => {
                       id="dob"
                       type="date"
                       value={formData.dateOfBirth}
-                      onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          dateOfBirth: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="nationality">Nationality</Label>
-                    <Select value={formData.nationality} onValueChange={(v) => setFormData({ ...formData, nationality: v })}>
+                    <Select
+                      value={formData.nationality}
+                      onValueChange={(v) =>
+                        setFormData({ ...formData, nationality: v })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select nationality" />
                       </SelectTrigger>
@@ -200,7 +252,12 @@ const VisaApplication = () => {
                   <Input
                     id="passportNumber"
                     value={formData.passportNumber}
-                    onChange={(e) => setFormData({ ...formData, passportNumber: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        passportNumber: e.target.value,
+                      })
+                    }
                     placeholder="Enter passport number"
                   />
                 </div>
@@ -211,7 +268,12 @@ const VisaApplication = () => {
                       id="passportExpiry"
                       type="date"
                       value={formData.passportExpiry}
-                      onChange={(e) => setFormData({ ...formData, passportExpiry: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          passportExpiry: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -219,7 +281,12 @@ const VisaApplication = () => {
                     <Input
                       id="placeOfIssue"
                       value={formData.placeOfIssue}
-                      onChange={(e) => setFormData({ ...formData, placeOfIssue: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          placeOfIssue: e.target.value,
+                        })
+                      }
                       placeholder="City, Country"
                     />
                   </div>
@@ -230,11 +297,18 @@ const VisaApplication = () => {
             {/* Step 3: Travel Info */}
             {step === 3 && (
               <div className="space-y-6 animate-fade-in">
-                <h2 className="text-xl font-semibold mb-6">Travel Information</h2>
+                <h2 className="text-xl font-semibold mb-6">
+                  Travel Information
+                </h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="destination">Destination Country</Label>
-                    <Select value={formData.destination} onValueChange={(v) => setFormData({ ...formData, destination: v })}>
+                    <Select
+                      value={formData.destination}
+                      onValueChange={(v) =>
+                        setFormData({ ...formData, destination: v })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select destination" />
                       </SelectTrigger>
@@ -247,7 +321,12 @@ const VisaApplication = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="purpose">Travel Purpose</Label>
-                    <Select value={formData.travelPurpose} onValueChange={(v) => setFormData({ ...formData, travelPurpose: v })}>
+                    <Select
+                      value={formData.travelPurpose}
+                      onValueChange={(v) =>
+                        setFormData({ ...formData, travelPurpose: v })
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select purpose" />
                       </SelectTrigger>
@@ -267,7 +346,12 @@ const VisaApplication = () => {
                       id="arrival"
                       type="date"
                       value={formData.arrivalDate}
-                      onChange={(e) => setFormData({ ...formData, arrivalDate: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          arrivalDate: e.target.value,
+                        })
+                      }
                     />
                   </div>
                   <div className="space-y-2">
@@ -276,7 +360,12 @@ const VisaApplication = () => {
                       id="departure"
                       type="date"
                       value={formData.departureDate}
-                      onChange={(e) => setFormData({ ...formData, departureDate: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          departureDate: e.target.value,
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -285,7 +374,12 @@ const VisaApplication = () => {
                   <Textarea
                     id="accommodation"
                     value={formData.accommodationAddress}
-                    onChange={(e) => setFormData({ ...formData, accommodationAddress: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        accommodationAddress: e.target.value,
+                      })
+                    }
                     placeholder="Enter hotel or accommodation address"
                     rows={3}
                   />
@@ -295,7 +389,12 @@ const VisaApplication = () => {
                   <Textarea
                     id="notes"
                     value={formData.additionalNotes}
-                    onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        additionalNotes: e.target.value,
+                      })
+                    }
                     placeholder="Any additional information..."
                     rows={3}
                   />
@@ -306,8 +405,10 @@ const VisaApplication = () => {
             {/* Step 4: Review */}
             {step === 4 && (
               <div className="space-y-6 animate-fade-in">
-                <h2 className="text-xl font-semibold mb-6">Review Your Application</h2>
-                
+                <h2 className="text-xl font-semibold mb-6">
+                  Review Your Application
+                </h2>
+
                 <div className="space-y-6">
                   <div className="p-4 rounded-xl bg-secondary/50">
                     <h3 className="font-medium mb-3 flex items-center gap-2">
@@ -315,10 +416,22 @@ const VisaApplication = () => {
                       Personal Information
                     </h3>
                     <div className="grid sm:grid-cols-2 gap-2 text-sm">
-                      <p><span className="text-muted-foreground">Name:</span> {formData.firstName} {formData.lastName}</p>
-                      <p><span className="text-muted-foreground">Email:</span> {formData.email}</p>
-                      <p><span className="text-muted-foreground">Phone:</span> {formData.phone}</p>
-                      <p><span className="text-muted-foreground">DOB:</span> {formData.dateOfBirth}</p>
+                      <p>
+                        <span className="text-muted-foreground">Name:</span>{" "}
+                        {formData.firstName} {formData.lastName}
+                      </p>
+                      <p>
+                        <span className="text-muted-foreground">Email:</span>{" "}
+                        {formData.email}
+                      </p>
+                      <p>
+                        <span className="text-muted-foreground">Phone:</span>{" "}
+                        {formData.phone}
+                      </p>
+                      <p>
+                        <span className="text-muted-foreground">DOB:</span>{" "}
+                        {formData.dateOfBirth}
+                      </p>
                     </div>
                   </div>
 
@@ -328,9 +441,22 @@ const VisaApplication = () => {
                       Passport Details
                     </h3>
                     <div className="grid sm:grid-cols-2 gap-2 text-sm">
-                      <p><span className="text-muted-foreground">Passport No:</span> {formData.passportNumber}</p>
-                      <p><span className="text-muted-foreground">Expiry:</span> {formData.passportExpiry}</p>
-                      <p><span className="text-muted-foreground">Place of Issue:</span> {formData.placeOfIssue}</p>
+                      <p>
+                        <span className="text-muted-foreground">
+                          Passport No:
+                        </span>{" "}
+                        {formData.passportNumber}
+                      </p>
+                      <p>
+                        <span className="text-muted-foreground">Expiry:</span>{" "}
+                        {formData.passportExpiry}
+                      </p>
+                      <p>
+                        <span className="text-muted-foreground">
+                          Place of Issue:
+                        </span>{" "}
+                        {formData.placeOfIssue}
+                      </p>
                     </div>
                   </div>
 
@@ -340,10 +466,26 @@ const VisaApplication = () => {
                       Travel Information
                     </h3>
                     <div className="grid sm:grid-cols-2 gap-2 text-sm">
-                      <p><span className="text-muted-foreground">Destination:</span> {formData.destination}</p>
-                      <p><span className="text-muted-foreground">Purpose:</span> {formData.travelPurpose}</p>
-                      <p><span className="text-muted-foreground">Arrival:</span> {formData.arrivalDate}</p>
-                      <p><span className="text-muted-foreground">Departure:</span> {formData.departureDate}</p>
+                      <p>
+                        <span className="text-muted-foreground">
+                          Destination:
+                        </span>{" "}
+                        {formData.destination}
+                      </p>
+                      <p>
+                        <span className="text-muted-foreground">Purpose:</span>{" "}
+                        {formData.travelPurpose}
+                      </p>
+                      <p>
+                        <span className="text-muted-foreground">Arrival:</span>{" "}
+                        {formData.arrivalDate}
+                      </p>
+                      <p>
+                        <span className="text-muted-foreground">
+                          Departure:
+                        </span>{" "}
+                        {formData.departureDate}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -352,7 +494,11 @@ const VisaApplication = () => {
                   <Clock className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                   <div className="text-sm">
                     <p className="font-medium text-primary">Processing Time</p>
-                    <p className="text-muted-foreground">Your application will be reviewed within 3-5 business days. You'll receive an email confirmation shortly after submission.</p>
+                    <p className="text-muted-foreground">
+                      Your application will be reviewed within 3-5 business
+                      days. You'll receive an email confirmation shortly after
+                      submission.
+                    </p>
                   </div>
                 </div>
               </div>

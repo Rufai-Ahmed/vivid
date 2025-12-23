@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,7 +28,8 @@ const Hotels = () => {
       rating: 4.8,
       reviews: 1250,
       price: 299,
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+      image:
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
       amenities: ["wifi", "parking", "breakfast", "gym"],
       featured: true,
     },
@@ -50,7 +51,8 @@ const Hotels = () => {
       rating: 4.9,
       reviews: 2100,
       price: 449,
-      image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+      image:
+        "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
       amenities: ["wifi", "parking", "breakfast", "gym"],
       featured: true,
     },
@@ -61,7 +63,8 @@ const Hotels = () => {
       rating: 4.4,
       reviews: 650,
       price: 199,
-      image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800",
+      image:
+        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800",
       amenities: ["wifi", "breakfast"],
       featured: false,
     },
@@ -95,7 +98,9 @@ const Hotels = () => {
           <div className="max-w-2xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
               <Hotel className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-primary">Premium Hotels</span>
+              <span className="text-sm font-medium text-primary">
+                Premium Hotels
+              </span>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -104,7 +109,8 @@ const Hotels = () => {
             </h1>
 
             <p className="text-lg text-muted-foreground mb-8">
-              Book premium accommodations near World Cup venues with exclusive partner rates.
+              Book premium accommodations near World Cup venues with exclusive
+              partner rates.
             </p>
 
             {/* Search Bar */}
@@ -150,7 +156,9 @@ const Hotels = () => {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl font-bold mb-2">Available Hotels</h2>
-              <p className="text-muted-foreground">{hotels.length} properties found</p>
+              <p className="text-muted-foreground">
+                {hotels.length} properties found
+              </p>
             </div>
           </div>
 
@@ -205,8 +213,12 @@ const Hotels = () => {
 
                   <div className="flex items-end justify-between">
                     <div>
-                      <span className="text-2xl font-bold text-primary">${hotel.price}</span>
-                      <span className="text-sm text-muted-foreground">/night</span>
+                      <span className="text-2xl font-bold text-primary">
+                        ${hotel.price}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        /night
+                      </span>
                     </div>
                     <Button variant="gradient" size="sm">
                       Book Now
@@ -227,9 +239,13 @@ const Hotels = () => {
               Complete Your Visa First
             </h2>
             <p className="text-primary-foreground/80 mb-6 max-w-xl mx-auto">
-              Hotel booking is unlocked after your visa application is approved. Start your application today!
+              Hotel booking is unlocked after your visa application is approved.
+              Start your application today!
             </p>
-            <Button size="lg" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
+            <Button
+              size="lg"
+              className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            >
               Apply for Visa
             </Button>
           </div>

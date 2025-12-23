@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import HeroPage from "@/components/HomepageComponents/HeroPage/HeroPage";
 import WorldCupShowcase from "@/components/HomepageComponents/WorldCupshowcase/WorldCupShowcase";

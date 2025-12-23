@@ -48,7 +48,7 @@ export function Navbar() {
             <img 
               src={logo} 
               alt="Vividstream Pro" 
-              className="h-10 w-auto object-contain"
+              className="h-20 w-32 object-contain"
             />
           </Link>
 

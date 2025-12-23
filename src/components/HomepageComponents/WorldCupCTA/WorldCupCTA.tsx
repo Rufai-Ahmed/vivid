@@ -26,7 +26,7 @@ const WorldCupCTA = () => {
               outcomes, earn Vividstream rewards, and redeem them for exclusive
               prizes. Join thousands of fans competing for glory.
             </p>
-            <Link to="/world-cup">
+            <Link to="/signup">
               <Button
                 size="xl"
                 className="bg-accent-foreground text-accent hover:bg-accent-foreground/90"

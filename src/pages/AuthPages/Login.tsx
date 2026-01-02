@@ -34,13 +34,15 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const success = await login(formData.email, formData.password);
-      if (success) {
+      const result = await login(formData.email, formData.password);
+      if (result.success) {
         toast.success("Login successful!");
         navigate("/dashboard");
+      } else {
+        toast.error(result.error || "Login failed. Please try again.");
       }
     } catch (error) {
-      toast.error("Login failed. Please try again.");
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }

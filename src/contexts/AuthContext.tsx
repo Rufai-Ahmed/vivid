@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
 interface User {
   id: string;
   name: string;
@@ -10,8 +12,8 @@ interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  signup: (name: string, email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  signup: (name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
@@ -23,35 +25,99 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return stored ? JSON.parse(stored) : null;
   });
 
-  const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulated login - replace with actual backend later
-    const mockUser: User = {
-      id: "1",
-      name: email.split("@")[0],
-      email,
-      isAdmin: email.includes("admin"),
-    };
-    setUser(mockUser);
-    localStorage.setItem("vividstream_user", JSON.stringify(mockUser));
-    return true;
+  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const response = await fetch(`${API_URL}/api/users/login-user`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Login failed:", data.message);
+        return { success: false, error: data.message || "Login failed" };
+      }
+
+      const userData: User = {
+        id: data.user,
+        name: email.split("@")[0],
+        email,
+        isAdmin: false,
+      };
+
+      setUser(userData);
+      localStorage.setItem("vividstream_user", JSON.stringify(userData));
+      localStorage.setItem("token", data.token || "");
+      return { success: true };
+    } catch (error) {
+      console.error("Login error:", error);
+      return { success: false, error: "Network error. Please check your connection." };
+    }
   };
 
-  const signup = async (name: string, email: string, password: string): Promise<boolean> => {
-    // Simulated signup - replace with actual backend later
-    const mockUser: User = {
-      id: "1",
-      name,
-      email,
-      isAdmin: false,
-    };
-    setUser(mockUser);
-    localStorage.setItem("vividstream_user", JSON.stringify(mockUser));
-    return true;
+  const signup = async (
+    name: string,
+    email: string,
+    password: string
+  ): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const response = await fetch(`${API_URL}/api/users/register-user`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: name,
+          email,
+          password,
+          confirmPassword: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Signup failed:", data.message);
+        return { success: false, error: data.message || "Registration failed" };
+      }
+
+      const userData: User = {
+        id: data.user.id,
+        name: data.user.fullName,
+        email: data.user.email,
+        isAdmin: false,
+      };
+
+      setUser(userData);
+      localStorage.setItem("vividstream_user", JSON.stringify(userData));
+      return { success: true };
+    } catch (error) {
+      console.error("Signup error:", error);
+      return { success: false, error: "Network error. Please check your connection." };
+    }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("vividstream_user");
+  const logout = async () => {
+    try {
+      // Optional: Call backend logout endpoint if you implement token invalidation
+      const token = localStorage.getItem("token");
+      if (token) {
+        await fetch(`${API_URL}/api/users/logout`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      // Always clear local state and storage
+      setUser(null);
+      localStorage.removeItem("vividstream_user");
+      localStorage.removeItem("token");
+    }
   };
 
   return (
@@ -62,8 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         signup,
         logout,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );

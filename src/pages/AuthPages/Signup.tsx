@@ -39,17 +39,19 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const success = await signup(
+      const result = await signup(
         formData.name,
         formData.email,
         formData.password
       );
-      if (success) {
+      if (result.success) {
         toast.success("Account created successfully!");
         navigate("/dashboard");
+      } else {
+        toast.error(result.error || "Signup failed. Please try again.");
       }
     } catch (error) {
-      toast.error("Signup failed. Please try again.");
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }

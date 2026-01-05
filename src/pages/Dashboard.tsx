@@ -1,46 +1,12 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { ChatWidget } from "@/components/ChatWidget";
-import { useAuth } from "@/contexts/AuthContext";
-import { useTheme } from "@/components/ThemeProvider";
-import vividstreamLogoDark from "@/assets/vividstream-logo-dark-mode.png";
-import vividstreamLogoLight from "@/assets/vividstream-logo-light-mode.png";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  Ticket,
-  Plane,
-  Hotel,
-  Wallet,
-  Clock,
-  User,
-  Settings,
-  LogOut,
-  ExternalLink,
-  Trophy,
-  Menu,
-  ChevronDown,
-} from "lucide-react";
 import Sidebar from "./DashboardPages/SideBar/Sidebar";
-import { subNavItems } from "@/types/types";
 import MobileHeader from "./DashboardPages/MobileHeader/MobileHeader";
 import DashboardHeader from "./DashboardPages/DashBoardHeader/DashboardHeader";
 import StatusCards from "./DashboardPages/StatusCards/StatusCards";
 import ContentGrid from "./DashboardPages/ContentGrid/ContentGrid";
+import QuickActions from "./DashboardPages/QuickActions/QuickActions";
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme } = useTheme();
-  const logo = theme === "light" ? vividstreamLogoLight : vividstreamLogoDark;
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
-
   return (
     <div className="min-h-screen bg-background">
       {/* Sidebar */}
@@ -62,38 +28,7 @@ const Dashboard = () => {
           <ContentGrid />
 
           {/* Quick Actions - Hidden on mobile (available in sidebar) */}
-          <div className="hidden sm:block mt-8 p-6 rounded-2xl border border-border bg-card">
-            <h2 className="font-semibold mb-4">Quick Actions</h2>
-            <div className="grid sm:grid-cols-3 gap-4">
-              <Link to="/dashboard/redeem">
-                <Button
-                  variant="outline"
-                  className="w-full h-auto py-4 flex-col gap-2"
-                >
-                  <Ticket className="w-6 h-6" />
-                  <span>Redeem Ticket</span>
-                </Button>
-              </Link>
-              <Link to="/dashboard/visa">
-                <Button
-                  variant="outline"
-                  className="w-full h-auto py-4 flex-col gap-2"
-                >
-                  <Plane className="w-6 h-6" />
-                  <span>Apply for Visa</span>
-                </Button>
-              </Link>
-              <Link to="/dashboard/world-cup">
-                <Button
-                  variant="outline"
-                  className="w-full h-auto py-4 flex-col gap-2"
-                >
-                  <Trophy className="w-6 h-6" />
-                  <span>World Cup Bets</span>
-                </Button>
-              </Link>
-            </div>
-          </div>
+          <QuickActions />
         </div>
       </main>
 

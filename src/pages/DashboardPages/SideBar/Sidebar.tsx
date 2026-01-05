@@ -22,8 +22,8 @@ const Sidebar = () => {
   return (
     <aside className="fixed left-0 top-0 h-full w-64 border-r border-border bg-card/50 backdrop-blur-sm hidden lg:block">
       <div className="p-6">
-        <div className="flex items-center gap-2 mb-8">
-          <img src={logo} alt="Vividstream Pro" className="h-10 w-auto" />
+        <div className="flex items-center">
+          <img src={logo} alt="Vividstream Pro" className="h-20 w-auto" />
         </div>
 
         <nav className="space-y-1">

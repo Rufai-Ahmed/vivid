@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
 import vividstreamLogoDark from "@/assets/vividstream-logo-dark-mode.png";
-import vividstreamLogoLight from "@/assets/vividstream-logo-light-mode.png";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Ticket } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
@@ -15,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth();
   const { theme } = useTheme();
-  const logo = theme === "light" ? vividstreamLogoLight : vividstreamLogoDark;
+  const logo = vividstreamLogoDark;
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -170,7 +169,7 @@ const Login = () => {
               <img src={logo} alt="Vividstream Pro" className="h-36 w-40" />
             </div>
           </Link>
-          <h2 className="text-3xl font-bold text-foreground ">
+          <h2 className="text-3xl font-bold text-primary ">
             Your Ticket to the World
           </h2>
           <p className="text-muted-foreground">

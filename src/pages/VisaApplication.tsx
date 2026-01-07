@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { endpoints } from "@/config/api";
+
 const VisaApplication = () => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -119,16 +121,13 @@ const VisaApplication = () => {
         additionalNotes: formData.additionalNotes,
       };
 
-      const response = await fetch(
-        "http://localhost:3000/api/visa-applications/apply-visa",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch(endpoints.visa.create, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -196,7 +195,8 @@ const VisaApplication = () => {
                         step >= s.number
                           ? "gradient-primary text-primary-foreground"
                           : "bg-secondary text-muted-foreground"
-                      }`}>
+                      }`}
+                    >
                       <s.icon className="w-5 h-5" />
                     </div>
                     <span
@@ -204,7 +204,8 @@ const VisaApplication = () => {
                         step >= s.number
                           ? "text-primary font-medium"
                           : "text-muted-foreground"
-                      }`}>
+                      }`}
+                    >
                       {s.title}
                     </span>
                   </div>
@@ -299,7 +300,8 @@ const VisaApplication = () => {
                       value={formData.nationality}
                       onValueChange={(v) =>
                         setFormData({ ...formData, nationality: v })
-                      }>
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select nationality" />
                       </SelectTrigger>
@@ -383,7 +385,8 @@ const VisaApplication = () => {
                       value={formData.destination}
                       onValueChange={(v) =>
                         setFormData({ ...formData, destination: v })
-                      }>
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select destination" />
                       </SelectTrigger>
@@ -400,7 +403,8 @@ const VisaApplication = () => {
                       value={formData.travelPurpose}
                       onValueChange={(v) =>
                         setFormData({ ...formData, travelPurpose: v })
-                      }>
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select purpose" />
                       </SelectTrigger>
@@ -618,7 +622,8 @@ const VisaApplication = () => {
                 <Button
                   variant="gradient"
                   onClick={handleSubmit}
-                  disabled={loading}>
+                  disabled={loading}
+                >
                   {loading ? "Submitting..." : "Submit Application"}
                   <CheckCircle className="w-4 h-4 ml-2" />
                 </Button>

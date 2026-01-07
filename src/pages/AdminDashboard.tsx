@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { ViewModal } from "@/components/admin/ViewModal";
 import { EditModal } from "@/components/admin/EditModal";
 import { DeleteModal } from "@/components/admin/DeleteModal";
+import { PaginationControls } from "@/components/admin/PaginationControls";
+import { toast } from "sonner";
 import {
   Ticket,
   Users,
@@ -23,13 +26,33 @@ import {
   Eye,
   Edit,
   Trash2,
+  Loader2,
 } from "lucide-react";
+import { endpoints } from "@/config/api";
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState("tickets");
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  // Data states
+  const [tickets, setTickets] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [bets, setBets] = useState<any[]>([]);
+  const [visaApplications, setVisaApplications] = useState<any[]>([]);
+  const [payments, setPayments] = useState<any[]>([]);
+  const [statsData, setStatsData] = useState<any>({});
+
+  // Pagination State
+  const [pagination, setPagination] = useState({
+    tickets: { page: 1, limit: 10, totalPages: 1 },
+    users: { page: 1, limit: 10, totalPages: 1 },
+    betting: { page: 1, limit: 10, totalPages: 1 },
+    visa: { page: 1, limit: 10, totalPages: 1 },
+    payments: { page: 1, limit: 10, totalPages: 1 },
+  });
 
   // Modal states
   const [viewModal, setViewModal] = useState<{
@@ -64,132 +87,107 @@ const AdminDashboard = () => {
     type: "",
   });
 
-  // Data states
-  const [tickets, setTickets] = useState([
-    {
-      id: "TKT-001",
-      user: "John Doe",
-      code: "WIN-2024-X",
-      status: "Redeemed",
-      date: "2024-03-15",
-    },
-    {
-      id: "TKT-002",
-      user: "Jane Smith",
-      code: "WIN-2024-Y",
-      status: "Pending",
-      date: "2024-03-14",
-    },
-    {
-      id: "TKT-003",
-      user: "Mike Johnson",
-      code: "WIN-2024-Z",
-      status: "Expired",
-      date: "2024-03-13",
-    },
-  ]);
+  useEffect(() => {
+    fetchDashboardData();
+  }, [user]);
 
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-      status: "Active",
-      wallet: "2,500",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane@example.com",
-      status: "Active",
-      wallet: "1,200",
-    },
-    {
-      id: 3,
-      name: "Mike Johnson",
-      email: "mike@example.com",
-      status: "Suspended",
-      wallet: "0",
-    },
-  ]);
+  const fetchDashboardData = async () => {
+    if (!user) return;
 
-  const [bets, setBets] = useState([
-    {
-      id: "BET-001",
-      user: "John Doe",
-      match: "USA vs Brazil",
-      prediction: "USA",
-      stake: "500",
-      status: "Open",
-    },
-    {
-      id: "BET-002",
-      user: "Jane Smith",
-      match: "Germany vs France",
-      prediction: "Draw",
-      stake: "300",
-      status: "Won",
-    },
-    {
-      id: "BET-003",
-      user: "Mike Johnson",
-      match: "Spain vs Italy",
-      prediction: "Spain",
-      stake: "200",
-      status: "Lost",
-    },
-  ]);
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
 
-  const [visaApplications, setVisaApplications] = useState([
-    {
-      id: "VISA-001",
-      user: "John Doe",
-      destination: "USA",
-      status: "Under Review",
-      submitted: "2024-03-10",
-    },
-    {
-      id: "VISA-002",
-      user: "Jane Smith",
-      destination: "UK",
-      status: "Approved",
-      submitted: "2024-03-08",
-    },
-    {
-      id: "VISA-003",
-      user: "Mike Johnson",
-      destination: "France",
-      status: "Pending Documents",
-      submitted: "2024-03-12",
-    },
-  ]);
+    try {
+      setLoading(true);
+      // Parallel fetching
+      const [
+        statsRes,
+        usersRes,
+        ticketsRes,
+        visaRes,
+        predictionsRes,
+        paymentsRes,
+      ] = await Promise.all([
+        fetch(endpoints.admin.stats, { headers }),
+        fetch(endpoints.auth.getAll, { headers }),
+        fetch(endpoints.tickets.getAll, { headers }),
+        fetch(endpoints.visa.getAll, { headers }),
+        fetch(endpoints.worldcup.getAllPredictions, { headers }),
+        fetch(endpoints.hotels.getAllTransactions, { headers }),
+      ]);
 
-  const [payments, setPayments] = useState([
-    {
-      id: "PAY-001",
-      user: "John Doe",
-      amount: "$250",
-      method: "Crypto",
-      status: "Completed",
-      date: "2024-03-15",
-    },
-    {
-      id: "PAY-002",
-      user: "Jane Smith",
-      amount: "$150",
-      method: "Card",
-      status: "Completed",
-      date: "2024-03-14",
-    },
-    {
-      id: "PAY-003",
-      user: "Mike Johnson",
-      amount: "$300",
-      method: "Crypto",
-      status: "Pending",
-      date: "2024-03-13",
-    },
-  ]);
+      if (statsRes.ok) setStatsData(await statsRes.json());
+
+      if (usersRes.ok) {
+        const data = await usersRes.json();
+        setUsers(data.docs || []);
+        setPagination((prev) => ({
+          ...prev,
+          users: {
+            ...prev.users,
+            page: data.page,
+            totalPages: data.totalPages,
+          },
+        }));
+      }
+
+      if (ticketsRes.ok) {
+        const data = await ticketsRes.json();
+        setTickets(data.docs || []);
+        setPagination((prev) => ({
+          ...prev,
+          tickets: {
+            ...prev.tickets,
+            page: data.page,
+            totalPages: data.totalPages,
+          },
+        }));
+      }
+
+      if (visaRes.ok) {
+        const data = await visaRes.json();
+        setVisaApplications(data.docs || []);
+        setPagination((prev) => ({
+          ...prev,
+          visa: { ...prev.visa, page: data.page, totalPages: data.totalPages },
+        }));
+      }
+
+      if (predictionsRes.ok) {
+        const data = await predictionsRes.json();
+        setBets(data.docs || []);
+        setPagination((prev) => ({
+          ...prev,
+          betting: {
+            ...prev.betting,
+            page: data.page,
+            totalPages: data.totalPages,
+          },
+        }));
+      }
+
+      if (paymentsRes.ok) {
+        const data = await paymentsRes.json();
+        setPayments(data.docs || []);
+        setPagination((prev) => ({
+          ...prev,
+          payments: {
+            ...prev.payments,
+            page: data.page,
+            totalPages: data.totalPages,
+          },
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching admin data:", error);
+      toast.error("Failed to load dashboard data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -199,30 +197,30 @@ const AdminDashboard = () => {
   const stats = [
     {
       title: "Total Users",
-      value: "12,847",
-      change: "+12%",
+      value: statsData.totalUsers?.toLocaleString() || "0",
+      change: "+0%",
       trend: "up",
       icon: Users,
     },
     {
       title: "Tickets Redeemed",
-      value: "3,421",
-      change: "+8%",
+      value: statsData.tickets?.redeemed?.toLocaleString() || "0",
+      change: "+0%",
       trend: "up",
       icon: Ticket,
     },
     {
       title: "Visa Applications",
-      value: "892",
-      change: "+23%",
+      value: statsData.visa?.total?.toLocaleString() || "0",
+      change: "+0%",
       trend: "up",
       icon: Plane,
     },
     {
       title: "Revenue",
-      value: "$128,450",
-      change: "-3%",
-      trend: "down",
+      value: `$${statsData.financials?.totalRevenue?.toLocaleString() || "0"}`,
+      change: "0%",
+      trend: "neutral",
       icon: CreditCard,
     },
   ];
@@ -238,20 +236,21 @@ const AdminDashboard = () => {
 
   const getStatusBadge = (status: string) => {
     const styles: Record<string, string> = {
-      Redeemed: "bg-success/20 text-success",
-      Pending: "bg-warning/20 text-warning",
-      Expired: "bg-destructive/20 text-destructive",
-      Active: "bg-success/20 text-success",
-      Suspended: "bg-destructive/20 text-destructive",
-      Open: "bg-info/20 text-info",
-      Won: "bg-success/20 text-success",
-      Lost: "bg-destructive/20 text-destructive",
-      "Under Review": "bg-warning/20 text-warning",
-      Approved: "bg-success/20 text-success",
-      "Pending Documents": "bg-info/20 text-info",
-      Completed: "bg-success/20 text-success",
+      redeemed: "bg-success/20 text-success",
+      pending: "bg-warning/20 text-warning",
+      expired: "bg-destructive/20 text-destructive",
+      active: "bg-success/20 text-success",
+      suspended: "bg-destructive/20 text-destructive",
+      open: "bg-info/20 text-info",
+      won: "bg-success/20 text-success",
+      lost: "bg-destructive/20 text-destructive",
+      approved: "bg-success/20 text-success",
+      rejected: "bg-destructive/20 text-destructive",
+      completed: "bg-success/20 text-success",
     };
-    return styles[status] || "bg-secondary text-secondary-foreground";
+    return (
+      styles[status?.toLowerCase()] || "bg-secondary text-secondary-foreground"
+    );
   };
 
   const handleNavClick = (tab: string | null) => {
@@ -339,6 +338,73 @@ const AdminDashboard = () => {
     }
   };
 
+  // Handle Page Change
+  const handlePageChange = async (section: string, page: number) => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    try {
+      let url = "";
+      switch (section) {
+        case "tickets":
+          url = `${endpoints.tickets.getAll}?page=${page}&limit=10`;
+          break;
+        case "users":
+          url = `${endpoints.auth.getAll}?page=${page}&limit=10`;
+          break;
+        case "betting":
+          url = `${endpoints.worldcup.getAllPredictions}?page=${page}&limit=10`;
+          break;
+        case "visa":
+          url = `${endpoints.visa.getAll}?page=${page}&limit=10`;
+          break;
+        case "payments":
+          url = `${endpoints.hotels.getAllTransactions}?page=${page}&limit=10`;
+          break;
+      }
+
+      if (url) {
+        const res = await fetch(url, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          // Update data state
+          switch (section) {
+            case "tickets":
+              setTickets(data.docs || []);
+              break;
+            case "users":
+              setUsers(data.docs || []);
+              break;
+            case "betting":
+              setBets(data.docs || []);
+              break;
+            case "visa":
+              setVisaApplications(data.docs || []);
+              break;
+            case "payments":
+              setPayments(data.docs || []);
+              break;
+          }
+          // Update pagination state
+          setPagination((prev) => ({
+            ...prev,
+            [section]: {
+              ...prev[section as keyof typeof pagination],
+              page: data.page,
+              totalPages: data.totalPages,
+            },
+          }));
+        }
+      }
+    } catch (error) {
+      console.error(`Error fetching ${section} data:`, error);
+      toast.error(`Failed to load ${section} data`);
+    }
+  };
+
   // Get status options based on type
   const getStatusOptions = (type: string) => {
     switch (type) {
@@ -402,7 +468,8 @@ const AdminDashboard = () => {
                   (link.id === "analytics" && !activeTab)
                     ? "bg-accent/10 text-accent font-medium"
                     : "text-muted-foreground hover:bg-secondary"
-                }`}>
+                }`}
+              >
                 <link.icon className="w-5 h-5" />
                 {link.label}
               </button>
@@ -419,7 +486,8 @@ const AdminDashboard = () => {
               variant="ghost"
               size="icon"
               className="flex-1"
-              onClick={handleLogout}>
+              onClick={handleLogout}
+            >
               <LogOut className="w-4 h-4" />
             </Button>
           </div>
@@ -458,7 +526,8 @@ const AdminDashboard = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="p-5 rounded-2xl border border-border bg-card">
+                className="p-5 rounded-2xl border border-border bg-card"
+              >
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm text-muted-foreground">
                     {stat.title}
@@ -471,7 +540,8 @@ const AdminDashboard = () => {
                 <div
                   className={`flex items-center gap-1 text-sm ${
                     stat.trend === "up" ? "text-success" : "text-destructive"
-                  }`}>
+                  }`}
+                >
                   {stat.trend === "up" ? (
                     <TrendingUp className="w-4 h-4" />
                   ) : (
@@ -487,7 +557,8 @@ const AdminDashboard = () => {
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
-            className="space-y-6">
+            className="space-y-6"
+          >
             <TabsList className="bg-secondary/50 p-1 rounded-xl">
               <TabsTrigger value="tickets" className="rounded-lg">
                 Tickets
@@ -542,10 +613,15 @@ const AdminDashboard = () => {
                     <tbody>
                       {tickets.map((ticket) => (
                         <tr
-                          key={ticket.id}
-                          className="border-t border-border hover:bg-secondary/30 transition-colors">
-                          <td className="p-4 font-mono text-sm">{ticket.id}</td>
-                          <td className="p-4">{ticket.user}</td>
+                          key={ticket._id}
+                          className="border-t border-border hover:bg-secondary/30 transition-colors"
+                        >
+                          <td className="p-4 font-mono text-sm">
+                            {ticket._id.substring(0, 8)}...
+                          </td>
+                          <td className="p-4">
+                            {ticket.redeemedBy?.fullName || "N/A"}
+                          </td>
                           <td className="p-4 font-mono text-sm">
                             {ticket.code}
                           </td>
@@ -553,12 +629,13 @@ const AdminDashboard = () => {
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
                                 ticket.status
-                              )}`}>
+                              )}`}
+                            >
                               {ticket.status}
                             </span>
                           </td>
                           <td className="p-4 text-muted-foreground">
-                            {ticket.date}
+                            {new Date(ticket.createdAt).toLocaleDateString()}
                           </td>
                           <td className="p-4">
                             <div className="flex gap-2">
@@ -568,7 +645,8 @@ const AdminDashboard = () => {
                                 className="h-8 w-8"
                                 onClick={() =>
                                   handleView("Ticket Details", ticket)
-                                }>
+                                }
+                              >
                                 <Eye className="w-4 h-4" />
                               </Button>
                               <Button
@@ -577,7 +655,8 @@ const AdminDashboard = () => {
                                 className="h-8 w-8"
                                 onClick={() =>
                                   handleEdit("Ticket", ticket, "ticket")
-                                }>
+                                }
+                              >
                                 <Edit className="w-4 h-4" />
                               </Button>
                               <Button
@@ -585,8 +664,9 @@ const AdminDashboard = () => {
                                 variant="ghost"
                                 className="h-8 w-8 text-destructive"
                                 onClick={() =>
-                                  handleDelete("Ticket", ticket.id, "ticket")
-                                }>
+                                  handleDelete("Ticket", ticket._id, "ticket")
+                                }
+                              >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             </div>
@@ -596,6 +676,12 @@ const AdminDashboard = () => {
                     </tbody>
                   </table>
                 </div>
+                <PaginationControls
+                  currentPage={pagination.tickets.page}
+                  totalPages={pagination.tickets.totalPages}
+                  onPageChange={(page) => handlePageChange("tickets", page)}
+                  isLoading={false}
+                />
               </div>
             </TabsContent>
 
@@ -636,7 +722,8 @@ const AdminDashboard = () => {
                       {users.map((user) => (
                         <tr
                           key={user.id}
-                          className="border-t border-border hover:bg-secondary/30 transition-colors">
+                          className="border-t border-border hover:bg-secondary/30 transition-colors"
+                        >
                           <td className="p-4 font-mono text-sm">{user.id}</td>
                           <td className="p-4">{user.name}</td>
                           <td className="p-4 text-muted-foreground">
@@ -646,7 +733,8 @@ const AdminDashboard = () => {
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
                                 user.status
-                              )}`}>
+                              )}`}
+                            >
                               {user.status}
                             </span>
                           </td>
@@ -659,18 +747,16 @@ const AdminDashboard = () => {
                                 size="icon"
                                 variant="ghost"
                                 className="h-8 w-8"
-                                onClick={() =>
-                                  handleView("User Details", user)
-                                }>
+                                onClick={() => handleView("User Details", user)}
+                              >
                                 <Eye className="w-4 h-4" />
                               </Button>
                               <Button
                                 size="icon"
                                 variant="ghost"
                                 className="h-8 w-8"
-                                onClick={() =>
-                                  handleEdit("User", user, "user")
-                                }>
+                                onClick={() => handleEdit("User", user, "user")}
+                              >
                                 <Edit className="w-4 h-4" />
                               </Button>
                               <Button
@@ -679,7 +765,8 @@ const AdminDashboard = () => {
                                 className="h-8 w-8 text-destructive"
                                 onClick={() =>
                                   handleDelete("User", user.id, "user")
-                                }>
+                                }
+                              >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             </div>
@@ -689,6 +776,12 @@ const AdminDashboard = () => {
                     </tbody>
                   </table>
                 </div>
+                <PaginationControls
+                  currentPage={pagination.users.page}
+                  totalPages={pagination.users.totalPages}
+                  onPageChange={(page) => handlePageChange("users", page)}
+                  isLoading={false}
+                />
               </div>
             </TabsContent>
 
@@ -731,20 +824,28 @@ const AdminDashboard = () => {
                     <tbody>
                       {bets.map((bet) => (
                         <tr
-                          key={bet.id}
-                          className="border-t border-border hover:bg-secondary/30 transition-colors">
-                          <td className="p-4 font-mono text-sm">{bet.id}</td>
-                          <td className="p-4">{bet.user}</td>
-                          <td className="p-4">{bet.match}</td>
-                          <td className="p-4">{bet.prediction}</td>
+                          key={bet._id}
+                          className="border-t border-border hover:bg-secondary/30 transition-colors"
+                        >
+                          <td className="p-4 font-mono text-sm">
+                            {bet._id.substring(0, 8)}...
+                          </td>
+                          <td className="p-4">{bet.user?.fullName}</td>
+                          <td className="p-4">
+                            {bet.match
+                              ? `${bet.match.teamA} vs ${bet.match.teamB}`
+                              : "N/A"}
+                          </td>
+                          <td className="p-4">{bet.predictedWinner}</td>
                           <td className="p-4 font-medium text-primary">
-                            {bet.stake}
+                            {bet.wagerAmount}
                           </td>
                           <td className="p-4">
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
                                 bet.status
-                              )}`}>
+                              )}`}
+                            >
                               {bet.status}
                             </span>
                           </td>
@@ -754,14 +855,16 @@ const AdminDashboard = () => {
                                 size="icon"
                                 variant="ghost"
                                 className="h-8 w-8"
-                                onClick={() => handleView("Bet Details", bet)}>
+                                onClick={() => handleView("Bet Details", bet)}
+                              >
                                 <Eye className="w-4 h-4" />
                               </Button>
                               <Button
                                 size="icon"
                                 variant="ghost"
                                 className="h-8 w-8"
-                                onClick={() => handleEdit("Bet", bet, "bet")}>
+                                onClick={() => handleEdit("Bet", bet, "bet")}
+                              >
                                 <Edit className="w-4 h-4" />
                               </Button>
                             </div>
@@ -771,6 +874,12 @@ const AdminDashboard = () => {
                     </tbody>
                   </table>
                 </div>
+                <PaginationControls
+                  currentPage={pagination.betting.page}
+                  totalPages={pagination.betting.totalPages}
+                  onPageChange={(page) => handlePageChange("betting", page)}
+                  isLoading={false}
+                />
               </div>
             </TabsContent>
 
@@ -810,21 +919,27 @@ const AdminDashboard = () => {
                     <tbody>
                       {visaApplications.map((visa) => (
                         <tr
-                          key={visa.id}
-                          className="border-t border-border hover:bg-secondary/30 transition-colors">
-                          <td className="p-4 font-mono text-sm">{visa.id}</td>
-                          <td className="p-4">{visa.user}</td>
-                          <td className="p-4">{visa.destination}</td>
+                          key={visa._id}
+                          className="border-t border-border hover:bg-secondary/30 transition-colors"
+                        >
+                          <td className="p-4 font-mono text-sm">
+                            {visa._id.substring(0, 8)}...
+                          </td>
+                          <td className="p-4">
+                            {visa.firstName} {visa.lastName}
+                          </td>
+                          <td className="p-4">{visa.destinationCountry}</td>
                           <td className="p-4">
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
                                 visa.status
-                              )}`}>
+                              )}`}
+                            >
                               {visa.status}
                             </span>
                           </td>
                           <td className="p-4 text-muted-foreground">
-                            {visa.submitted}
+                            {new Date(visa.submittedAt).toLocaleDateString()}
                           </td>
                           <td className="p-4">
                             <div className="flex gap-2">
@@ -834,17 +949,23 @@ const AdminDashboard = () => {
                                 className="h-8 w-8"
                                 onClick={() =>
                                   handleView("Visa Application Details", visa)
-                                }>
+                                }
+                              >
                                 <Eye className="w-4 h-4" />
                               </Button>
                               <Button
                                 size="icon"
                                 variant="ghost"
-                                className="h-8 w-8"
+                                className="h-8 w-8 text-destructive"
                                 onClick={() =>
-                                  handleEdit("Visa Application", visa, "visa")
-                                }>
-                                <Edit className="w-4 h-4" />
+                                  handleDelete(
+                                    "Visa Application",
+                                    visa._id,
+                                    "visa"
+                                  )
+                                }
+                              >
+                                <Trash2 className="w-4 h-4" />
                               </Button>
                             </div>
                           </td>
@@ -853,6 +974,12 @@ const AdminDashboard = () => {
                     </tbody>
                   </table>
                 </div>
+                <PaginationControls
+                  currentPage={pagination.visa.page}
+                  totalPages={pagination.visa.totalPages}
+                  onPageChange={(page) => handlePageChange("visa", page)}
+                  isLoading={false}
+                />
               </div>
             </TabsContent>
 
@@ -896,7 +1023,8 @@ const AdminDashboard = () => {
                       {payments.map((payment) => (
                         <tr
                           key={payment.id}
-                          className="border-t border-border hover:bg-secondary/30 transition-colors">
+                          className="border-t border-border hover:bg-secondary/30 transition-colors"
+                        >
                           <td className="p-4 font-mono text-sm">
                             {payment.id}
                           </td>
@@ -909,7 +1037,8 @@ const AdminDashboard = () => {
                             <span
                               className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
                                 payment.status
-                              )}`}>
+                              )}`}
+                            >
                               {payment.status}
                             </span>
                           </td>
@@ -924,7 +1053,8 @@ const AdminDashboard = () => {
                                 className="h-8 w-8"
                                 onClick={() =>
                                   handleView("Payment Details", payment)
-                                }>
+                                }
+                              >
                                 <Eye className="w-4 h-4" />
                               </Button>
                             </div>
@@ -934,6 +1064,12 @@ const AdminDashboard = () => {
                     </tbody>
                   </table>
                 </div>
+                <PaginationControls
+                  currentPage={pagination.payments.page}
+                  totalPages={pagination.payments.totalPages}
+                  onPageChange={(page) => handlePageChange("payments", page)}
+                  isLoading={false}
+                />
               </div>
             </TabsContent>
           </Tabs>

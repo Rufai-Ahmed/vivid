@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import { endpoints } from "@/config/api";
 
 interface User {
   id: string;
@@ -12,8 +11,15 @@ interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  signup: (name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (
+    email: string,
+    password: string
+  ) => Promise<{ success: boolean; error?: string }>;
+  signup: (
+    name: string,
+    email: string,
+    password: string
+  ) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
 
@@ -25,9 +31,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return stored ? JSON.parse(stored) : null;
   });
 
-  const login = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+  const login = async (
+    email: string,
+    password: string
+  ): Promise<{ success: boolean; error?: string }> => {
     try {
-      const response = await fetch(`${API_URL}/api/users/login-user`, {
+      const response = await fetch(endpoints.auth.login, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -53,7 +62,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: true };
     } catch (error) {
       console.error("Login error:", error);
-      return { success: false, error: "Network error. Please check your connection." };
+      return {
+        success: false,
+        error: "Network error. Please check your connection.",
+      };
     }
   };
 
@@ -63,7 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string
   ): Promise<{ success: boolean; error?: string }> => {
     try {
-      const response = await fetch(`${API_URL}/api/users/register-user`, {
+      const response = await fetch(endpoints.auth.register, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -93,7 +105,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: true };
     } catch (error) {
       console.error("Signup error:", error);
-      return { success: false, error: "Network error. Please check your connection." };
+      return {
+        success: false,
+        error: "Network error. Please check your connection.",
+      };
     }
   };
 
@@ -102,11 +117,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Optional: Call backend logout endpoint if you implement token invalidation
       const token = localStorage.getItem("token");
       if (token) {
-        await fetch(`${API_URL}/api/users/logout`, {
+        await fetch(endpoints.auth.logout, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
       }
@@ -128,7 +143,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         signup,
         logout,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

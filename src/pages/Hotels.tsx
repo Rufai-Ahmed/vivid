@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 import {
   Hotel,
   MapPin,
@@ -15,10 +18,46 @@ import {
   Filter,
   CreditCard,
   Bitcoin,
+  Loader2,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { endpoints } from "@/config/api";
 
 const Hotels = () => {
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
+  const [bookingLoading, setBookingLoading] = useState<string | null>(null); // Stores ID of hotel being booked
+
+  // Payment Modal State
+  const [paymentModal, setPaymentModal] = useState<{
+    open: boolean;
+    bookingId: string | null;
+    amount: number;
+    hotelName: string;
+  }>({
+    open: false,
+    bookingId: null,
+    amount: 0,
+    hotelName: "",
+  });
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "crypto">("card");
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const hotels = [
     {
@@ -69,6 +108,94 @@ const Hotels = () => {
       featured: false,
     },
   ];
+
+  const handleBook = async (hotel: (typeof hotels)[0]) => {
+    if (!user) {
+      toast.error("Please login to book a hotel");
+      return;
+    }
+
+    setBookingLoading(String(hotel.id));
+
+    // Mock booking data (normally would come from a modal/form)
+    const bookingData = {
+      userId: user.id,
+      hotelName: hotel.name,
+      location: hotel.location,
+      checkInDate: new Date().toISOString(), // Default: today
+      checkOutDate: new Date(Date.now() + 86400000).toISOString(), // Default: tomorrow
+      guests: 1,
+      rooms: 1,
+      totalPrice: hotel.price,
+    };
+
+    try {
+      const response = await fetch(endpoints.hotels.create, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || "Booking failed");
+
+      toast.success(`Booking request sent for ${hotel.name}!`);
+
+      // Open payment modal
+      setPaymentModal({
+        open: true,
+        bookingId: data.booking._id,
+        amount: hotel.price,
+        hotelName: hotel.name,
+      });
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setBookingLoading(null);
+    }
+  };
+
+  const handlePayment = async () => {
+    if (!user || !paymentModal.bookingId) return;
+
+    setIsProcessingPayment(true);
+    try {
+      const response = await fetch(endpoints.hotels.pay, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          amount: paymentModal.amount,
+          currency: "USD", // Or dynamic
+          paymentMethod,
+          type: "hotel_booking",
+          relatedEntityId: paymentModal.bookingId,
+          email: user.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok)
+        throw new Error(data.message || "Payment initialization failed");
+
+      if (paymentMethod === "card" && data.authorization_url) {
+        // Redirect to Paystack
+        window.location.href = data.authorization_url;
+      } else if (paymentMethod === "crypto" && data.invoiceUrl) {
+        // Redirect to BitPay
+        window.location.href = data.invoiceUrl;
+      } else {
+        toast.success("Payment initiated!");
+        setPaymentModal((prev) => ({ ...prev, open: false }));
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setIsProcessingPayment(false);
+    }
+  };
 
   const getAmenityIcon = (amenity: string) => {
     switch (amenity) {
@@ -220,8 +347,17 @@ const Hotels = () => {
                         /night
                       </span>
                     </div>
-                    <Button variant="gradient" size="sm">
-                      Book Now
+                    <Button
+                      variant="gradient"
+                      size="sm"
+                      onClick={() => handleBook(hotel)}
+                      disabled={bookingLoading === String(hotel.id)}
+                    >
+                      {bookingLoading === String(hotel.id) ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Book Now"
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -251,6 +387,67 @@ const Hotels = () => {
           </div>
         </div>
       </section>
+
+      {/* Payment Modal */}
+      <Dialog
+        open={paymentModal.open}
+        onOpenChange={(open) => setPaymentModal((prev) => ({ ...prev, open }))}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Complete Your Booking</DialogTitle>
+            <DialogDescription>
+              Pay for your stay at <strong>{paymentModal.hotelName}</strong>.
+              Amount: <strong>${paymentModal.amount}</strong>
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Payment Method</Label>
+              <Select
+                value={paymentMethod}
+                onValueChange={(val: any) => setPaymentMethod(val)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="card">
+                    Credit/Debit Card (Paystack)
+                  </SelectItem>
+                  <SelectItem value="crypto">Crypto (BitPay)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() =>
+                setPaymentModal((prev) => ({ ...prev, open: false }))
+              }
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="gradient"
+              onClick={handlePayment}
+              disabled={isProcessingPayment}
+            >
+              {isProcessingPayment ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                "Pay Now"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <ChatWidget />
     </div>

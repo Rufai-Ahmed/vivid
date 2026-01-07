@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ChatWidget } from "@/components/ChatWidget";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Ticket,
   ArrowLeft,
@@ -14,7 +15,10 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { endpoints } from "@/config/api";
+
 const RedeemTicket = () => {
+  const { user } = useAuth();
   const [ticketCode, setTicketCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isRedeemed, setIsRedeemed] = useState(false);
@@ -26,27 +30,51 @@ const RedeemTicket = () => {
       return;
     }
 
+    if (!user) {
+      toast.error("You must be logged in to redeem a ticket.");
+      return;
+    }
+
     setError("");
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Simulate successful redemption for demo
-      if (ticketCode.toUpperCase().startsWith("WIN")) {
-        setIsRedeemed(true);
-        toast.success("Congratulations! Your ticket has been redeemed!");
-      } else {
-        setError("Invalid ticket code. Please check and try again.");
+    try {
+      const response = await fetch(endpoints.tickets.redeem, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: ticketCode,
+          userId: user.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to redeem ticket");
       }
-    }, 1500);
+
+      setIsRedeemed(true);
+      toast.success("Congratulations! Your ticket has been redeemed!");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message);
+      toast.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 h-16 border-b border-border bg-card/80 backdrop-blur-sm z-40 flex items-center justify-between px-4">
-        <Link to="/dashboard" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+        <Link
+          to="/dashboard"
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+        >
           <ArrowLeft className="w-5 h-5" />
           <span>Back to Dashboard</span>
         </Link>
@@ -78,7 +106,9 @@ const RedeemTicket = () => {
                     <Input
                       id="code"
                       value={ticketCode}
-                      onChange={(e) => setTicketCode(e.target.value.toUpperCase())}
+                      onChange={(e) =>
+                        setTicketCode(e.target.value.toUpperCase())
+                      }
                       placeholder="e.g. WIN-2024-XXXX"
                       className="text-center text-lg font-mono tracking-wider h-14"
                     />
@@ -115,15 +145,21 @@ const RedeemTicket = () => {
                   <h3 className="font-medium mb-4">How to find your code:</h3>
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li className="flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">1</span>
+                      <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">
+                        1
+                      </span>
                       Check your email for the winning notification
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">2</span>
+                      <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">
+                        2
+                      </span>
                       Look for the unique code starting with "WIN-"
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">3</span>
+                      <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">
+                        3
+                      </span>
                       Enter it above and click redeem
                     </li>
                   </ul>
@@ -156,7 +192,8 @@ const RedeemTicket = () => {
 
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  Next steps: Complete your visa application to unlock hotel booking.
+                  Next steps: Complete your visa application to unlock hotel
+                  booking.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link to="/visa" className="flex-1">

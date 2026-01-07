@@ -16,6 +16,7 @@ import WorldCup from "./pages/WorldCup";
 import VisaApplication from "./pages/VisaApplication";
 import Hotels from "./pages/Hotels";
 import RedeemTicket from "./pages/RedeemTicket";
+import PaymentVerification from "./pages/PaymentVerification";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BackToTopButton from "./components/bloc/BackToTopButton/BackToTopButton";

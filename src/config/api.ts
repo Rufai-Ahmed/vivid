@@ -7,6 +7,8 @@ export const endpoints = {
     register: `${API_BASE_URL}/users/register-user`,
     getAll: `${API_BASE_URL}/users/get-all-users`,
     profile: (id: string) => `${API_BASE_URL}/users/${id}`,
+    update: (id: string) => `${API_BASE_URL}/users/${id}`,
+    delete: (id: string) => `${API_BASE_URL}/users/${id}`,
     logout: `${API_BASE_URL}/users/logout`,
   },
   visa: {
@@ -14,11 +16,14 @@ export const endpoints = {
     getAll: `${API_BASE_URL}/visa-applications/get-visa-applications`,
     getOne: (id: string) =>
       `${API_BASE_URL}/visa-applications/get-visa-application/${id}`,
+    update: (id: string) => `${API_BASE_URL}/visa-applications/${id}`,
+    delete: (id: string) => `${API_BASE_URL}/visa-applications/${id}`,
   },
   tickets: {
     redeem: `${API_BASE_URL}/tickets/redeem`,
     myTickets: (userId: string) => `${API_BASE_URL}/tickets/user/${userId}`,
     getAll: `${API_BASE_URL}/tickets/all`,
+    delete: (id: string) => `${API_BASE_URL}/tickets/${id}`,
   },
   worldcup: {
     matches: `${API_BASE_URL}/worldcup/matches`,

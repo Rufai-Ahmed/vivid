@@ -273,43 +273,69 @@ const AdminDashboard = () => {
     setEditModal({ open: true, title, data, type });
   };
 
-  const handleSaveEdit = (updatedData: Record<string, string>) => {
-    switch (editModal.type) {
-      case "ticket":
-        setTickets((prev) =>
-          prev.map((t) =>
-            t.id === updatedData.id ? (updatedData as typeof t) : t
-          )
-        );
-        break;
-      case "user":
-        setUsers((prev) =>
-          prev.map((u) =>
-            u.id === updatedData.id ? (updatedData as typeof u) : u
-          )
-        );
-        break;
-      case "bet":
-        setBets((prev) =>
-          prev.map((b) =>
-            b.id === updatedData.id ? (updatedData as typeof b) : b
-          )
-        );
-        break;
-      case "visa":
-        setVisaApplications((prev) =>
-          prev.map((v) =>
-            v.id === updatedData.id ? (updatedData as typeof v) : v
-          )
-        );
-        break;
-      case "payment":
-        setPayments((prev) =>
-          prev.map((p) =>
-            p.id === updatedData.id ? (updatedData as typeof p) : p
-          )
-        );
-        break;
+  const handleSaveEdit = async (updatedData: Record<string, string>) => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    try {
+      let response;
+      const id = updatedData.id || updatedData._id;
+
+      switch (editModal.type) {
+        case "user":
+          response = await fetch(endpoints.auth.update(id), {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(updatedData),
+          });
+          break;
+        case "visa":
+          response = await fetch(endpoints.visa.update(id), {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(updatedData),
+          });
+          break;
+        default:
+          // For other types not yet implemented on backend, just update local state for now
+          // or show a message. Keeping local update for 'bet'/'ticket'/'payment' as fallback
+          // or just return to avoid false success.
+          // For now, let's keep the local update behavior for non-implemented types to avoid breaking UI
+          // but arguably we should block it. Given the instruction, I'll focus on implemented ones.
+          toast.info("Edit not supported for this item type on backend yet.");
+          return;
+      }
+
+      if (response && response.ok) {
+        const data = await response.json();
+        toast.success(`${editModal.title} updated successfully`);
+
+        // Update local state with response data
+        switch (editModal.type) {
+          case "user":
+            setUsers((prev) =>
+              prev.map((u) =>
+                u.id === id || u._id === id ? { ...u, ...data } : u
+              )
+            );
+            break;
+          case "visa":
+            setVisaApplications((prev) =>
+              prev.map((v) => (v._id === id ? { ...v, ...data } : v))
+            );
+            break;
+        }
+        setEditModal((prev) => ({ ...prev, open: false }));
+      } else {
+        const err = await response?.json();
+        throw new Error(err?.message || "Failed to update");
+      }
+    } catch (error: any) {
+      console.error("Update error:", error);
+      toast.error(error.message);
     }
   };
 
@@ -318,23 +344,68 @@ const AdminDashboard = () => {
     setDeleteModal({ open: true, title, id, type });
   };
 
-  const handleConfirmDelete = (id: string | number) => {
-    switch (deleteModal.type) {
-      case "ticket":
-        setTickets((prev) => prev.filter((t) => t.id !== id));
-        break;
-      case "user":
-        setUsers((prev) => prev.filter((u) => u.id !== id));
-        break;
-      case "bet":
-        setBets((prev) => prev.filter((b) => b.id !== id));
-        break;
-      case "visa":
-        setVisaApplications((prev) => prev.filter((v) => v.id !== id));
-        break;
-      case "payment":
-        setPayments((prev) => prev.filter((p) => p.id !== id));
-        break;
+  const handleConfirmDelete = async (id: string | number) => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    try {
+      let response;
+      const idStr = String(id);
+
+      switch (deleteModal.type) {
+        case "ticket":
+          response = await fetch(endpoints.tickets.delete(idStr), {
+            method: "DELETE",
+            headers,
+          });
+          break;
+        case "user":
+          response = await fetch(endpoints.auth.delete(idStr), {
+            method: "DELETE",
+            headers,
+          });
+          break;
+        case "visa":
+          response = await fetch(endpoints.visa.delete(idStr), {
+            method: "DELETE",
+            headers,
+          });
+          break;
+        default:
+          toast.info("Delete not supported for this item type on backend yet.");
+          return;
+      }
+
+      if (response && response.ok) {
+        toast.success(`${deleteModal.title} deleted successfully`);
+
+        // Update local state
+        switch (deleteModal.type) {
+          case "ticket":
+            setTickets((prev) =>
+              prev.filter((t) => t.id !== id && t._id !== id)
+            );
+            break;
+          case "user":
+            setUsers((prev) => prev.filter((u) => u.id !== id && u._id !== id));
+            break;
+          case "visa":
+            setVisaApplications((prev) =>
+              prev.filter((v) => v.id !== id && v._id !== id)
+            );
+            break;
+        }
+        setDeleteModal((prev) => ({ ...prev, open: false }));
+      } else {
+        const err = await response?.json();
+        throw new Error(err?.message || "Failed to delete");
+      }
+    } catch (error: any) {
+      console.error("Delete error:", error);
+      toast.error(error.message);
     }
   };
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
@@ -59,57 +59,55 @@ const Hotels = () => {
   const [paymentMethod, setPaymentMethod] = useState<"card" | "crypto">("card");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-  const hotels = [
-    {
-      id: 1,
-      name: "Grand Plaza Hotel",
-      location: "New Jersey, USA",
-      rating: 4.8,
-      reviews: 1250,
-      price: 299,
-      image:
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
-      amenities: ["wifi", "parking", "breakfast", "gym"],
-      featured: true,
-    },
-    {
-      id: 2,
-      name: "Skyline Suites",
-      location: "Los Angeles, USA",
-      rating: 4.6,
-      reviews: 890,
-      price: 349,
-      image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
-      amenities: ["wifi", "parking", "breakfast"],
-      featured: false,
-    },
-    {
-      id: 3,
-      name: "Ocean View Resort",
-      location: "Miami, USA",
-      rating: 4.9,
-      reviews: 2100,
-      price: 449,
-      image:
-        "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
-      amenities: ["wifi", "parking", "breakfast", "gym"],
-      featured: true,
-    },
-    {
-      id: 4,
-      name: "Downtown Inn",
-      location: "Texas, USA",
-      rating: 4.4,
-      reviews: 650,
-      price: 199,
-      image:
-        "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800",
-      amenities: ["wifi", "breakfast"],
-      featured: false,
-    },
-  ];
+  const [hotels, setHotels] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 12,
+    totalPages: 1,
+  });
 
-  const handleBook = async (hotel: (typeof hotels)[0]) => {
+  // Debounce search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchHotels(1);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const fetchHotels = useCallback(
+    async (page = 1) => {
+      try {
+        setLoading(true);
+        const queryParams = new URLSearchParams({
+          page: String(page),
+          limit: String(pagination.limit),
+          search: searchQuery,
+        });
+
+        const response = await fetch(
+          `${endpoints.hotels.getAll}?${queryParams}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setHotels(data.docs || []);
+          setPagination((prev) => ({
+            ...prev,
+            page: data.page,
+            totalPages: data.totalPages,
+          }));
+        }
+      } catch (error) {
+        console.error("Error fetching hotels:", error);
+        toast.error("Failed to load hotels");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [searchQuery, pagination.limit]
+  );
+
+  const handleBook = async (hotel: any) => {
     if (!user) {
       toast.error("Please login to book a hotel");
       return;

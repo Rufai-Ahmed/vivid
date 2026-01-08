@@ -38,6 +38,10 @@ export const endpoints = {
     pay: `${API_BASE_URL}/hotels/pay`,
     verifyPayment: `${API_BASE_URL}/hotels/transactions/verify`,
     getAllTransactions: `${API_BASE_URL}/hotels/transactions/all`,
+    getAll: `${API_BASE_URL}/hotels`,
+    createHotel: `${API_BASE_URL}/hotels`,
+    updateHotel: (id: string) => `${API_BASE_URL}/hotels/${id}`,
+    deleteHotel: (id: string) => `${API_BASE_URL}/hotels/${id}`,
   },
   admin: {
     stats: `${API_BASE_URL}/admin/stats`,

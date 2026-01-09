@@ -38,7 +38,7 @@ const AdminAuth = () => {
 
     // Simple admin code validation (in production, this should be server-side)
     const validAdminCode = "ADMIN2024";
-    
+
     if (adminCode !== validAdminCode) {
       toast({
         title: "Invalid Admin Code",
@@ -51,11 +51,11 @@ const AdminAuth = () => {
 
     try {
       let success: boolean;
-      
+
       if (isLogin) {
         success = await login(email, password);
       } else {
-        success = await signup(name, email, password);
+        success = await signup(name, email, password, "admin");
       }
 
       if (success) {
@@ -82,12 +82,12 @@ const AdminAuth = () => {
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-destructive/20 via-primary/10 to-background relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,hsl(var(--destructive)/0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,hsl(var(--primary)/0.1),transparent_50%)]" />
-        
+
         <div className="relative z-10 flex flex-col justify-center items-center w-full p-12">
           <div className="mb-8">
             <img src={logo} alt="Vividstream Pro" className="h-16 w-auto" />
           </div>
-          
+
           <div className="text-center max-w-md">
             <div className="w-20 h-20 bg-destructive/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <Shield className="w-10 h-10 text-destructive" />
@@ -96,17 +96,22 @@ const AdminAuth = () => {
               Admin Portal
             </h2>
             <p className="text-muted-foreground text-lg">
-              Secure access to platform management, analytics, and administrative controls.
+              Secure access to platform management, analytics, and
+              administrative controls.
             </p>
           </div>
 
           <div className="mt-12 grid grid-cols-2 gap-6 text-center">
             <div className="p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50">
               <div className="text-2xl font-bold text-foreground">Full</div>
-              <div className="text-sm text-muted-foreground">Platform Control</div>
+              <div className="text-sm text-muted-foreground">
+                Platform Control
+              </div>
             </div>
             <div className="p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl font-bold text-foreground">Real-time</div>
+              <div className="text-2xl font-bold text-foreground">
+                Real-time
+              </div>
               <div className="text-sm text-muted-foreground">Analytics</div>
             </div>
           </div>
@@ -116,7 +121,11 @@ const AdminAuth = () => {
       {/* Right Side - Form */}
       <div className="w-full lg:w-1/2 flex flex-col">
         <div className="flex justify-between items-center p-6">
-          <img src={logo} alt="Vividstream Pro" className="h-10 w-auto lg:hidden" />
+          <img
+            src={logo}
+            alt="Vividstream Pro"
+            className="h-10 w-auto lg:hidden"
+          />
           <div className="ml-auto">
             <ThemeToggle />
           </div>
@@ -132,8 +141,8 @@ const AdminAuth = () => {
                 {isLogin ? "Admin Sign In" : "Admin Registration"}
               </h1>
               <p className="text-muted-foreground mt-2">
-                {isLogin 
-                  ? "Access the administrative dashboard" 
+                {isLogin
+                  ? "Access the administrative dashboard"
                   : "Create your administrator account"}
               </p>
             </div>
@@ -141,7 +150,9 @@ const AdminAuth = () => {
             <form onSubmit={handleSubmit} className="space-y-5">
               {!isLogin && (
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-foreground">Full Name</Label>
+                  <Label htmlFor="name" className="text-foreground">
+                    Full Name
+                  </Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
@@ -158,7 +169,9 @@ const AdminAuth = () => {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-foreground">Email Address</Label>
+                <Label htmlFor="email" className="text-foreground">
+                  Email Address
+                </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
@@ -174,7 +187,9 @@ const AdminAuth = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-foreground">Password</Label>
+                <Label htmlFor="password" className="text-foreground">
+                  Password
+                </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
@@ -191,13 +206,19 @@ const AdminAuth = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
                   </button>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="adminCode" className="text-foreground">Admin Access Code</Label>
+                <Label htmlFor="adminCode" className="text-foreground">
+                  Admin Access Code
+                </Label>
                 <div className="relative">
                   <Shield className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
@@ -239,11 +260,11 @@ const AdminAuth = () => {
                 onClick={() => setIsLogin(!isLogin)}
                 className="text-primary hover:text-primary/80 font-medium transition-colors"
               >
-                {isLogin 
-                  ? "Need an admin account? Register here" 
+                {isLogin
+                  ? "Need an admin account? Register here"
                   : "Already have an account? Sign in"}
               </button>
-              
+
               <div className="pt-4 border-t border-border">
                 <button
                   onClick={() => navigate("/login")}

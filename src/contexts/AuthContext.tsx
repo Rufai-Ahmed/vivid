@@ -18,7 +18,8 @@ interface AuthContextType {
   signup: (
     name: string,
     email: string,
-    password: string
+    password: string,
+    role?: "user" | "admin"
   ) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
 }
@@ -53,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         id: data.user.id,
         name: data.user.fullName,
         email: data.user.email,
-        isAdmin: false,
+        isAdmin: data.user.role === "admin",
       };
 
       setUser(userData);
@@ -72,7 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signup = async (
     name: string,
     email: string,
-    password: string
+    password: string,
+    role: "user" | "admin" = "user"
   ): Promise<{ success: boolean; error?: string }> => {
     try {
       const response = await fetch(endpoints.auth.register, {
@@ -83,6 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email,
           password,
           confirmPassword: password,
+          role,
         }),
       });
 

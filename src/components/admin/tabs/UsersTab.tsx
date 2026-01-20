@@ -62,7 +62,7 @@ export const UsersTab = () => {
       setLoading(true);
       const res = await fetch(
         `${endpoints.auth.getAll}?page=${page}&limit=10`,
-        { headers }
+        { headers },
       );
       if (res.ok) {
         const data = await res.json();
@@ -104,7 +104,9 @@ export const UsersTab = () => {
         const data = await response.json();
         toast.success("User updated successfully");
         setUsers((prev) =>
-          prev.map((u) => (u._id === id || u.id === id ? { ...u, ...data } : u))
+          prev.map((u) =>
+            u._id === id || u.id === id ? { ...u, ...data } : u,
+          ),
         );
         setEditModal((prev) => ({ ...prev, open: false }));
       } else {
@@ -201,7 +203,7 @@ export const UsersTab = () => {
                   <td className="p-4">
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
-                        user.status
+                        user.status,
                       )}`}
                     >
                       {user.status}
@@ -284,6 +286,7 @@ export const UsersTab = () => {
         data={editModal.data}
         onSave={handleSaveEdit}
         statusOptions={["active", "suspended"]}
+        roleOptions={["user", "admin"]}
       />
       <DeleteModal
         open={deleteModal.open}

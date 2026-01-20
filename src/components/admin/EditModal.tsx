@@ -22,19 +22,24 @@ interface EditModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any> | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSave: (updatedData: Record<string, any>) => void;
   statusOptions?: string[];
+  roleOptions?: string[];
 }
 
-export const EditModal = ({ 
-  open, 
-  onOpenChange, 
-  title, 
-  data, 
+export const EditModal = ({
+  open,
+  onOpenChange,
+  title,
+  data,
   onSave,
-  statusOptions = ["Active", "Pending", "Suspended", "Completed", "Expired"]
+  statusOptions = ["Active", "Pending", "Suspended", "Completed", "Expired"],
+  roleOptions = [],
 }: EditModalProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [formData, setFormData] = useState<Record<string, any>>({});
 
   useEffect(() => {
@@ -46,7 +51,7 @@ export const EditModal = ({
   if (!data) return null;
 
   const handleChange = (key: string, value: string) => {
-    setFormData(prev => ({ ...prev, [key]: value }));
+    setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSubmit = () => {
@@ -59,7 +64,8 @@ export const EditModal = ({
   };
 
   const editableFields = Object.entries(formData).filter(
-    ([key]) => !['id', 'date', 'submitted'].includes(key.toLowerCase())
+    ([key]) =>
+      !["_id", "id", "createdAt", "updatedAt", "__v", "password"].includes(key),
   );
 
   return (
@@ -72,11 +78,11 @@ export const EditModal = ({
           {editableFields.map(([key, value]) => (
             <div key={key} className="space-y-2">
               <Label htmlFor={key} className="capitalize">
-                {key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}
+                {key.replace(/([A-Z])/g, " $1").replace(/_/g, " ")}
               </Label>
-              {key.toLowerCase() === 'status' ? (
-                <Select 
-                  value={formData[key]} 
+              {key.toLowerCase() === "status" && statusOptions.length > 0 ? (
+                <Select
+                  value={formData[key]}
                   onValueChange={(val) => handleChange(key, val)}
                 >
                   <SelectTrigger>
@@ -90,10 +96,26 @@ export const EditModal = ({
                     ))}
                   </SelectContent>
                 </Select>
+              ) : key.toLowerCase() === "role" && roleOptions.length > 0 ? (
+                <Select
+                  value={formData[key]}
+                  onValueChange={(val) => handleChange(key, val)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {roleOptions.map((option) => (
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               ) : (
                 <Input
                   id={key}
-                  value={formData[key] || ''}
+                  value={formData[key] || ""}
                   onChange={(e) => handleChange(key, e.target.value)}
                 />
               )}

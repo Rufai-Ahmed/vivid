@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { PaginationControls } from "@/components/admin/PaginationControls";
 import { ViewModal } from "@/components/admin/ViewModal";
-import { EditModal } from "@/components/admin/EditModal";
+import { TicketModal } from "@/components/admin/modals/TicketModal";
 import { DeleteModal } from "@/components/admin/DeleteModal";
 import { endpoints } from "@/config/api";
 import { toast } from "sonner";
@@ -28,16 +28,12 @@ export const TicketsTab = () => {
     title: "",
     data: null,
   });
-  const [editModal, setEditModal] = useState<{
+  const [ticketModal, setTicketModal] = useState<{
     open: boolean;
-    title: string;
-    data: Record<string, any> | null;
-    type: string;
+    ticket: any | null;
   }>({
     open: false,
-    title: "",
-    data: null,
-    type: "ticket",
+    ticket: null,
   });
   const [deleteModal, setDeleteModal] = useState<{
     open: boolean;
@@ -62,7 +58,7 @@ export const TicketsTab = () => {
       setLoading(true);
       const res = await fetch(
         `${endpoints.tickets.getAll}?page=${page}&limit=10`,
-        { headers }
+        { headers },
       );
       if (res.ok) {
         const data = await res.json();
@@ -85,22 +81,44 @@ export const TicketsTab = () => {
     fetchTickets();
   }, []);
 
-  const handleSaveEdit = async (updatedData: Record<string, any>) => {
-    // Ticket update is not fully implemented in backend in this session,
-    // but we will keep the local state update for now or implement if needed.
-    // For now, mirroring previous behavior (local update) as strict backend update for tickets wasn't explicitly requested/implemented in previous turn (only delete).
-    // Wait, I see I only added deleteTicket. So edit is likely local or not supported.
-    // I will leave it as local state update to avoid breaking UI flow, or just log it.
-    // Actually, let's keep it consistent with AdminDashboard logic which had setTickets.
-    setTickets((prev) =>
-      prev.map((t) =>
-        t._id === updatedData._id || t.id === updatedData.id
-          ? { ...t, ...updatedData }
-          : t
-      )
-    );
-    setEditModal((prev) => ({ ...prev, open: false }));
-    toast.success("Ticket updated locally (Backend not connected for Edit)");
+  const handleSaveTicket = async (data: any) => {
+    const token = localStorage.getItem("token");
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    try {
+      let res;
+      if (ticketModal.ticket) {
+        // Update
+        res = await fetch(endpoints.tickets.update(ticketModal.ticket._id), {
+          method: "PUT",
+          headers,
+          body: JSON.stringify(data),
+        });
+      } else {
+        // Create
+        res = await fetch(endpoints.tickets.create, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(data),
+        });
+      }
+
+      if (res.ok) {
+        toast.success(
+          `Ticket ${ticketModal.ticket ? "updated" : "created"} successfully`,
+        );
+        fetchTickets(pagination.page);
+        setTicketModal((prev) => ({ ...prev, open: false }));
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || "Operation failed");
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   const handleDelete = async (id: string | number) => {
@@ -141,7 +159,11 @@ export const TicketsTab = () => {
     <div className="rounded-2xl border border-border bg-card overflow-hidden">
       <div className="p-4 border-b border-border flex items-center justify-between">
         <h3 className="font-semibold">Ticket Management</h3>
-        <Button size="sm" variant="gradient">
+        <Button
+          size="sm"
+          variant="gradient"
+          onClick={() => setTicketModal({ open: true, ticket: null })}
+        >
           Add Ticket
         </Button>
       </div>
@@ -192,7 +214,7 @@ export const TicketsTab = () => {
                   <td className="p-4">
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
-                        ticket.status
+                        ticket.status,
                       )}`}
                     >
                       {ticket.status}
@@ -221,14 +243,7 @@ export const TicketsTab = () => {
                         size="icon"
                         variant="ghost"
                         className="h-8 w-8"
-                        onClick={() =>
-                          setEditModal({
-                            open: true,
-                            title: "Ticket",
-                            data: ticket,
-                            type: "ticket",
-                          })
-                        }
+                        onClick={() => setTicketModal({ open: true, ticket })}
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
@@ -268,13 +283,11 @@ export const TicketsTab = () => {
         title={viewModal.title}
         data={viewModal.data}
       />
-      <EditModal
-        open={editModal.open}
-        onOpenChange={(open) => setEditModal((prev) => ({ ...prev, open }))}
-        title={editModal.title}
-        data={editModal.data}
-        onSave={handleSaveEdit}
-        statusOptions={["Redeemed", "Pending", "Expired"]}
+      <TicketModal
+        open={ticketModal.open}
+        onOpenChange={(open) => setTicketModal((prev) => ({ ...prev, open }))}
+        ticket={ticketModal.ticket}
+        onSave={handleSaveTicket}
       />
       <DeleteModal
         open={deleteModal.open}

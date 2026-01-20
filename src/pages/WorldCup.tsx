@@ -40,6 +40,8 @@ interface Match {
     draw: number;
     teamBWin: number;
   };
+  teamAImage?: string;
+  teamBImage?: string;
   status: string;
 }
 
@@ -261,7 +263,7 @@ const WorldCup = () => {
                     <div className="text-center flex-1">
                       <div className="w-20 h-20 mx-auto rounded-2xl bg-secondary/50 border border-border flex items-center justify-center mb-3 overflow-hidden group-hover:scale-105 transition-transform duration-300">
                         <img
-                          src={`https://flagcdn.com/w160/${
+                          src={match?.teamAImage || `https://flagcdn.com/w160/${
                             countryFlags[match.teamA] || "unknown"
                           }.png`}
                           alt={`${match.teamA} flag`}
@@ -282,7 +284,7 @@ const WorldCup = () => {
                     <div className="text-center flex-1">
                       <div className="w-20 h-20 mx-auto rounded-2xl bg-secondary/50 border border-border flex items-center justify-center mb-3 overflow-hidden group-hover:scale-105 transition-transform duration-300">
                         <img
-                          src={`https://flagcdn.com/w160/${
+                          src={match?.teamBImage || `https://flagcdn.com/w160/${
                             countryFlags[match.teamB] || "unknown"
                           }.png`}
                           alt={`${match.teamB} flag`}

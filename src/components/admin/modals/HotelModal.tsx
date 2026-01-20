@@ -69,7 +69,7 @@ export const HotelModal = ({
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -142,6 +142,7 @@ export const HotelModal = ({
                   accept="image/*"
                   onChange={handleImageChange}
                   className="cursor-pointer"
+                  required={!hotel} // Required only when creating new hotel
                 />
               </div>
             </div>

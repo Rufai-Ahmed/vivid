@@ -23,14 +23,20 @@ export const endpoints = {
     redeem: `${API_BASE_URL}/tickets/redeem`,
     myTickets: (userId: string) => `${API_BASE_URL}/tickets/user/${userId}`,
     getAll: `${API_BASE_URL}/tickets/all`,
+    create: `${API_BASE_URL}/tickets/create`,
+    update: (id: string) => `${API_BASE_URL}/tickets/${id}`,
     delete: (id: string) => `${API_BASE_URL}/tickets/${id}`,
   },
   worldcup: {
     matches: `${API_BASE_URL}/worldcup/matches`,
+    updateMatch: (id: string) => `${API_BASE_URL}/worldcup/matches/${id}`,
+    deleteMatch: (id: string) => `${API_BASE_URL}/worldcup/matches/${id}`,
     predict: `${API_BASE_URL}/worldcup/predictions`,
     myPredictions: (userId: string) =>
       `${API_BASE_URL}/worldcup/predictions/${userId}`,
     getAllPredictions: `${API_BASE_URL}/worldcup/predictions/all`,
+    deletePrediction: (id: string) =>
+      `${API_BASE_URL}/worldcup/predictions/${id}`,
   },
   hotels: {
     create: `${API_BASE_URL}/hotels/book`,
@@ -38,6 +44,8 @@ export const endpoints = {
     pay: `${API_BASE_URL}/hotels/pay`,
     verifyPayment: `${API_BASE_URL}/hotels/transactions/verify`,
     getAllTransactions: `${API_BASE_URL}/hotels/transactions/all`,
+    deleteTransaction: (id: string) =>
+      `${API_BASE_URL}/hotels/transactions/${id}`,
     getAll: `${API_BASE_URL}/hotels`,
     createHotel: `${API_BASE_URL}/hotels`,
     updateHotel: (id: string) => `${API_BASE_URL}/hotels/${id}`,

@@ -36,7 +36,7 @@ export const PaymentsTab = () => {
       setLoading(true);
       const res = await fetch(
         `${endpoints.hotels.getAllTransactions}?page=${page}&limit=10`,
-        { headers }
+        { headers },
       );
       if (res.ok) {
         const data = await res.json();
@@ -58,11 +58,24 @@ export const PaymentsTab = () => {
     fetchPayments();
   }, []);
 
-  const handleDelete = (id: any) => {
-    // Logic for deleting payments is not backend-implemented, keeping local
-    setPayments((prev) => prev.filter((p) => p._id !== id));
-    setDeleteModal((prev) => ({ ...prev, open: false }));
-    toast.success("Payment deleted locally");
+  const handleDelete = async (id: any) => {
+    const token = localStorage.getItem("token");
+    const headers = { Authorization: `Bearer ${token}` };
+    try {
+      const res = await fetch(endpoints.hotels.deleteTransaction(String(id)), {
+        method: "DELETE",
+        headers,
+      });
+      if (res.ok) {
+        toast.success("Payment deleted successfully");
+        fetchPayments(pagination.page);
+        setDeleteModal((prev) => ({ ...prev, open: false }));
+      } else {
+        throw new Error("Delete failed");
+      }
+    } catch (error) {
+      toast.error("Failed to delete payment");
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -135,7 +148,7 @@ export const PaymentsTab = () => {
                   <td className="p-4">
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(
-                        payment.status
+                        payment.status,
                       )}`}
                     >
                       {payment.status}

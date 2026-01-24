@@ -99,7 +99,7 @@ const WorldCup = () => {
     match: Match,
     team: string,
     teamName: string,
-    odds: number
+    odds: number,
   ) => {
     if (!user) {
       toast.error("Please login to place a prediction");
@@ -263,9 +263,12 @@ const WorldCup = () => {
                     <div className="text-center flex-1">
                       <div className="w-20 h-20 mx-auto rounded-2xl bg-secondary/50 border border-border flex items-center justify-center mb-3 overflow-hidden group-hover:scale-105 transition-transform duration-300">
                         <img
-                          src={match?.teamAImage || `https://flagcdn.com/w160/${
-                            countryFlags[match.teamA] || "unknown"
-                          }.png`}
+                          src={
+                            match?.teamAImage ||
+                            `https://flagcdn.com/w160/${
+                              countryFlags[match.teamA] || "unknown"
+                            }.png`
+                          }
                           alt={`${match.teamA} flag`}
                           className="w-14 h-10 object-cover rounded shadow-md"
                           onError={(e) => {
@@ -284,9 +287,12 @@ const WorldCup = () => {
                     <div className="text-center flex-1">
                       <div className="w-20 h-20 mx-auto rounded-2xl bg-secondary/50 border border-border flex items-center justify-center mb-3 overflow-hidden group-hover:scale-105 transition-transform duration-300">
                         <img
-                          src={match?.teamBImage || `https://flagcdn.com/w160/${
-                            countryFlags[match.teamB] || "unknown"
-                          }.png`}
+                          src={
+                            match?.teamBImage ||
+                            `https://flagcdn.com/w160/${
+                              countryFlags[match.teamB] || "unknown"
+                            }.png`
+                          }
                           alt={`${match.teamB} flag`}
                           className="w-14 h-10 object-cover rounded shadow-md"
                           onError={(e) => {
@@ -313,7 +319,7 @@ const WorldCup = () => {
                           match,
                           "teamA",
                           match.teamA,
-                          match.odds.teamAWin
+                          match.odds.teamAWin,
                         )
                       }
                     >
@@ -332,7 +338,7 @@ const WorldCup = () => {
                           match,
                           "draw",
                           "Draw",
-                          match.odds.draw
+                          match.odds.draw,
                         )
                       }
                     >
@@ -351,7 +357,7 @@ const WorldCup = () => {
                           match,
                           "teamB",
                           match.teamB,
-                          match.odds.teamBWin
+                          match.odds.teamBWin,
                         )
                       }
                     >
@@ -403,8 +409,8 @@ const WorldCup = () => {
                             player.rank === 1
                               ? "bg-warning/20 text-warning"
                               : player.rank === 2
-                              ? "bg-muted-foreground/20 text-muted-foreground"
-                              : "bg-warning/10 text-warning/70"
+                                ? "bg-muted-foreground/20 text-muted-foreground"
+                                : "bg-warning/10 text-warning/70"
                           }`}
                         >
                           <Trophy className="w-4 h-4" />
@@ -491,7 +497,7 @@ const WorldCup = () => {
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="stake">Stake Amount (Doker)</Label>
+              <Label htmlFor="stake">Stake Amount (₦)</Label>
               <Input
                 id="stake"
                 type="number"
@@ -504,8 +510,7 @@ const WorldCup = () => {
               <div className="p-3 bg-secondary rounded-lg text-sm flex justify-between">
                 <span>Potential Win:</span>
                 <span className="font-bold text-primary">
-                  {(Number(wagerAmount) * predictionModal.odds).toFixed(2)}{" "}
-                  Doker
+                  ₦{(Number(wagerAmount) * predictionModal.odds).toFixed(2)}
                 </span>
               </div>
             )}

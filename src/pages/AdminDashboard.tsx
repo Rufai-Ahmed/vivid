@@ -24,6 +24,7 @@ import {
 import { endpoints } from "@/config/api";
 
 import { HotelsTab } from "@/components/admin/tabs/HotelsTab";
+import { BookingsTab } from "@/components/admin/tabs/BookingsTab";
 import { TicketsTab } from "@/components/admin/tabs/TicketsTab";
 import { BettingTab } from "@/components/admin/tabs/BettingTab";
 import { VisaTab } from "@/components/admin/tabs/VisaTab";
@@ -39,9 +40,16 @@ const AdminDashboard = () => {
 
   const [statsData, setStatsData] = useState<any>({});
 
+  // If receptionist, default to bookings tab
+  useEffect(() => {
+    if (user?.role === "receptionist") {
+      setActiveTab("bookings");
+    }
+  }, [user]);
+
   useEffect(() => {
     const fetchStats = async () => {
-      if (!user) return;
+      if (!user || user.role === "receptionist") return; // Skip stats for receptionist
       const token = localStorage.getItem("token");
       const headers = {
         "Content-Type": "application/json",
@@ -88,23 +96,37 @@ const AdminDashboard = () => {
     },
     {
       title: "Revenue",
-      value: `$${statsData.financials?.totalRevenue?.toLocaleString() || "0"}`,
+      value: `₦${statsData.financials?.totalRevenue?.toLocaleString() || "0"}`,
       change: "0%",
       trend: "neutral",
       icon: CreditCard,
     },
   ];
 
-  const sidebarLinks = [
-    { id: "analytics", label: "Analytics", icon: BarChart3, tab: null },
-    { id: "tickets", label: "Tickets", icon: Ticket, tab: "tickets" },
-    { id: "users", label: "Users", icon: Users, tab: "users" },
-    { id: "admins", label: "Admins", icon: Users, tab: "admins" },
-    { id: "betting", label: "Betting", icon: Trophy, tab: "betting" },
-    { id: "visa", label: "Visa Reviews", icon: Plane, tab: "visa" },
-    { id: "hotels", label: "Hotels", icon: Hotel, tab: "hotels" },
-    { id: "payments", label: "Payments", icon: CreditCard, tab: "payments" },
-  ];
+  const sidebarLinks =
+    user?.role === "receptionist"
+      ? [{ id: "bookings", label: "Bookings", icon: Hotel, tab: "bookings" }]
+      : [
+          { id: "analytics", label: "Analytics", icon: BarChart3, tab: null },
+          { id: "tickets", label: "Tickets", icon: Ticket, tab: "tickets" },
+          { id: "users", label: "Users", icon: Users, tab: "users" },
+          { id: "admins", label: "Admins", icon: Users, tab: "admins" },
+          { id: "betting", label: "Betting", icon: Trophy, tab: "betting" },
+          { id: "visa", label: "Visa Reviews", icon: Plane, tab: "visa" },
+          { id: "hotels", label: "Hotels", icon: Hotel, tab: "hotels" },
+          {
+            id: "bookings",
+            label: "Bookings",
+            icon: Hotel,
+            tab: "bookings",
+          }, // Admins also see bookings
+          {
+            id: "payments",
+            label: "Payments",
+            icon: CreditCard,
+            tab: "payments",
+          },
+        ];
 
   const handleNavClick = (tab: string | null) => {
     if (tab) {
@@ -187,37 +209,43 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="p-5 rounded-2xl border border-border bg-card"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm text-muted-foreground">
-                    {stat.title}
-                  </span>
-                  <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
-                    <stat.icon className="w-5 h-5 text-primary" />
+          {
+            /* Stats Grid - Hide for receptionist */
+            user?.role !== "receptionist" && (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                {stats.map((stat, index) => (
+                  <div
+                    key={index}
+                    className="p-5 rounded-2xl border border-border bg-card"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-muted-foreground">
+                        {stat.title}
+                      </span>
+                      <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
+                        <stat.icon className="w-5 h-5 text-primary" />
+                      </div>
+                    </div>
+                    <div className="text-2xl font-bold mb-1">{stat.value}</div>
+                    <div
+                      className={`flex items-center gap-1 text-sm ${
+                        stat.trend === "up"
+                          ? "text-success"
+                          : "text-destructive"
+                      }`}
+                    >
+                      {stat.trend === "up" ? (
+                        <TrendingUp className="w-4 h-4" />
+                      ) : (
+                        <TrendingDown className="w-4 h-4" />
+                      )}
+                      {stat.change} from last month
+                    </div>
                   </div>
-                </div>
-                <div className="text-2xl font-bold mb-1">{stat.value}</div>
-                <div
-                  className={`flex items-center gap-1 text-sm ${
-                    stat.trend === "up" ? "text-success" : "text-destructive"
-                  }`}
-                >
-                  {stat.trend === "up" ? (
-                    <TrendingUp className="w-4 h-4" />
-                  ) : (
-                    <TrendingDown className="w-4 h-4" />
-                  )}
-                  {stat.change} from last month
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            )
+          }
 
           {/* Tabs for Different Sections */}
           <Tabs
@@ -226,28 +254,43 @@ const AdminDashboard = () => {
             className="space-y-6"
           >
             <TabsList className="bg-secondary/50 p-1 rounded-xl">
-              <TabsTrigger value="tickets" className="rounded-lg">
-                Tickets
-              </TabsTrigger>
-              <TabsTrigger value="users" className="rounded-lg">
-                Users
-              </TabsTrigger>
-              <TabsTrigger value="admins" className="rounded-lg">
-                Admins
-              </TabsTrigger>
-              <TabsTrigger value="betting" className="rounded-lg">
-                Betting
-              </TabsTrigger>
-              <TabsTrigger value="visa" className="rounded-lg">
-                Visa
-              </TabsTrigger>
-              <TabsTrigger value="hotels" className="rounded-lg">
-                Hotels
-              </TabsTrigger>
-              <TabsTrigger value="payments" className="rounded-lg">
-                Payments
-              </TabsTrigger>
+              {user?.role === "receptionist" ? (
+                <TabsTrigger value="bookings" className="rounded-lg">
+                  Bookings
+                </TabsTrigger>
+              ) : (
+                <>
+                  <TabsTrigger value="tickets" className="rounded-lg">
+                    Tickets
+                  </TabsTrigger>
+                  <TabsTrigger value="users" className="rounded-lg">
+                    Users
+                  </TabsTrigger>
+                  <TabsTrigger value="admins" className="rounded-lg">
+                    Admins
+                  </TabsTrigger>
+                  <TabsTrigger value="betting" className="rounded-lg">
+                    Betting
+                  </TabsTrigger>
+                  <TabsTrigger value="visa" className="rounded-lg">
+                    Visa
+                  </TabsTrigger>
+                  <TabsTrigger value="hotels" className="rounded-lg">
+                    Hotels
+                  </TabsTrigger>
+                  <TabsTrigger value="bookings" className="rounded-lg">
+                    Bookings
+                  </TabsTrigger>
+                  <TabsTrigger value="payments" className="rounded-lg">
+                    Payments
+                  </TabsTrigger>
+                </>
+              )}
             </TabsList>
+
+            <TabsContent value="bookings">
+              <BookingsTab />
+            </TabsContent>
 
             <TabsContent value="tickets">
               <TicketsTab />

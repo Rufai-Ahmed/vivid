@@ -86,7 +86,7 @@ const Hotels = () => {
         });
 
         const response = await fetch(
-          `${endpoints.hotels.getAll}?${queryParams}`
+          `${endpoints.hotels.getAll}?${queryParams}`,
         );
         if (response.ok) {
           const data = await response.json();
@@ -104,7 +104,7 @@ const Hotels = () => {
         setLoading(false);
       }
     },
-    [searchQuery, pagination.limit]
+    [searchQuery, pagination.limit],
   );
 
   const handleBook = async (hotel: any) => {
@@ -339,7 +339,7 @@ const Hotels = () => {
                   <div className="flex items-end justify-between">
                     <div>
                       <span className="text-2xl font-bold text-primary">
-                        ${hotel.price}
+                        ₦{hotel.price}
                       </span>
                       <span className="text-sm text-muted-foreground">
                         /night

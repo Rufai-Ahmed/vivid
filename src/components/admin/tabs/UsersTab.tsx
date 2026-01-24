@@ -286,7 +286,7 @@ export const UsersTab = () => {
         data={editModal.data}
         onSave={handleSaveEdit}
         statusOptions={["active", "suspended"]}
-        roleOptions={["user", "admin"]}
+        roleOptions={["user", "admin", "receptionist"]}
       />
       <DeleteModal
         open={deleteModal.open}

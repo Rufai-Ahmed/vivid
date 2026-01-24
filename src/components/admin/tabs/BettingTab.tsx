@@ -389,7 +389,7 @@ export const BettingTab = () => {
                             : "Match Deleted"}
                         </td>
                         <td className="p-4">{pred.predictedWinner}</td>
-                        <td className="p-4 font-medium">${pred.wagerAmount}</td>
+                        <td className="p-4 font-medium">₦{pred.wagerAmount}</td>
                         <td className="p-4">
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(

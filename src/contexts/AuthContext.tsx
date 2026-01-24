@@ -4,6 +4,7 @@ import { endpoints } from "@/config/api";
 interface User {
   id: string;
   name: string;
+  role: 'admin' | 'user' | 'receptionist';
   email: string;
   isAdmin?: boolean;
 }
@@ -55,6 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: data.user.fullName,
         email: data.user.email,
         isAdmin: data.user.role === "admin",
+        role: data.user.role,
       };
 
       setUser(userData);
@@ -101,6 +103,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: data.user.fullName,
         email: data.user.email,
         isAdmin: false,
+        role: data.user.role,
       };
 
       setUser(userData);

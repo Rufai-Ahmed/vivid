@@ -50,20 +50,27 @@ const AdminAuth = () => {
     }
 
     try {
-      let success: boolean;
+      let result: { success: boolean; error?: string };
 
       if (isLogin) {
-        success = await login(email, password);
+        result = await login(email, password);
       } else {
-        success = await signup(name, email, password, "admin");
+        result = await signup(name, email, password, "admin");
       }
 
-      if (success) {
+      if (result.success) {
         toast({
           title: isLogin ? "Welcome back, Admin!" : "Admin account created!",
           description: "Redirecting to admin dashboard...",
         });
         navigate("/admin");
+      } else {
+        toast({
+          title: "Authentication Failed",
+          description:
+            result.error || "Please check your credentials and try again.",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       toast({

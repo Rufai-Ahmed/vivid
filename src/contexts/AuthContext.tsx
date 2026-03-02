@@ -13,6 +13,7 @@ interface User {
   role: "admin" | "user" | "receptionist";
   email: string;
   isAdmin?: boolean;
+  hasTicket?: boolean;
 }
 
 interface AuthContextType {
@@ -73,6 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email: data.user.email,
         isAdmin: data.user.role === "admin",
         role: data.user.role,
+        hasTicket: data.user.hasTicket,
       };
 
       setUser(userData);
@@ -120,6 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         email: data.user.email,
         isAdmin: false,
         role: data.user.role,
+        hasTicket: data.user.hasTicket || false,
       };
 
       setUser(userData);

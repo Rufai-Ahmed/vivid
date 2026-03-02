@@ -196,7 +196,7 @@ const RedeemTicket = () => {
                   booking.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Link to="/visa" className="flex-1">
+                  <Link to="/dashboard/visa" className="flex-1">
                     <Button variant="gradient" className="w-full">
                       Apply for Visa
                     </Button>

@@ -63,6 +63,7 @@ const Hotels = () => {
     "card" | "crypto" | "manual"
   >("manual");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [globalSettings, setGlobalSettings] = useState<any>(null);
 
   // Booking Form State
   const [bookingFormOpen, setBookingFormOpen] = useState(false);
@@ -94,17 +95,25 @@ const Hotels = () => {
           search: searchQuery,
         });
 
-        const response = await apiFetch(
-          `${endpoints.hotels.getAll}?${queryParams}`,
-        );
-        if (response.ok) {
-          const data = await response.json();
+        const [hotelsRes, settingsRes] = await Promise.all([
+          apiFetch(`${endpoints.hotels.getAll}?${queryParams}`),
+          apiFetch(
+            `${import.meta.env.VITE_API_URL || "http://localhost:3000/api"}/admin/settings`,
+          ),
+        ]);
+
+        if (hotelsRes.ok) {
+          const data = await hotelsRes.json();
           setHotels(data.docs || []);
           setPagination((prev) => ({
             ...prev,
             page: data.page,
             totalPages: data.totalPages,
           }));
+        }
+
+        if (settingsRes.ok) {
+          setGlobalSettings(await settingsRes.json());
         }
       } catch (error) {
         console.error("Error fetching hotels:", error);
@@ -443,11 +452,13 @@ const Hotels = () => {
               <p className="font-medium">Bank Transfer Details:</p>
               <div className="grid grid-cols-2 gap-2">
                 <span className="text-muted-foreground">Bank Name:</span>
-                <span>Zenith Bank</span>
+                <span>{globalSettings?.bankName || "Loading..."}</span>
                 <span className="text-muted-foreground">Account Name:</span>
-                <span>VividStream Pro</span>
+                <span>{globalSettings?.accountName || "Loading..."}</span>
                 <span className="text-muted-foreground">Account Number:</span>
-                <span className="font-mono">1012345678</span>
+                <span className="font-mono">
+                  {globalSettings?.accountNumber || "Loading..."}
+                </span>
               </div>
               <p className="text-xs text-muted-foreground mt-2">
                 Please use your booking Reference ID as the payment reference.

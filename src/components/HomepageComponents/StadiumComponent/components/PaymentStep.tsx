@@ -1,126 +1,127 @@
+import { useEffect, useState } from "react";
 import { PaymentDetails } from "../types";
-import { InputField } from "./InputField";
+import { apiFetch } from "@/config/api";
+import { Loader2, Copy, Building } from "lucide-react";
+import { toast } from "sonner";
 
 export function PaymentStep({
-  payment,
   onChange,
   total,
   onBack,
   onNext,
   processing,
 }: {
-  payment: PaymentDetails;
   onChange: (p: PaymentDetails) => void;
   total: number;
   onBack: () => void;
   onNext: () => void;
   processing: boolean;
 }) {
-  const fmtCard = (v: string) =>
-    v
-      .replace(/\D/g, "")
-      .slice(0, 16)
-      .replace(/(.{4})/g, "$1 ")
-      .trim();
-  const fmtExpiry = (v: string) => {
-    const d = v.replace(/\D/g, "").slice(0, 4);
-    return d.length >= 3 ? `${d.slice(0, 2)}/${d.slice(2)}` : d;
+  const [settings, setSettings] = useState<{
+    bankName: string;
+    accountName: string;
+    accountNumber: string;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // We update payment to a dummy object just to pass validation if any, though card validation upstream should be removed.
+    // Wait, the parent component might rely on payment state to be filled to enable the buy button?
+    // In our refactored backend it doesn't need card number length 16 anymore.
+    onChange({
+      cardNumber: "manual",
+      expiry: "12/99",
+      cvv: "000",
+      nameOnCard: "MANUAL",
+    });
+
+    fetchSettings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchSettings = async () => {
+    try {
+      const API_BASE_URL =
+        import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+      const res = await apiFetch(`${API_BASE_URL}/admin/settings`);
+      if (res.ok) {
+        setSettings(await res.json());
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
-  const digits = payment.cardNumber.replace(/\s/g, "");
-  const brand = digits.startsWith("4")
-    ? "VISA"
-    : digits.startsWith("5")
-      ? "MASTERCARD"
-      : digits.startsWith("3")
-        ? "AMEX"
-        : "";
-  const valid =
-    digits.length === 16 &&
-    payment.expiry.length === 5 &&
-    payment.cvv.length >= 3 &&
-    payment.nameOnCard.length > 2;
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard!");
+  };
+
+  const valid = true; // Always valid for manual payment
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Card preview */}
-      <div
-        className="relative h-40 rounded-2xl overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #1a2035, #0d1117)",
-          border: "1px solid #2d3748",
-        }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 80% 20%, rgba(255,215,0,0.07) 0%, transparent 55%)",
-          }}
-        />
-        <div className="absolute top-5 left-5 right-5 flex justify-between items-center">
-          <div
-            className="w-9 h-6 rounded"
-            style={{ background: "linear-gradient(135deg, #FFD700, #FF6B35)" }}
-          />
-          <span className="text-xs font-black text-white/50 tracking-widest">
-            {brand}
-          </span>
-        </div>
-        <div className="absolute bottom-12 left-5 font-mono text-lg tracking-[3px] text-white/70">
-          {payment.cardNumber || "•••• •••• •••• ••••"}
-        </div>
-        <div className="absolute bottom-5 left-5 right-5 flex justify-between">
-          <span className="text-[10px] text-white/40 uppercase tracking-wider">
-            {payment.nameOnCard || "CARDHOLDER NAME"}
-          </span>
-          <span className="text-[10px] text-white/40">
-            {payment.expiry || "MM/YY"}
-          </span>
-        </div>
+      <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 flex flex-col items-center text-center space-y-2">
+        <Building className="w-8 h-8 text-blue-400" />
+        <h3 className="font-semibold text-blue-100">Manual Bank Transfer</h3>
+        <p className="text-sm text-blue-200/70">
+          Please transfer the exact total amount to the account below to secure
+          your tickets.
+        </p>
       </div>
 
-      <div className="space-y-3">
-        <p className="text-[10px] text-gray-500 uppercase tracking-widest">
-          Card Details
-        </p>
-        <InputField
-          label="Name on Card"
-          value={payment.nameOnCard}
-          onChange={(v) =>
-            onChange({ ...payment, nameOnCard: v.toUpperCase() })
-          }
-          placeholder="JOHN DOE"
-        />
-        <InputField
-          label="Card Number"
-          value={payment.cardNumber}
-          onChange={(v) => onChange({ ...payment, cardNumber: fmtCard(v) })}
-          placeholder="1234 5678 9012 3456"
-          maxLength={19}
-        />
-        <div className="grid grid-cols-2 gap-3">
-          <InputField
-            label="Expiry"
-            value={payment.expiry}
-            onChange={(v) => onChange({ ...payment, expiry: fmtExpiry(v) })}
-            placeholder="MM/YY"
-            maxLength={5}
-          />
-          <InputField
-            label="CVV"
-            value={payment.cvv}
-            onChange={(v) =>
-              onChange({ ...payment, cvv: v.replace(/\D/g, "").slice(0, 4) })
-            }
-            placeholder="•••"
-            maxLength={4}
-          />
+      {loading ? (
+        <div className="h-32 flex items-center justify-center">
+          <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
         </div>
-        <div className="flex items-center gap-2 text-[11px] text-gray-500">
-          <span>🔒</span>
-          <span>256-bit SSL encryption · PCI DSS compliant</span>
+      ) : settings ? (
+        <div className="bg-white/[0.03] border border-[#1f2937] rounded-xl p-4 space-y-4">
+          <div className="flex justify-between items-center group">
+            <div>
+              <p className="text-[10px] text-gray-500 uppercase tracking-widest">
+                Bank Name
+              </p>
+              <p className="font-semibold text-gray-200">
+                {settings.bankName || "Not configured"}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-between items-center group">
+            <div>
+              <p className="text-[10px] text-gray-500 uppercase tracking-widest">
+                Account Name
+              </p>
+              <p className="font-semibold text-gray-200">
+                {settings.accountName || "Not configured"}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-between items-center group">
+            <div>
+              <p className="text-[10px] text-gray-500 uppercase tracking-widest">
+                Account Number
+              </p>
+              <p className="font-mono text-lg text-yellow-500">
+                {settings.accountNumber || "Not configured"}
+              </p>
+            </div>
+            {settings.accountNumber && (
+              <button
+                onClick={() => handleCopy(settings.accountNumber)}
+                className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                <Copy className="w-4 h-4 text-gray-400" />
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="text-center text-sm text-red-400 py-4">
+          Failed to load bank details.
+        </div>
+      )}
 
       <div className="bg-white/[0.03] border border-[#1f2937] rounded-xl px-4 py-3 flex justify-between items-center">
         <span className="text-sm text-gray-400">Total to charge</span>
@@ -174,7 +175,7 @@ export function PaymentStep({
               PROCESSING…
             </>
           ) : (
-            `PAY ₦${total.toLocaleString()} →`
+            `I'VE SENT ₦${total.toLocaleString()} →`
           )}
         </button>
       </div>

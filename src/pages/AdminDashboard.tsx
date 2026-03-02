@@ -33,6 +33,7 @@ import { VisaTab } from "@/components/admin/tabs/VisaTab";
 import { PaymentsTab } from "@/components/admin/tabs/PaymentsTab";
 import { UsersTab } from "@/components/admin/tabs/UsersTab";
 import { AdminsTab } from "@/components/admin/tabs/AdminsTab";
+import { SettingsTab } from "@/components/admin/tabs/SettingsTab";
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -130,6 +131,12 @@ const AdminDashboard = () => {
             label: "Payments",
             icon: CreditCard,
             tab: "payments",
+          },
+          {
+            id: "settings",
+            label: "Settings",
+            icon: Settings,
+            tab: "settings",
           },
         ];
 
@@ -292,6 +299,9 @@ const AdminDashboard = () => {
                   <TabsTrigger value="payments" className="rounded-lg">
                     Payments
                   </TabsTrigger>
+                  <TabsTrigger value="settings" className="rounded-lg">
+                    Settings
+                  </TabsTrigger>
                 </>
               )}
             </TabsList>
@@ -330,6 +340,10 @@ const AdminDashboard = () => {
 
             <TabsContent value="payments">
               <PaymentsTab />
+            </TabsContent>
+
+            <TabsContent value="settings">
+              <SettingsTab />
             </TabsContent>
           </Tabs>
         </div>

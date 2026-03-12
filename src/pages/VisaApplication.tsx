@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Plane,
   ArrowRight,
   ArrowLeft,
@@ -21,14 +30,23 @@ import {
   User,
   FileText,
   MapPin,
+  Upload,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { endpoints, apiFetch } from "@/config/api";
 
 const VisaApplication = () => {
+  const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [showHotelPopup, setShowHotelPopup] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
+  const [profilePhotoPreview, setProfilePhotoPreview] = useState<string | null>(
+    null,
+  );
   const [formData, setFormData] = useState({
     // Personal Info
     firstName: "",
@@ -98,35 +116,74 @@ const VisaApplication = () => {
     return true;
   };
 
+  const handleProfilePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/webp",
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        toast.error("Please upload a valid image file (JPG, PNG, or WEBP)");
+        return;
+      }
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Image size must be less than 5MB");
+        return;
+      }
+      setProfilePhoto(file);
+      setProfilePhotoPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const removeProfilePhoto = () => {
+    setProfilePhoto(null);
+    if (profilePhotoPreview) {
+      URL.revokeObjectURL(profilePhotoPreview);
+    }
+    setProfilePhotoPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleSubmit = async () => {
     if (!validateForm()) return;
 
     setLoading(true);
     try {
-      const payload = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phoneNumber: formData.phone,
-        dateOfBirth: formData.dateOfBirth,
-        nationality: formData.nationality,
-        passportNumber: formData.passportNumber,
-        passportExpiryDate: formData.passportExpiry,
-        passportPlaceOfIssue: formData.placeOfIssue,
-        destinationCountry: formData.destination,
-        travelPurpose: formData.travelPurpose,
-        arrivalDate: formData.arrivalDate,
-        departureDate: formData.departureDate,
-        accommodationAddress: formData.accommodationAddress,
-        additionalNotes: formData.additionalNotes,
-      };
+      // Use FormData for file upload
+      const formDataToSend = new FormData();
+      formDataToSend.append("firstName", formData.firstName);
+      formDataToSend.append("lastName", formData.lastName);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phoneNumber", formData.phone);
+      formDataToSend.append("dateOfBirth", formData.dateOfBirth);
+      formDataToSend.append("nationality", formData.nationality);
+      formDataToSend.append("passportNumber", formData.passportNumber);
+      formDataToSend.append("passportExpiryDate", formData.passportExpiry);
+      formDataToSend.append("passportPlaceOfIssue", formData.placeOfIssue);
+      formDataToSend.append("destinationCountry", formData.destination);
+      formDataToSend.append("travelPurpose", formData.travelPurpose);
+      formDataToSend.append("arrivalDate", formData.arrivalDate);
+      formDataToSend.append("departureDate", formData.departureDate);
+      formDataToSend.append(
+        "accommodationAddress",
+        formData.accommodationAddress,
+      );
+      formDataToSend.append("additionalNotes", formData.additionalNotes);
 
-      const response = await apiFetch(endpoints.visa.create, {
+      if (profilePhoto) {
+        formDataToSend.append("profilePhoto", profilePhoto);
+      }
+
+      const response = await fetch(endpoints.visa.create, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        body: formDataToSend,
       });
 
       if (!response.ok) {
@@ -138,29 +195,23 @@ const VisaApplication = () => {
       toast.success(
         "Visa application submitted successfully! Check your email for confirmation.",
       );
-      setStep(1);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        dateOfBirth: "",
-        nationality: "",
-        passportNumber: "",
-        passportExpiry: "",
-        placeOfIssue: "",
-        destination: "",
-        travelPurpose: "",
-        arrivalDate: "",
-        departureDate: "",
-        accommodationAddress: "",
-        additionalNotes: "",
-      });
+
+      // Show hotel booking popup
+      setShowHotelPopup(true);
     } catch (error) {
       console.error("Submission error:", error);
       toast.error("Failed to submit application. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleHotelBooking = (bookHotel: boolean) => {
+    setShowHotelPopup(false);
+    if (bookHotel) {
+      navigate("/hotels");
+    } else {
+      navigate("/dashboard");
     }
   };
 
@@ -316,6 +367,56 @@ const VisaApplication = () => {
                         <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+                </div>
+
+                {/* Profile Photo Upload */}
+                <div className="space-y-2">
+                  <Label>Profile Photo (Required)</Label>
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                      <div
+                        className="border-2 border-dashed border-border rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        {profilePhotoPreview ? (
+                          <div className="relative">
+                            <img
+                              src={profilePhotoPreview}
+                              alt="Profile Preview"
+                              className="w-32 h-32 mx-auto rounded-full object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeProfilePhoto();
+                              }}
+                              className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-1"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            <Upload className="w-8 h-8 mx-auto text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground">
+                              Click to upload profile photo
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              JPG, PNG or WEBP (max 5MB)
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/jpg,image/webp"
+                        onChange={handleProfilePhotoChange}
+                        className="hidden"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -634,6 +735,35 @@ const VisaApplication = () => {
       </main>
 
       <ChatWidget />
+
+      {/* Hotel Booking Popup */}
+      <Dialog open={showHotelPopup} onOpenChange={setShowHotelPopup}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">Book a Hotel?</DialogTitle>
+            <DialogDescription className="text-center">
+              Would you like to book a hotel for your trip? We have great deals
+              available!
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center gap-4 py-4">
+            <Button
+              variant="outline"
+              onClick={() => handleHotelBooking(false)}
+              className="flex-1"
+            >
+              Maybe Later
+            </Button>
+            <Button
+              variant="gradient"
+              onClick={() => handleHotelBooking(true)}
+              className="flex-1"
+            >
+              Yes, Book Hotel
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

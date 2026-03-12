@@ -177,13 +177,22 @@ export function ConfirmationStep({
           </button>
         </div>
       ) : (
-        <button
-          onClick={onDone}
-          className="w-full rounded-xl py-4 text-sm font-black tracking-widest text-black hover:scale-[1.02] active:scale-95 transition-all"
-          style={{ background: "linear-gradient(135deg, #FFD700, #FF6B35)" }}
-        >
-          GO TO DASHBOARD
-        </button>
+        <div className="space-y-3 w-full">
+          <button
+            onClick={() => navigate("/visa-application")}
+            className="w-full rounded-xl py-4 text-sm font-black tracking-widest text-white hover:scale-[1.02] active:scale-95 transition-all"
+            style={{ background: "linear-gradient(135deg, #00A987, #00D4AA)" }}
+          >
+            APPLY FOR VISA
+          </button>
+          <button
+            onClick={onDone}
+            className="w-full rounded-xl py-4 text-sm font-black tracking-widest text-black hover:scale-[1.02] active:scale-95 transition-all"
+            style={{ background: "linear-gradient(135deg, #FFD700, #FF6B35)" }}
+          >
+            GO TO DASHBOARD
+          </button>
+        </div>
       )}
     </div>
   );

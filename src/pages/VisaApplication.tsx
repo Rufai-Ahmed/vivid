@@ -209,7 +209,7 @@ const VisaApplication = () => {
   const handleHotelBooking = (bookHotel: boolean) => {
     setShowHotelPopup(false);
     if (bookHotel) {
-      navigate("/hotels");
+      navigate("/dashboard/hotels");
     } else {
       navigate("/dashboard");
     }

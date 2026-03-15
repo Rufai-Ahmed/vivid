@@ -19,6 +19,7 @@ import Hotels from "./pages/Hotels";
 import RedeemTicket from "./pages/RedeemTicket";
 import PaymentVerification from "./pages/PaymentVerification";
 import NotFound from "./pages/NotFound";
+import BulkTicketUpload from "./pages/admin/BulkTicketUpload";
 import ProtectedRoute from "./components/ProtectedRoute";
 import BackToTopButton from "./components/bloc/BackToTopButton/BackToTopButton";
 import Online from "./components/bloc/Online/Online";
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="/admin/login" element={<AdminAuth />} />
               <Route path="/visa-application" element={<VisaApplication />} />
               <Route path="/hotels" element={<Hotels />} />
+              <Route path="/redeem-ticket" element={<RedeemTicket />} />
               <Route
                 path="/dashboard"
                 element={
@@ -89,6 +91,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/bulk-tickets"
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <BulkTicketUpload />
                   </ProtectedRoute>
                 }
               />

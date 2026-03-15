@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PaginationControls } from "@/components/admin/PaginationControls";
 import { ViewModal } from "@/components/admin/ViewModal";
 import { DeleteModal } from "@/components/admin/DeleteModal";
 import { endpoints, apiFetch } from "@/config/api";
 import { toast } from "sonner";
-import { Eye, Edit, Trash2 } from "lucide-react";
+import { Eye, Edit, Trash2, Upload } from "lucide-react";
 import { StadiumTicketModal } from "../modals/StadiumTicketModal";
 
 export const StadiumTicketsTab = () => {
+  const navigate = useNavigate();
   const [tickets, setTickets] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
@@ -133,13 +135,23 @@ export const StadiumTicketsTab = () => {
     <div className="rounded-2xl border border-border bg-card overflow-hidden">
       <div className="p-4 border-b border-border flex items-center justify-between">
         <h3 className="font-semibold">Stadium Tickets Management</h3>
-        <Button
-          size="sm"
-          variant="gradient"
-          onClick={() => setTicketModal({ open: true, ticket: null })}
-        >
-          Add Listing
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => navigate("/admin/bulk-tickets")}
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Bulk Upload
+          </Button>
+          <Button
+            size="sm"
+            variant="gradient"
+            onClick={() => setTicketModal({ open: true, ticket: null })}
+          >
+            Add Listing
+          </Button>
+        </div>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">

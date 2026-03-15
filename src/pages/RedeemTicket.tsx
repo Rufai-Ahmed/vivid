@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ChatWidget } from "@/components/ChatWidget";
 import { useAuth } from "@/contexts/AuthContext";
@@ -12,6 +13,7 @@ import {
   Gift,
   Sparkles,
   AlertCircle,
+  Mail,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -19,7 +21,9 @@ import { endpoints, apiFetch } from "@/config/api";
 
 const RedeemTicket = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [ticketCode, setTicketCode] = useState("");
+  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isRedeemed, setIsRedeemed] = useState(false);
   const [error, setError] = useState("");
@@ -30,8 +34,11 @@ const RedeemTicket = () => {
       return;
     }
 
-    if (!user) {
-      toast.error("You must be logged in to redeem a ticket.");
+    // For bulk tickets (VS- codes), we need email
+    const isBulkTicket = ticketCode.toUpperCase().startsWith("VS-");
+
+    if (isBulkTicket && !email.trim()) {
+      setError("Please enter your email address");
       return;
     }
 
@@ -39,25 +46,76 @@ const RedeemTicket = () => {
     setIsLoading(true);
 
     try {
-      const response = await apiFetch(endpoints.tickets.redeem, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          code: ticketCode,
-          userId: user.id,
-        }),
-      });
+      let response;
+      let data;
 
-      const data = await response.json();
+      if (isBulkTicket) {
+        // Use bulk ticket redemption endpoint (works for both new and existing users)
+        response = await fetch(endpoints.bulkTickets.redeem, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ticketCode: ticketCode.toUpperCase(),
+            email: email.toLowerCase().trim(),
+          }),
+        });
+        data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to redeem ticket");
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to redeem ticket");
+        }
+
+        // Auto-login with the returned token
+        if (data.token && data.user) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem(
+            "vividstream_user",
+            JSON.stringify({
+              id: data.user.id,
+              name: data.user.fullName,
+              email: data.user.email,
+              role: data.user.role,
+              hasTicket: data.user.hasTicket,
+            }),
+          );
+
+          setIsRedeemed(true);
+          toast.success("Congratulations! Your ticket has been redeemed!");
+          return;
+        }
+
+        setIsRedeemed(true);
+        toast.success("Congratulations! Your ticket has been redeemed!");
+      } else {
+        // Regular ticket redemption (requires login)
+        if (!user) {
+          toast.error("You must be logged in to redeem this ticket.");
+          setIsLoading(false);
+          return;
+        }
+
+        response = await apiFetch(endpoints.tickets.redeem, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            code: ticketCode,
+            userId: user.id,
+          }),
+        });
+
+        data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to redeem ticket");
+        }
+
+        setIsRedeemed(true);
+        toast.success("Congratulations! Your ticket has been redeemed!");
       }
-
-      setIsRedeemed(true);
-      toast.success("Congratulations! Your ticket has been redeemed!");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
@@ -99,6 +157,30 @@ const RedeemTicket = () => {
               {/* Redemption Form */}
               <div className="rounded-2xl border border-border bg-card p-8">
                 <div className="space-y-6">
+                  {/* Email field - shown for bulk ticket users not logged in */}
+                  {(!user || ticketCode.toUpperCase().startsWith("VS-")) && (
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-sm font-medium">
+                        Email Address
+                      </Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          id="email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="your@email.com"
+                          className="pl-10"
+                        />
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Enter the email address where you received your ticket
+                        code
+                      </p>
+                    </div>
+                  )}
+
                   <div className="space-y-2">
                     <label htmlFor="code" className="text-sm font-medium">
                       Ticket Code
@@ -109,7 +191,7 @@ const RedeemTicket = () => {
                       onChange={(e) =>
                         setTicketCode(e.target.value.toUpperCase())
                       }
-                      placeholder="e.g. WIN-2024-XXXX"
+                      placeholder="e.g. VS-XXXX or WIN-2024-XXXX"
                       className="text-center text-lg font-mono tracking-wider h-14"
                     />
                     {error && (
@@ -148,13 +230,13 @@ const RedeemTicket = () => {
                       <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">
                         1
                       </span>
-                      Check your email for the winning notification
+                      Check your email for the ticket notification
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">
                         2
                       </span>
-                      Look for the unique code starting with "WIN-"
+                      Look for the unique code (starts with "VS-" or "WIN-")
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">

@@ -21,6 +21,7 @@ import {
   TrendingDown,
   Hotel,
   Building,
+  Mail,
 } from "lucide-react";
 import { endpoints, apiFetch } from "@/config/api";
 
@@ -34,6 +35,7 @@ import { PaymentsTab } from "@/components/admin/tabs/PaymentsTab";
 import { UsersTab } from "@/components/admin/tabs/UsersTab";
 import { AdminsTab } from "@/components/admin/tabs/AdminsTab";
 import { SettingsTab } from "@/components/admin/tabs/SettingsTab";
+import { BulkTicketsTab } from "@/components/admin/tabs/BulkTicketsTab";
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -138,6 +140,7 @@ const AdminDashboard = () => {
             icon: Settings,
             tab: "settings",
           },
+          { id: "bulk", label: "Bulk Tickets", icon: Mail, tab: "bulk" },
         ];
 
   const handleNavClick = (tab: string | null) => {
@@ -302,6 +305,9 @@ const AdminDashboard = () => {
                   <TabsTrigger value="settings" className="rounded-lg">
                     Settings
                   </TabsTrigger>
+                  <TabsTrigger value="bulk" className="rounded-lg">
+                    Bulk Tickets
+                  </TabsTrigger>
                 </>
               )}
             </TabsList>
@@ -344,6 +350,10 @@ const AdminDashboard = () => {
 
             <TabsContent value="settings">
               <SettingsTab />
+            </TabsContent>
+
+            <TabsContent value="bulk">
+              <BulkTicketsTab />
             </TabsContent>
           </Tabs>
         </div>

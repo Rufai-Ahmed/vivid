@@ -740,10 +740,17 @@ const VisaApplication = () => {
       <Dialog open={showHotelPopup} onOpenChange={setShowHotelPopup}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center">Book a Hotel?</DialogTitle>
-            <DialogDescription className="text-center">
-              Would you like to book a hotel for your trip? We have great deals
-              available!
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
+              </div>
+              <DialogTitle className="text-center text-xl">
+                Visa Application Submitted!
+              </DialogTitle>
+            </div>
+            <DialogDescription className="text-center pt-2">
+              Your visa application has been submitted successfully. Would you
+              like to book a hotel for your trip? We have great deals available!
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center gap-4 py-4">

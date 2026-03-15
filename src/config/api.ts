@@ -112,4 +112,13 @@ export const endpoints = {
     stats: `${API_BASE_URL}/admin/stats`,
     getAdmins: `${API_BASE_URL}/admin/admins`,
   },
+  bulkTickets: {
+    getAll: `${API_BASE_URL}/bulk-tickets/all`,
+    getOne: (id: string) => `${API_BASE_URL}/bulk-tickets/${id}`,
+    create: `${API_BASE_URL}/bulk-tickets/create`,
+    parse: `${API_BASE_URL}/bulk-tickets/parse`,
+    retry: (id: string) => `${API_BASE_URL}/bulk-tickets/${id}/retry`,
+    redeem: `${API_BASE_URL}/bulk-tickets/redeem`,
+    template: `${API_BASE_URL}/bulk-tickets/template`,
+  },
 };

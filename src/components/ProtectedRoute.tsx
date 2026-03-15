@@ -5,13 +5,26 @@ import { toast } from "sonner";
 
 interface ProtectedRouteProps {
   children: ReactNode;
+  requireAdmin?: boolean;
 }
 
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+export default function ProtectedRoute({
+  children,
+  requireAdmin,
+}: ProtectedRouteProps) {
   const { isAuthenticated, user } = useAuth();
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
+  }
+
+  // Check if admin access is required
+  if (requireAdmin && user?.role !== "admin") {
+    toast.error("Access Denied", {
+      description: "You must be an admin to access this page.",
+      duration: 4000,
+    });
+    return <Navigate to="/dashboard" replace />;
   }
 
   // Global Access Restriction: Users without tickets cannot access dashboard

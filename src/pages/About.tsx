@@ -297,7 +297,7 @@ const About = () => {
                   USA
                 </p>
               </div>
-              <div className="bg-background p-6 rounded-2xl border border-border/50">
+              {/* <div className="bg-background p-6 rounded-2xl border border-border/50">
                 <Mail className="w-8 h-8 text-primary mx-auto mb-4" />
                 <h3 className="font-semibold mb-2">Email Us</h3>
                 <p className="text-muted-foreground text-sm">
@@ -305,7 +305,7 @@ const About = () => {
                   <br />
                   sales@vividstreampro.com
                 </p>
-              </div>
+              </div> */}
               <div className="bg-background p-6 rounded-2xl border border-border/50">
                 <Phone className="w-8 h-8 text-primary mx-auto mb-4" />
                 <h3 className="font-semibold mb-2">Call Us</h3>

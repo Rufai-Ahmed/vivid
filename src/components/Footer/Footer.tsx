@@ -124,9 +124,9 @@ const Footer = () => {
               <li>
                 <span className="block">+1 (929) 459-5216</span>
               </li>
-              <li>
+              {/* <li>
                 <span className="block">support@vividstreampro.com</span>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div>

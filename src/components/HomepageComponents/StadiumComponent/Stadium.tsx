@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { createPortal } from "react-dom";
 import { apiFetch, endpoints } from "@/config/api";
 import { X, Maximize2 } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   CategoryId,
   CheckoutStep,
@@ -375,16 +375,16 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
     }
   };
 
-  const stadiumContent = (
+  const renderStadium = (isMax = false) => (
     <div
       className={`text-white overflow-hidden font-sans relative flex-1 bg-[#0a0c10] transition-all duration-500 ease-in-out ${
-        isMaximized
-          ? "fixed inset-0 z-[9999] h-screen w-screen animate-in top-0 left-0 right-0 bottom-0 fade-in zoom-in duration-300"
+        isMax
+          ? "h-screen w-screen flex flex-col"
           : "relative h-[680px] md:h-[580px] rounded-3xl border border-[#1f2937]"
       }`}
     >
       {/* ── Banner ───────────────────────── */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-[#1f2937] bg-[#0a0c10]/80 backdrop-blur-md">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-[#1f2937] bg-[#0a0c10]/80 backdrop-blur-md shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-base shadow-lg shadow-yellow-400/20">
             ⚽
@@ -415,7 +415,9 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
               >
                 <span>🛒</span>
                 <span className="text-sm font-bold text-yellow-400">
-                  {t("stadium.checkout.confirmation.ticketCount", { count: cartCount })}
+                  {t("stadium.checkout.confirmation.ticketCount", {
+                    count: cartCount,
+                  })}
                 </span>
                 <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-orange-500 rounded-full text-[9px] font-black text-white flex items-center justify-center">
                   {cartCount}
@@ -425,9 +427,9 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
             <button
               onClick={() => setIsMaximized(!isMaximized)}
               className="p-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-gray-400 hover:text-white"
-              title={isMaximized ? "Minimize" : "Full Screen"}
+              title={isMax ? "Minimize" : "Full Screen"}
             >
-              {isMaximized ? (
+              {isMax ? (
                 <X className="w-5 h-5" />
               ) : (
                 <Maximize2 className="w-5 h-5" />
@@ -440,11 +442,11 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
       {/* ── Body ─────────────────────────── */}
       <div
         className={`flex flex-col md:flex-row transition-all duration-500 group relative ${
-          isMaximized ? "h-[calc(100vh-73px)]" : "h-[680px] md:h-[580px] cursor-pointer"
+          isMax ? "flex-1 min-h-0" : "h-[calc(100%-73px)] cursor-pointer"
         }`}
-        onClick={() => !isMaximized && setIsMaximized(true)}
+        onClick={() => !isMax && setIsMaximized(true)}
       >
-        {!isMaximized && (
+        {!isMax && (
           <div className="absolute inset-0 z-10 bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center pointer-events-none">
             <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2">
               <Maximize2 className="w-4 h-4" />
@@ -647,7 +649,10 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                         fontSize="11"
                         fontFamily="sans-serif"
                       >
-                        {t("stadium.fromPrice", { price: minP.toLocaleString(), count: ls.length })}
+                        {t("stadium.fromPrice", {
+                          price: minP.toLocaleString(),
+                          count: ls.length,
+                        })}
                       </text>
                     </g>
                   );
@@ -658,7 +663,10 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
           <div className="shrink-0 bg-white/[0.06] border border-[#1f2937] rounded-xl px-3 md:px-4 py-2.5 flex items-center justify-between">
             <div className="flex gap-6">
               {[
-                { label: t("stadium.listings"), value: listings.length.toString() },
+                {
+                  label: t("stadium.listings"),
+                  value: listings.length.toString(),
+                },
                 { label: t("stadium.venue"), value: "MetLife Stadium" },
                 { label: t("stadium.capacity"), value: "82,500" },
               ].map((s) => (
@@ -696,16 +704,24 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
             </div>
             <div className="flex items-center bg-white/[0.06] border border-[#374151] rounded-full overflow-hidden">
               <button
-                onClick={() => setTicketCount((n) => Math.max(1, n - 1))}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setTicketCount((n) => Math.max(1, n - 1));
+                }}
                 className="w-8 h-8 flex items-center justify-center text-gray-300 font-bold hover:bg-white/10"
               >
                 −
               </button>
               <span className="px-2 text-xs font-semibold min-w-[78px] text-center text-gray-200">
-                {t("stadium.checkout.confirmation.ticketCount", { count: ticketCount })}
+                {t("stadium.checkout.confirmation.ticketCount", {
+                  count: ticketCount,
+                })}
               </span>
               <button
-                onClick={() => setTicketCount((n) => Math.min(10, n + 1))}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setTicketCount((n) => Math.min(10, n + 1));
+                }}
                 className="w-8 h-8 flex items-center justify-center text-gray-300 font-bold hover:bg-white/10"
               >
                 +
@@ -726,9 +742,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
               filtered.map((listing, i) => {
                 const cat = CATEGORIES.find((c) => c.id === listing.category)!;
                 const tagStyle = listing.tag ? TAG_STYLES[listing.tag] : null;
-                const inCart = cart.some(
-                  (ci) => ci.listing._id === listing._id,
-                );
+                const inCart = cart.some((ci) => ci.listing._id === listing._id);
                 return (
                   <div
                     key={listing._id}
@@ -764,8 +778,15 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                           )}
                         </div>
                         <div className="flex gap-3 text-[11px] text-gray-400 mb-1.5">
-                          <span>👥 {t("stadium.available", { count: listing.ticketsAvailable })}</span>
-                          <span>{t("stadium.viewLabel", { view: listing.view })}</span>
+                          <span>
+                            👥{" "}
+                            {t("stadium.available", {
+                              count: listing.ticketsAvailable,
+                            })}
+                          </span>
+                          <span>
+                            {t("stadium.viewLabel", { view: listing.view })}
+                          </span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span
@@ -787,7 +808,10 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                           </p>
                           {ticketCount > 1 && (
                             <p className="text-[10px] text-gray-500">
-                              ₦{listing.price}/{t("stadium.checkout.confirmation.ticket_one", { count: 1 })}
+                              ₦{listing.price}/
+                              {t("stadium.checkout.confirmation.ticket_one", {
+                                count: 1,
+                              })}
                             </p>
                           )}
                         </div>
@@ -808,7 +832,10 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                           </button>
                         ) : (
                           <button
-                            onClick={() => addToCart(listing)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              addToCart(listing);
+                            }}
                             className="text-black text-[11px] font-bold px-3.5 py-1.5 rounded-lg hover:scale-105 active:scale-95 transition-all"
                             style={{
                               background: cat.color,
@@ -831,7 +858,11 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
               {t("stadium.buyerGuarantee")}
               {cartCount > 0 && (
                 <span className="text-yellow-400 ml-1 font-semibold">
-                  · {t("stadium.checkout.confirmation.ticketCount", { count: cartCount })} {t("stadium.inCart").replace(" ✓", "").toLowerCase()}
+                  ·{" "}
+                  {t("stadium.checkout.confirmation.ticketCount", {
+                    count: cartCount,
+                  })}{" "}
+                  {t("stadium.inCart").replace(" ✓", "").toLowerCase()}
                 </span>
               )}
             </div>
@@ -843,18 +874,36 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
               style={{
                 background: "linear-gradient(135deg, #FFD700, #FF6B35)",
                 animation:
-                  cartCount > 0
-                    ? "scPulseGold 2s ease-in-out infinite"
-                    : "none",
+                  cartCount > 0 ? "scPulseGold 2s ease-in-out infinite" : "none",
               }}
             >
-              {cartCount > 0 ? t("stadium.checkoutCount", { count: cartCount }) : t("stadium.checkoutButton")}
+              {cartCount > 0
+                ? t("stadium.checkoutCount", { count: cartCount })
+                : t("stadium.checkoutButton")}
             </button>
           </div>
         </div>
       </div>
 
-      {/* ── Drawer ───────────────────────── */}
+      <style>{`
+        @keyframes scPulseGold {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.5); }
+          50%       { box-shadow: 0 0 18px 5px rgba(255,215,0,0.18); }
+        }
+      `}</style>
+    </div>
+  );
+
+  return (
+    <>
+      <div className={isMaximized ? "hidden" : ""}>{renderStadium(false)}</div>
+
+      <Dialog open={isMaximized} onOpenChange={setIsMaximized}>
+        <DialogContent className="max-w-none w-screen h-screen p-0 border-none bg-[#0a0c10] z-[9999] overflow-hidden">
+          {renderStadium(true)}
+        </DialogContent>
+      </Dialog>
+
       <CheckoutDrawer
         open={drawerOpen}
         step={checkoutStep}
@@ -878,19 +927,8 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
         onPay={handlePay}
         onDone={handleDone}
       />
-
-      <style>{`
-        @keyframes scPulseGold {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(255,215,0,0.5); }
-          50%       { box-shadow: 0 0 18px 5px rgba(255,215,0,0.18); }
-        }
-      `}</style>
-    </div>
+    </>
   );
-
-  return isMaximized && typeof document !== "undefined"
-    ? createPortal(stadiumContent, document.body)
-    : stadiumContent;
 };
 
 export default Stadium;

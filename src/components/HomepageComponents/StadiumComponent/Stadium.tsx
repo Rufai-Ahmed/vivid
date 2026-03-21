@@ -19,6 +19,7 @@ import { CartStep } from "./components/CartStep";
 import { DetailsStep } from "./components/DetailsStep";
 import { PaymentStep } from "./components/PaymentStep";
 import { ConfirmationStep } from "./components/ConfirmationStep";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const RING_PATHS: { cat: CategoryId; d: string }[] = [
   {
@@ -213,6 +214,7 @@ interface StadiumProps {
 const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   // We no longer require login to purchase a stadium ticket. The purchase *is* the guest signup.
 
   const [listings, setListings] = useState<StadiumTicketListing[]>([]);
@@ -454,13 +456,13 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
       {/* ── Body ─────────────────────────── */}
       <div
         className={`flex flex-col md:flex-row transition-all duration-500 group relative ${
-          isMax ? "flex-1 min-h-0" : "h-[calc(100%-73px)] cursor-pointer"
+          isMax ? "flex-1 min-h-0" : "h-[calc(100%-73px)]"
         }`}
-        onClick={() => !isMax && setIsMaximized(true)}
+        onClick={() => !isMax && !isMobile && setIsMaximized(true)}
       >
         {!isMax && (
-          <div className="absolute inset-0 z-10 bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center pointer-events-none">
-            <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2">
+          <div className="absolute inset-0 z-10 bg-black/0 group-hover:bg-black/10 md:group-hover:bg-black/10 transition-all flex items-center justify-center pointer-events-none">
+            <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold opacity-0 md:group-hover:opacity-100 transition-all flex items-center gap-2">
               <Maximize2 className="w-4 h-4" />
               {t("stadium.clickToExpand")}
             </div>

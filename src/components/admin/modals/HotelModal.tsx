@@ -11,7 +11,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Upload, Check } from "lucide-react";
+
+// Predefined amenities options
+const AMENITIES_OPTIONS = [
+  "Wifi",
+  "Pool",
+  "Gym",
+  "Spa",
+  "Restaurant",
+  "Bar",
+  "Room Service",
+  "Parking",
+  "Airport Shuttle",
+  "Business Center",
+  "Laundry",
+  "Concierge",
+  "Pet Friendly",
+  "Beach Access",
+  "Kids Club",
+  "Tennis Court",
+  "Golf Course",
+  "Casino",
+  "Nightclub",
+];
 
 interface HotelModalProps {
   open: boolean;
@@ -33,7 +56,7 @@ export const HotelModal = ({
     location: "",
     price: "",
     description: "",
-    amenities: "",
+    amenities: [] as string[],
     featured: false,
   });
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -46,7 +69,7 @@ export const HotelModal = ({
         location: hotel.location || "",
         price: hotel.price || "",
         description: hotel.description || "",
-        amenities: hotel.amenities ? hotel.amenities.join(", ") : "",
+        amenities: hotel.amenities || [],
         featured: hotel.featured || false,
       });
       setImagePreviews(hotel.images || []);
@@ -61,7 +84,7 @@ export const HotelModal = ({
       location: "",
       price: "",
       description: "",
-      amenities: "",
+      amenities: [],
       featured: false,
     });
     setImageFiles([]);
@@ -75,6 +98,20 @@ export const HotelModal = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleAmenityToggle = (amenity: string) => {
+    setFormData((prev) => {
+      const currentAmenities = prev.amenities;
+      if (currentAmenities.includes(amenity)) {
+        return {
+          ...prev,
+          amenities: currentAmenities.filter((a) => a !== amenity),
+        };
+      } else {
+        return { ...prev, amenities: [...currentAmenities, amenity] };
+      }
+    });
+  };
+
   const handleCheckboxChange = (checked: boolean) => {
     setFormData((prev) => ({ ...prev, featured: checked }));
   };
@@ -84,12 +121,14 @@ export const HotelModal = ({
     if (files && files.length > 0) {
       const newFiles = Array.from(files);
       setImageFiles((prev) => [...prev, ...newFiles].slice(0, 5));
-      
+
       // Generate previews
       newFiles.forEach((file) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-          setImagePreviews((prev) => [...prev, reader.result as string].slice(0, 5));
+          setImagePreviews((prev) =>
+            [...prev, reader.result as string].slice(0, 5),
+          );
         };
         reader.readAsDataURL(file);
       });
@@ -105,7 +144,7 @@ export const HotelModal = ({
     data.append("location", formData.location);
     data.append("price", formData.price);
     data.append("description", formData.description);
-    data.append("amenities", formData.amenities);
+    data.append("amenities", JSON.stringify(formData.amenities));
     data.append("featured", String(formData.featured));
     if (imageFiles.length > 0) {
       imageFiles.forEach((file) => {
@@ -147,8 +186,12 @@ export const HotelModal = ({
                       <button
                         type="button"
                         onClick={() => {
-                          setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-                          setImageFiles((prev) => prev.filter((_, i) => i !== index));
+                          setImagePreviews((prev) =>
+                            prev.filter((_, i) => i !== index),
+                          );
+                          setImageFiles((prev) =>
+                            prev.filter((_, i) => i !== index),
+                          );
                         }}
                         className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
                       >
@@ -210,14 +253,31 @@ export const HotelModal = ({
           </div>
 
           <div className="grid w-full items-center gap-1.5">
-            <Label htmlFor="amenities">Amenities (comma separated)</Label>
-            <Input
-              id="amenities"
-              name="amenities"
-              placeholder="Wifi, Pool, Gym..."
-              value={formData.amenities}
-              onChange={handleInputChange}
-            />
+            <Label>Amenities</Label>
+            <div className="flex flex-wrap gap-2">
+              {AMENITIES_OPTIONS.map((amenity) => (
+                <button
+                  key={amenity}
+                  type="button"
+                  onClick={() => handleAmenityToggle(amenity)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all border ${
+                    formData.amenities.includes(amenity)
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-secondary text-muted-foreground border-border hover:bg-secondary/80"
+                  }`}
+                >
+                  {formData.amenities.includes(amenity) && (
+                    <Check className="w-3 h-3 inline-block mr-1" />
+                  )}
+                  {amenity}
+                </button>
+              ))}
+            </div>
+            {formData.amenities.length > 0 && (
+              <p className="text-xs text-muted-foreground mt-2">
+                {formData.amenities.length} amenity selected
+              </p>
+            )}
           </div>
 
           <div className="grid w-full items-center gap-1.5">

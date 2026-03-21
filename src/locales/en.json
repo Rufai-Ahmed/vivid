@@ -421,7 +421,13 @@
         "loadError": "Failed to load bank details.",
         "totalToCharge": "Total to charge",
         "sentConfirmation": "I'VE SENT ₦{{amount}} →",
-        "copied": "Copied to clipboard!"
+        "copied": "Copied to clipboard!",
+        "bankTransfer": "Bank Transfer",
+        "crypto": "Cryptocurrency",
+        "cryptoPayment": "Crypto Payment",
+        "cryptoInstruction": "Send {{type}} to the wallet address below to complete your purchase.",
+        "cryptoType": "Cryptocurrency Type",
+        "walletAddress": "Wallet Address"
       },
       "confirmation": {
         "title": "YOU'RE IN!",
@@ -440,7 +446,6 @@
     },
     "guaranteedAuthenticShort": "🔒 Guaranteed authentic"
   },
-
 
   "dashboard": {
     "welcome": "Welcome",

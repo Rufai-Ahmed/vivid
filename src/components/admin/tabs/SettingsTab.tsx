@@ -12,12 +12,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { endpoints, apiFetch } from "@/config/api";
-import { Loader2, Save, Building } from "lucide-react";
+import { Loader2, Save, Building, Bitcoin } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface SettingsData {
   bankName: string;
   accountName: string;
   accountNumber: string;
+  cryptoEnabled: string;
+  cryptoWalletAddress: string;
+  cryptoType: string;
 }
 
 export const SettingsTab = () => {
@@ -136,6 +141,86 @@ export const SettingsTab = () => {
                 <>
                   <Save className="w-4 h-4 mr-2" />
                   Save Configuration
+                </>
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2 mb-2">
+            <Bitcoin className="w-5 h-5 text-primary" />
+            <CardTitle>Cryptocurrency Payment Configuration</CardTitle>
+          </div>
+          <CardDescription>
+            Enable cryptocurrency payments for users. Configure the wallet address where payments will be received.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <Label htmlFor="cryptoEnabled">Enable Crypto Payments</Label>
+                <p className="text-sm text-muted-foreground">
+                  Allow users to pay with cryptocurrency
+                </p>
+              </div>
+              <Switch
+                id="cryptoEnabled"
+                {...register("cryptoEnabled")}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="cryptoType">Cryptocurrency Type</Label>
+              <Select
+                {...register("cryptoType")}
+                onValueChange={(value) => {
+                  const event = { target: { name: "cryptoType", value } };
+                  // @ts-expect-error - React Hook Form register typing
+                  onChange(event);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select cryptocurrency" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="BTC">Bitcoin (BTC)</SelectItem>
+                  <SelectItem value="ETH">Ethereum (ETH)</SelectItem>
+                  <SelectItem value="USDT">Tether (USDT)</SelectItem>
+                  <SelectItem value="USDC">USD Coin (USDC)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="cryptoWalletAddress">Wallet Address</Label>
+              <Input
+                id="cryptoWalletAddress"
+                placeholder="Enter cryptocurrency wallet address"
+                {...register("cryptoWalletAddress")}
+              />
+              <p className="text-xs text-muted-foreground">
+                Users will send payments to this address
+              </p>
+            </div>
+
+            <Button
+              type="submit"
+              disabled={saving}
+              className="w-full sm:w-auto mt-4"
+            >
+              {saving ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Crypto Configuration
                 </>
               )}
             </Button>

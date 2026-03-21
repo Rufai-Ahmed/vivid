@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PaymentDetails } from "../types";
 import { apiFetch } from "@/config/api";
-import { Loader2, Copy, Building } from "lucide-react";
+import { Loader2, Copy, Building, Bitcoin } from "lucide-react";
 import { toast } from "sonner";
 
 export function PaymentStep({
@@ -24,8 +24,12 @@ export function PaymentStep({
     bankName: string;
     accountName: string;
     accountNumber: string;
+    cryptoEnabled: string;
+    cryptoWalletAddress: string;
+    cryptoType: string;
   } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [paymentMethod, setPaymentMethod] = useState<"bank" | "crypto">("bank");
 
   useEffect(() => {
     onChange({
@@ -63,68 +67,147 @@ export function PaymentStep({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 flex flex-col items-center text-center space-y-2">
-        <Building className="w-8 h-8 text-blue-400" />
-        <h3 className="font-semibold text-blue-100">
-          {t("stadium.checkout.payment.manualTransfer")}
-        </h3>
-        <p className="text-sm text-blue-200/70">
-          {t("stadium.checkout.payment.transferInstruction")}
-        </p>
-      </div>
+      {/* Payment Method Selection */}
+      {settings?.cryptoEnabled === "true" && (
+        <div className="flex gap-2 mb-2">
+          <button
+            onClick={() => setPaymentMethod("bank")}
+            className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all ${
+              paymentMethod === "bank"
+                ? "bg-blue-500/20 border border-blue-500 text-blue-400"
+                : "bg-white/[0.03] border border-[#1f2937] text-gray-400 hover:bg-white/[0.06]"
+            }`}
+          >
+            <Building className="w-4 h-4 inline-block mr-2" />
+            {t("stadium.checkout.payment.bankTransfer")}
+          </button>
+          <button
+            onClick={() => setPaymentMethod("crypto")}
+            className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all ${
+              paymentMethod === "crypto"
+                ? "bg-purple-500/20 border border-purple-500 text-purple-400"
+                : "bg-white/[0.03] border border-[#1f2937] text-gray-400 hover:bg-white/[0.06]"
+            }`}
+          >
+            <Bitcoin className="w-4 h-4 inline-block mr-2" />
+            {t("stadium.checkout.payment.crypto")}
+          </button>
+        </div>
+      )}
 
-      {loading ? (
-        <div className="h-32 flex items-center justify-center">
-          <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-        </div>
-      ) : settings ? (
-        <div className="bg-white/[0.03] border border-[#1f2937] rounded-xl p-4 space-y-4">
-          <div className="flex justify-between items-center group">
-            <div>
-              <p className="text-[10px] text-gray-500 uppercase tracking-widest">
-                {t("stadium.checkout.payment.bankName")}
-              </p>
-              <p className="font-semibold text-gray-200">
-                {settings.bankName ||
-                  t("stadium.checkout.payment.notConfigured")}
-              </p>
+      {/* Bank Transfer Section */}
+      {(paymentMethod === "bank" || !settings?.cryptoEnabled) && (
+        <>
+          <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 flex flex-col items-center text-center space-y-2">
+            <Building className="w-8 h-8 text-blue-400" />
+            <h3 className="font-semibold text-blue-100">
+              {t("stadium.checkout.payment.manualTransfer")}
+            </h3>
+            <p className="text-sm text-blue-200/70">
+              {t("stadium.checkout.payment.transferInstruction")}
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="h-32 flex items-center justify-center">
+              <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+            </div>
+          ) : settings ? (
+            <div className="bg-white/[0.03] border border-[#1f2937] rounded-xl p-4 space-y-4">
+              <div className="flex justify-between items-center group">
+                <div>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">
+                    {t("stadium.checkout.payment.bankName")}
+                  </p>
+                  <p className="font-semibold text-gray-200">
+                    {settings.bankName ||
+                      t("stadium.checkout.payment.notConfigured")}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-between items-center group">
+                <div>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">
+                    {t("stadium.checkout.payment.accountName")}
+                  </p>
+                  <p className="font-semibold text-gray-200">
+                    {settings.accountName ||
+                      t("stadium.checkout.payment.notConfigured")}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-between items-center group">
+                <div>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">
+                    {t("stadium.checkout.payment.accountNumber")}
+                  </p>
+                  <p className="font-mono text-lg text-yellow-500">
+                    {settings.accountNumber ||
+                      t("stadium.checkout.payment.notConfigured")}
+                  </p>
+                </div>
+                {settings.accountNumber && (
+                  <button
+                    onClick={() => handleCopy(settings.accountNumber)}
+                    className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                  >
+                    <Copy className="w-4 h-4 text-gray-400" />
+                  </button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="text-center text-sm text-red-400 py-4">
+              {t("stadium.checkout.payment.loadError")}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* Crypto Payment Section */}
+      {paymentMethod === "crypto" && settings?.cryptoEnabled === "true" && (
+        <>
+          <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 flex flex-col items-center text-center space-y-2">
+            <Bitcoin className="w-8 h-8 text-purple-400" />
+            <h3 className="font-semibold text-purple-100">
+              {t("stadium.checkout.payment.cryptoPayment")}
+            </h3>
+            <p className="text-sm text-purple-200/70">
+              {t("stadium.checkout.payment.cryptoInstruction", { type: settings.cryptoType || "Crypto" })}
+            </p>
+          </div>
+
+          <div className="bg-white/[0.03] border border-[#1f2937] rounded-xl p-4 space-y-4">
+            <div className="flex justify-between items-center group">
+              <div>
+                <p className="text-[10px] text-gray-500 uppercase tracking-widest">
+                  {t("stadium.checkout.payment.cryptoType")}
+                </p>
+                <p className="font-semibold text-gray-200">
+                  {settings.cryptoType || "Not configured"}
+                </p>
+              </div>
+            </div>
+            <div className="flex justify-between items-center group">
+              <div className="w-full">
+                <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-2">
+                  {t("stadium.checkout.payment.walletAddress")}
+                </p>
+                <p className="font-mono text-sm text-yellow-500 break-all">
+                  {settings.cryptoWalletAddress || t("stadium.checkout.payment.notConfigured")}
+                </p>
+              </div>
+              {settings.cryptoWalletAddress && (
+                <button
+                  onClick={() => handleCopy(settings.cryptoWalletAddress)}
+                  className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  <Copy className="w-4 h-4 text-gray-400" />
+                </button>
+              )}
             </div>
           </div>
-          <div className="flex justify-between items-center group">
-            <div>
-              <p className="text-[10px] text-gray-500 uppercase tracking-widest">
-                {t("stadium.checkout.payment.accountName")}
-              </p>
-              <p className="font-semibold text-gray-200">
-                {settings.accountName ||
-                  t("stadium.checkout.payment.notConfigured")}
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-between items-center group">
-            <div>
-              <p className="text-[10px] text-gray-500 uppercase tracking-widest">
-                {t("stadium.checkout.payment.accountNumber")}
-              </p>
-              <p className="font-mono text-lg text-yellow-500">
-                {settings.accountNumber ||
-                  t("stadium.checkout.payment.notConfigured")}
-              </p>
-            </div>
-            {settings.accountNumber && (
-              <button
-                onClick={() => handleCopy(settings.accountNumber)}
-                className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
-              >
-                <Copy className="w-4 h-4 text-gray-400" />
-              </button>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className="text-center text-sm text-red-400 py-4">
-          {t("stadium.checkout.payment.loadError")}
-        </div>
+        </>
       )}
 
       <div className="bg-white/[0.03] border border-[#1f2937] rounded-xl px-4 py-3 flex justify-between items-center">

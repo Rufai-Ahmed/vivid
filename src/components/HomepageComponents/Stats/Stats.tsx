@@ -1,4 +1,4 @@
-import { stats } from "@/types/types";
+import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
 
 type CounterProps = {
@@ -44,18 +44,26 @@ const Counter = ({ value, start, duration = 2000 }: CounterProps) => {
 
 /* ------------------ STATS SECTION ------------------ */
 const Stats = () => {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [startCount, setStartCount] = useState(false);
+
+  const stats = [
+    { value: "50K+", label: t("stats.ticketsRedeemed") },
+    { value: "120+", label: t("stats.countriesServed") },
+    { value: "99.9%", label: t("stats.uptime") },
+    { value: "2/47", label: t("stats.support") },
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setStartCount(true);
-          observer.disconnect(); 
+          observer.disconnect();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (sectionRef.current) {

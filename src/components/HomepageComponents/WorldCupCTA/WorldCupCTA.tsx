@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const WorldCupCTA = () => {
+  const { t } = useTranslation();
+
   return (
     <section className="py-0 lg:py-14 px-4">
       <div className="container mx-auto">
@@ -19,19 +22,17 @@ const WorldCupCTA = () => {
               <span className="text-3xl text-[orange]">🇨🇦</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-accent-foreground mb-4">
-              World Cup 2026 Predictions
+              {t("worldCupCTA.title")}
             </h2>
             <p className="text-accent-foreground/80 mb-8">
-              The biggest FIFA World Cup ever with 48 teams! Predict match
-              outcomes, earn Vividstream rewards, and redeem them for exclusive
-              prizes. Join thousands of fans competing for glory.
+              {t("worldCupCTA.subtitle")}
             </p>
             <Link to="/signup">
               <Button
                 size="xl"
                 className="bg-accent-foreground text-accent hover:bg-accent-foreground/90"
               >
-                Start Predicting
+                {t("worldCupCTA.button")}
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>

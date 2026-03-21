@@ -13,11 +13,13 @@
     "logout": "Logout"
   },
   "hero": {
-    "title": "Your Gateway to World Cup 2026",
+    "title": "World Cup 2026",
+    "fullTitle": "Your Gateway to World Cup 2026",
     "subtitle": "Redeem winning tickets, apply for visas, and book hotels — all in one seamless platform. Experience the biggest sporting event with Vividstream Pro.",
     "getStarted": "Get Started",
     "redeemTicket": "Redeem Ticket",
-    "exploreWorldCup": "Explore World Cup"
+    "exploreWorldCup": "Explore World Cup",
+    "fifaWorldCup": "FIFA World Cup 2026"
   },
   "home": {
     "stadium": "Stadium Tickets",
@@ -26,6 +28,45 @@
     "stats": "Statistics",
     "cta": "Join Thousands of Fans",
     "trust": "Trusted by Fans Worldwide"
+  },
+  "stats": {
+    "ticketsRedeemed": "Tickets Redeemed",
+    "countriesServed": "Countries Served",
+    "uptime": "Uptime",
+    "support": "Support"
+  },
+  "features": {
+    "title": "Everything You Need",
+    "subtitle": "From ticket redemption to travel arrangements, we've got you covered with our comprehensive suite of services.",
+    "ticketRedemption": {
+      "title": "Ticket Redemption",
+      "description": "Redeem your winning tickets instantly with our secure validation system."
+    },
+    "visaServices": {
+      "title": "Visa Services",
+      "description": "Streamlined visa application process with expert guidance."
+    },
+    "hotelBooking": {
+      "title": "Hotel Booking",
+      "description": "Book premium accommodations at exclusive partner rates."
+    },
+    "worldCupBetting": {
+      "title": "World Cup Betting",
+      "description": "Predict match outcomes and win Vividstream rewards."
+    }
+  },
+  "trust": {
+    "secureEncrypted": "Secure & Encrypted",
+    "secureEncryptedDesc": "Your data is protected with enterprise-grade security and SSL encryption.",
+    "multiplePayment": "Multiple Payment Options",
+    "multiplePaymentDesc": "Pay with crypto (BTC, ETH, USDT) or traditional card payments.",
+    "globalCoverage": "Global Coverage",
+    "globalCoverageDesc": "Serving customers in over 120 countries with localized support."
+  },
+  "worldCupCTA": {
+    "title": "World Cup 2026 Predictions",
+    "subtitle": "The biggest FIFA World Cup ever with 48 teams! Predict match outcomes, earn Vividstream rewards, and redeem them for exclusive prizes. Join thousands of fans competing for glory.",
+    "button": "Start Predicting"
   },
   "about": {
     "title": "About Vividstream Pro",
@@ -151,7 +192,20 @@
     "cookiePolicy": "Cookie Policy",
     "adminPortal": "Admin Portal",
     "careers": "Careers",
-    "allRightsReserved": "All rights reserved."
+    "allRightsReserved": "All rights reserved.",
+    "worldCup": "World Cup",
+    "visaServices": "Visa Services",
+    "hotels": "Hotels",
+    "redeemTicket": "Redeem Ticket",
+    "aboutUs": "About Us",
+    "contactUs": "Contact",
+    "followUs": "Follow Us",
+    "tagline": "Your trusted platform for ticket redemption, visa services, and travel bookings.",
+    "address": "119 W 33rd St, New York, NY 10001, USA",
+    "phone": "+1 (929) 459-5216",
+    "facebook": "Facebook",
+    "twitter": "Twitter",
+    "instagram": "Instagram"
   },
   "language": {
     "select": "Select Language",

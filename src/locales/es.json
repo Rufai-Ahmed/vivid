@@ -13,11 +13,13 @@
     "logout": "Cerrar Sesión"
   },
   "hero": {
-    "title": "Tu Puerta de Entrada a la Copa Mundo 2026",
+    "title": "Copa Mundo 2026",
+    "fullTitle": "Tu Puerta de Entrada a la Copa Mundo 2026",
     "subtitle": "Canjea entradas ganadoras, solicita visas y reserva hoteles, todo en una plataforma perfecta. Vive el mayor evento deportivo con Vividstream Pro.",
     "getStarted": "Comenzar",
     "redeemTicket": "Canjear Entrada",
-    "exploreWorldCup": "Explorar Copa Mundo"
+    "exploreWorldCup": "Explorar Copa Mundo",
+    "fifaWorldCup": "Copa Mundial FIFA 2026"
   },
   "home": {
     "stadium": "Entradas de Estadio",
@@ -26,6 +28,45 @@
     "stats": "Estadísticas",
     "cta": "Únete a Miles de Aficionados",
     "trust": "Confiado por Aficionados en Todo el Mundo"
+  },
+  "stats": {
+    "ticketsRedeemed": "Entradas Canjeadas",
+    "countriesServed": "Países Atendidos",
+    "uptime": "Tiempo Activo",
+    "support": "Soporte"
+  },
+  "features": {
+    "title": "Todo lo que Necesitas",
+    "subtitle": "Desde el canje de entradas hasta arreglos de viaje, te cubrimos con nuestra suite completa de servicios.",
+    "ticketRedemption": {
+      "title": "Canje de Entradas",
+      "description": "Canjea tus entradas ganadoras al instante con nuestro sistema de validación seguro."
+    },
+    "visaServices": {
+      "title": "Servicios de Visa",
+      "description": "Proceso de solicitud de visa optimizado con orientación de expertos."
+    },
+    "hotelBooking": {
+      "title": "Reserva de Hoteles",
+      "description": "Reserva alojamientos premium en tarifas exclusivas de socios."
+    },
+    "worldCupBetting": {
+      "title": "Apuestas Copa Mundo",
+      "description": "Predice resultados de partidos y gana recompensas de Vividstream."
+    }
+  },
+  "trust": {
+    "secureEncrypted": "Seguro y Cifrado",
+    "secureEncryptedDesc": "Tus datos están protegidos con seguridad de nivel empresarial y cifrado SSL.",
+    "multiplePayment": "Múltiples Opciones de Pago",
+    "multiplePaymentDesc": "Paga con cripto (BTC, ETH, USDT) o pagos con tarjeta tradicionales.",
+    "globalCoverage": "Cobertura Global",
+    "globalCoverageDesc": "Sirviendo a clientes en más de 120 países con soporte localizado."
+  },
+  "worldCupCTA": {
+    "title": "Predicciones Copa Mundo 2026",
+    "subtitle": "¡La Copa Mundial más grande de la historia con 48 equipos! Predice resultados de partidos, gana recompensas de Vividstream y canjéalas por premios exclusivos. Únete a miles de aficionados compitiendo por la gloria.",
+    "button": "Comenzar a Predecir"
   },
   "about": {
     "title": "Sobre Vividstream Pro",
@@ -149,7 +190,20 @@
     "cookiePolicy": "Política de Cookies",
     "adminPortal": "Portal de Admin",
     "careers": "Carreras",
-    "allRightsReserved": "Todos los derechos reservados."
+    "allRightsReserved": "Todos los derechos reservados.",
+    "worldCup": "Copa Mundo",
+    "visaServices": "Servicios de Visa",
+    "hotels": "Hoteles",
+    "redeemTicket": "Canjear Entrada",
+    "aboutUs": "Sobre Nosotros",
+    "contactUs": "Contacto",
+    "followUs": "Síguenos",
+    "tagline": "Tu plataforma de confianza para el canje de entradas, servicios de visa y reservas de viaje.",
+    "address": "119 W 33rd St, New York, NY 10001, USA",
+    "phone": "+1 (929) 459-5216",
+    "facebook": "Facebook",
+    "twitter": "Twitter",
+    "instagram": "Instagram"
   },
   "language": {
     "select": "Seleccionar Idioma",

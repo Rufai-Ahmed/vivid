@@ -18,8 +18,7 @@ const Footer = () => {
               <img src={logo} alt="Vividstream Pro" className="h-20 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground">
-              Your trusted platform for ticket redemption, visa services, and
-              travel bookings.
+              {t("footer.tagline")}
             </p>
           </div>
           <div>
@@ -30,7 +29,7 @@ const Footer = () => {
                   to="/worldcup"
                   className="hover:text-primary transition-colors"
                 >
-                  World Cup
+                  {t("footer.worldCup")}
                 </Link>
               </li>
               <li>
@@ -38,7 +37,7 @@ const Footer = () => {
                   to="/visa-application"
                   className="hover:text-primary transition-colors"
                 >
-                  Visa Services
+                  {t("footer.visaServices")}
                 </Link>
               </li>
               <li>
@@ -46,7 +45,7 @@ const Footer = () => {
                   to="/hotels"
                   className="hover:text-primary transition-colors"
                 >
-                  Hotels
+                  {t("footer.hotels")}
                 </Link>
               </li>
               <li>
@@ -54,7 +53,7 @@ const Footer = () => {
                   to="/redeem-ticket"
                   className="hover:text-primary transition-colors"
                 >
-                  Redeem Ticket
+                  {t("footer.redeemTicket")}
                 </Link>
               </li>
             </ul>
@@ -67,7 +66,7 @@ const Footer = () => {
                   to="/about"
                   className="hover:text-primary transition-colors"
                 >
-                  About Us
+                  {t("footer.aboutUs")}
                 </Link>
               </li>
               <li>
@@ -75,12 +74,12 @@ const Footer = () => {
                   to="/about"
                   className="hover:text-primary transition-colors"
                 >
-                  Contact
+                  {t("footer.contactUs")}
                 </Link>
               </li>
               <li>
                 <a href="#" className="hover:text-primary transition-colors">
-                  Careers
+                  {t("footer.careers")}
                 </a>
               </li>
             </ul>
@@ -90,17 +89,17 @@ const Footer = () => {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <a href="#" className="hover:text-primary transition-colors">
-                  Privacy Policy
+                  {t("footer.privacyPolicy")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-primary transition-colors">
-                  Terms of Service
+                  {t("footer.termsOfService")}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-primary transition-colors">
-                  Cookie Policy
+                  {t("footer.cookiePolicy")}
                 </a>
               </li>
               <li>
@@ -116,7 +115,7 @@ const Footer = () => {
         </div>
         <div className="grid md:grid-cols-2 gap-8 mb-8">
           <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
+            <h4 className="font-semibold mb-4">{t("footer.contact")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <span className="block">
@@ -132,25 +131,25 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Follow Us</h4>
+            <h4 className="font-semibold mb-4">{t("footer.followUs")}</h4>
             <div className="flex gap-4">
               <a
                 href="#"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
-                Facebook
+                {t("footer.facebook")}
               </a>
               <a
                 href="#"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
-                Twitter
+                {t("footer.twitter")}
               </a>
               <a
                 href="#"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
-                Instagram
+                {t("footer.instagram")}
               </a>
             </div>
           </div>

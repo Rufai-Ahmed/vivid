@@ -1,16 +1,41 @@
-import { features } from "@/types/types";
+import { useTranslation } from "react-i18next";
+import { Ticket, Plane, Hotel, Trophy } from "lucide-react";
+
+const features = [
+  {
+    icon: Ticket,
+    titleKey: "features.ticketRedemption.title",
+    descKey: "features.ticketRedemption.description",
+  },
+  {
+    icon: Plane,
+    titleKey: "features.visaServices.title",
+    descKey: "features.visaServices.description",
+  },
+  {
+    icon: Hotel,
+    titleKey: "features.hotelBooking.title",
+    descKey: "features.hotelBooking.description",
+  },
+  {
+    icon: Trophy,
+    titleKey: "features.worldCupBetting.title",
+    descKey: "features.worldCupBetting.description",
+  },
+];
 
 const Features = () => {
+  const { t } = useTranslation();
+  
   return (
     <section className="py-16 px-4">
       <div className="container mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-3">
-            Everything You Need
+            {t("features.title")}
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            From ticket redemption to travel arrangements, we've got you covered
-            with our comprehensive suite of services.
+            {t("features.subtitle")}
           </p>
         </div>
 
@@ -24,9 +49,9 @@ const Features = () => {
               <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <feature.icon className="w-6 h-6 text-primary-foreground" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+              <h3 className="text-lg font-semibold mb-2">{t(feature.titleKey)}</h3>
               <p className="text-sm text-muted-foreground">
-                {feature.description}
+                {t(feature.descKey)}
               </p>
             </div>
           ))}

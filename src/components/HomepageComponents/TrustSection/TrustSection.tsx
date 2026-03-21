@@ -1,7 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { CreditCard, Globe, Shield } from 'lucide-react'
 
 
 const TrustSection = () => {
+  const { t } = useTranslation();
+  
   return (
       <section className="py-12 px-4 border-t border-border/50">
             <div className="container mx-auto">
@@ -11,10 +14,9 @@ const TrustSection = () => {
                     <Shield className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-2">Secure & Encrypted</h3>
+                    <h3 className="font-semibold mb-2">{t("trust.secureEncrypted")}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Your data is protected with enterprise-grade security and SSL
-                      encryption.
+                      {t("trust.secureEncryptedDesc")}
                     </p>
                   </div>
                 </div>
@@ -23,9 +25,9 @@ const TrustSection = () => {
                     <CreditCard className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-2">Multiple Payment Options</h3>
+                    <h3 className="font-semibold mb-2">{t("trust.multiplePayment")}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Pay with crypto (BTC, ETH, USDT) or traditional card payments.
+                      {t("trust.multiplePaymentDesc")}
                     </p>
                   </div>
                 </div>
@@ -34,10 +36,9 @@ const TrustSection = () => {
                     <Globe className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-2">Global Coverage</h3>
+                    <h3 className="font-semibold mb-2">{t("trust.globalCoverage")}</h3>
                     <p className="text-sm text-muted-foreground">
-                      Serving customers in over 120 countries with localized
-                      support.
+                      {t("trust.globalCoverageDesc")}
                     </p>
                   </div>
                 </div>

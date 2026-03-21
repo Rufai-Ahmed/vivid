@@ -65,7 +65,7 @@ const HeroPage = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6 animate-fade-in">
             <Trophy className="w-4 h-4 text-[gold]" />
             <span className="text-[12px] lg:text-[14px] font-medium text-primary">
-              FIFA World Cup 2026
+              {t("hero.fifaWorldCup")}
             </span>
             <span className="text-sm font-medium text-primary border-l border-primary/30 pl-2 min-w-[140px] text-left">
               {displayText}
@@ -77,17 +77,14 @@ const HeroPage = () => {
             className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in"
             style={{ animationDelay: "0.1s" }}
           >
-            Your Gateway to
-            <span className="text-gradient"> World Cup 2026</span>
+            {t("hero.fullTitle")}
           </h1>
 
           <p
             className="text-lg text-secondary-foreground mb-8 animate-fade-in"
             style={{ animationDelay: "0.2s" }}
           >
-            Redeem winning tickets, apply for visas, and book hotels — all in
-            one seamless platform. Experience the biggest sporting event with
-            Vividstream Pro.
+            {t("hero.subtitle")}
           </p>
 
           {/* Animated Flags Marquee with Images */}

@@ -211,6 +211,91 @@
     "twitter": "Twitter",
     "instagram": "Instagram"
   },
+  "stadium": {
+    "noTickets": "暂无门票",
+    "subtitle": "浏览座位",
+    "categories": {
+      "labels": {
+        "cat1": "一等票",
+        "cat2": "二等票",
+        "cat3": "三等票",
+        "cat4": "四等票"
+      },
+      "details": "总计"
+    },
+    "summary": {
+      "listings": "小计",
+      "total": "总计"
+    },
+    "checkout": {
+      "titles": {
+        "cart": "我的购物车",
+        "details": "个人信息",
+        "payment": "支付",
+        "confirmation": "预订成功"
+      },
+      "cart": {
+        "qtyLabel": "数量",
+        "serviceFee": "服务费 ({{percent}}%)"
+      },
+      "details": {
+        "personalInfo": "个人信息",
+        "firstNamePlaceholder": "您的名字",
+        "lastNamePlaceholder": "您的姓氏",
+        "emailPlaceholder": "your@email.com",
+        "phonePlaceholder": "+86 130 0000 0000",
+        "ticketInfo": "🎫 电子门票将以 PDF 格式发送到您的电子邮箱。请在入口处出示手机或打印件。"
+      },
+      "payment": {
+        "manualTransfer": "手动银行转账",
+        "transferInstruction": "请将确切的总金额转入以下账户以确保您的门票。",
+        "bankName": "银行名称",
+        "accountName": "账户姓名",
+        "accountNumber": "账号",
+        "notConfigured": "未配置",
+        "loadError": "无法加载银行信息。",
+        "totalToCharge": "应付总额",
+        "sentConfirmation": "我已转账 ₦{{amount}} →",
+        "copied": "已复制到剪贴板！"
+      },
+      "confirmation": {
+        "title": "预订成功！",
+        "subtitle": "预订确认已发送至 {{email}}",
+        "newUserMsg": "请查收邮件！我们已向您发送了设置密码的链接，您可以访问您的后台管理购买。",
+        "existingUserMsg": "门票已确认！我们已将门票发送至 {{email}}。您也可以在后台查看。",
+        "reference": "预订编号",
+        "totalPaid": "已付总额",
+        "passwordLabel": "输入密码以登录并继续",
+        "loginToContinue": "登录并继续",
+        "applyVisa": "申请签证",
+        "goToDashboard": "前往个人后台",
+        "ticket_one": "{{count}} 张票",
+        "ticket_other": "{{count}} 张票"
+      }
+    },
+    "badge": "FIFA 世界杯 2026",
+    "platform": "官方票务平台",
+    "matchInfo": "巴西 vs 阿根廷",
+    "matchDetails": "小组赛 · 2026年7月14日 · 20:00",
+    "listingsCount": "{{count}} 个列表",
+    "available": "{{count}} 张余票",
+    "viewLabel": "👁️ {{view}}",
+    "amazing": "极好",
+    "inCart": "已在购物车 ✓",
+    "addToCart": "加入购物车",
+    "buyerGuarantee": "🛡️ 100% 购票保障",
+    "checkoutButton": "结算",
+    "checkoutCount": "结算 ({{count}})",
+    "clear": "✕ 清除",
+    "listings": "列表",
+    "venue": "场馆",
+    "capacity": "容纳人数",
+    "guaranteedAuthenticShort": "🔒 保证正品",
+    "fromPrice": "₦{{price}} 起 · {{count}} 个列表",
+    "bestPrice": "最佳价格",
+    "bestDeal": "超值优惠",
+    "bestView": "极佳视野"
+  },
   "language": {
     "select": "选择语言",
     "english": "英语",

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { apiFetch, endpoints } from "@/config/api";
 import { toast } from "sonner";
 import {
@@ -46,15 +47,16 @@ const PRICE_LABELS = [
   { cat: 4 as CategoryId, x: 400, y: 44, price: "₦363+" },
 ];
 
-const TAG_STYLES: Record<string, { color: string; bg: string; emoji: string }> =
+const TAG_STYLES: Record<string, { color: string; bg: string; emoji: string; labelKey: string }> =
   {
     "Best Price": {
       color: "#4FC3F7",
       bg: "rgba(79,195,247,0.12)",
       emoji: "💰",
+      labelKey: "stadium.bestPrice",
     },
-    "Best Deal": { color: "#4ade80", bg: "rgba(74,222,128,0.12)", emoji: "🏷️" },
-    "Best View": { color: "#FFD700", bg: "rgba(255,215,0,0.12)", emoji: "👁️" },
+    "Best Deal": { color: "#4ade80", bg: "rgba(74,222,128,0.12)", emoji: "🏷️", labelKey: "stadium.bestDeal" },
+    "Best View": { color: "#FFD700", bg: "rgba(255,215,0,0.12)", emoji: "👁️", labelKey: "stadium.bestView" },
   };
 
 function CheckoutDrawer({
@@ -94,11 +96,12 @@ function CheckoutDrawer({
   onPay: () => void;
   onDone: () => void;
 }) {
+  const { t } = useTranslation();
   const titles: Partial<Record<CheckoutStep, string>> = {
-    cart: "Your Cart",
-    details: "Your Details",
-    payment: "Payment",
-    confirmation: "Booking Confirmed",
+    cart: t("stadium.checkout.titles.cart"),
+    details: t("stadium.checkout.titles.details"),
+    payment: t("stadium.checkout.titles.payment"),
+    confirmation: t("stadium.checkout.titles.confirmation"),
   };
 
   return (
@@ -133,7 +136,7 @@ function CheckoutDrawer({
           </div>
           {step !== "confirmation" && (
             <div className="bg-yellow-400/10 border border-yellow-400/30 rounded-lg px-3 py-1 text-xs text-yellow-400 font-bold">
-              ⚽ WC2026
+              ⚽ {t("stadium.badge")}
             </div>
           )}
         </div>
@@ -195,6 +198,7 @@ interface StadiumProps {
 
 const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   // We no longer require login to purchase a stadium ticket. The purchase *is* the guest signup.
 
   const [listings, setListings] = useState<StadiumTicketListing[]>([]);
@@ -335,10 +339,10 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
         }
       } else {
         const err = await res.json();
-        toast.error(err.message || "Checkout failed");
+        toast.error(err.message || t("stadium.checkout.loadError"));
       }
     } catch (error) {
-      toast.error("An error occurred during checkout");
+      toast.error(t("common.error"));
     } finally {
       setProcessing(false);
     }
@@ -367,20 +371,20 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
           </div>
           <div>
             <p className="font-black text-base tracking-widest text-yellow-400  leading-none">
-              FIFA World Cup 2026
+              {t("stadium.badge")}
             </p>
             <p className="text-[10px] text-gray-500 tracking-widest uppercase mt-0.5">
-              Official Ticket Platform
+              {t("stadium.platform")}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-4">
           <div className="text-right hidden sm:block">
             <p className="font-semibold text-sm text-secondary-foreground">
-              Brazil vs Argentina
+              {t("stadium.matchInfo")}
             </p>
             <p className="text-xs text-gray-500 mt-0.5">
-              Group Stage · Jul 14, 2026 · 20:00
+              {t("stadium.matchDetails")}
             </p>
           </div>
           {cartCount > 0 && (
@@ -390,7 +394,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
             >
               <span>🛒</span>
               <span className="text-sm font-bold text-yellow-400">
-                {cartCount} ticket{cartCount !== 1 ? "s" : ""}
+                {t("stadium.checkout.confirmation.ticketCount", { count: cartCount })}
               </span>
               <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-orange-500 rounded-full text-[9px] font-black text-white flex items-center justify-center">
                 {cartCount}
@@ -422,7 +426,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                   className="w-2 h-2 rounded-full text-secondary-foreground"
                   style={{ backgroundColor: cat.color }}
                 />
-                {cat.label}
+                {t(cat.labelKey)}
                 <span className="font-bold" style={{ color: cat.color }}>
                   ₦{cat.minPrice}+
                 </span>
@@ -433,7 +437,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                 onClick={() => setSelected(null)}
                 className="px-3 py-1.5 rounded-full text-xs text-gray-400 border border-[#374151] hover:bg-white/10 transition-all"
               >
-                ✕ Clear
+                {t("stadium.clear")}
               </button>
             )}
           </div>
@@ -587,7 +591,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                         fontFamily="sans-serif"
                         letterSpacing="2"
                       >
-                        {activeCatInfo.label.toUpperCase()}
+                        {t(activeCatInfo.labelKey).toUpperCase()}
                       </text>
                       <text
                         x="400"
@@ -597,7 +601,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                         fontSize="11"
                         fontFamily="sans-serif"
                       >
-                        From ₦{minP} · {ls.length} listings
+                        {t("stadium.fromPrice", { price: minP.toLocaleString(), count: ls.length })}
                       </text>
                     </g>
                   );
@@ -608,9 +612,9 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
           <div className="shrink-0 bg-white/[0.06] border border-[#1f2937] rounded-xl px-3 md:px-4 py-2.5 flex items-center justify-between">
             <div className="flex gap-6">
               {[
-                { label: "Listings", value: listings.length.toString() },
-                { label: "Venue", value: "MetLife Stadium" },
-                { label: "Capacity", value: "82,500" },
+                { label: t("stadium.listings"), value: listings.length.toString() },
+                { label: t("stadium.venue"), value: "MetLife Stadium" },
+                { label: t("stadium.capacity"), value: "82,500" },
               ].map((s) => (
                 <div key={s.label}>
                   <p className="text-[9px] text-gray-400 uppercase tracking-widest">
@@ -623,7 +627,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
               ))}
             </div>
             <p className="md:text-[11px] text-[9px] text-center text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 rounded-lg md:px-3 px-0 py-2 md:py-1.5">
-              🔒 Guaranteed authentic
+              {t("stadium.guaranteedAuthenticShort")}
             </p>
           </div>
         </div>
@@ -633,14 +637,14 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
           <div className="flex items-center justify-between px-4 py-3.5 border-b border-[#1f2937] shrink-0">
             <div className="flex items-center gap-2">
               <h3 className="font-black text-lg tracking-widest uppercase text-gray-200">
-                {filtered.length} Listings
+                {t("stadium.listingsCount", { count: filtered.length })}
               </h3>
               {activeCatInfo && (
                 <span
                   className="text-sm font-medium"
                   style={{ color: activeCatInfo.color }}
                 >
-                  · {activeCatInfo.label}
+                  · {t(activeCatInfo.labelKey)}
                 </span>
               )}
             </div>
@@ -652,7 +656,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                 −
               </button>
               <span className="px-2 text-xs font-semibold min-w-[78px] text-center text-gray-200">
-                {ticketCount} ticket{ticketCount !== 1 ? "s" : ""}
+                {t("stadium.checkout.confirmation.ticketCount", { count: ticketCount })}
               </span>
               <button
                 onClick={() => setTicketCount((n) => Math.min(10, n + 1))}
@@ -666,11 +670,11 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
           <div className="flex-1 overflow-y-auto px-3 py-2.5 flex flex-col gap-2">
             {loadingListings ? (
               <div className="flex items-center justify-center h-full text-gray-400">
-                Loading tickets...
+                {t("common.loading")}
               </div>
             ) : filtered.length === 0 ? (
               <div className="flex items-center justify-center h-full text-gray-400">
-                No tickets available
+                {t("stadium.noTickets")}
               </div>
             ) : (
               filtered.map((listing, i) => {
@@ -709,13 +713,13 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                                 borderColor: tagStyle.color + "55",
                               }}
                             >
-                              {tagStyle.emoji} {listing.tag}
+                              {tagStyle.emoji} {t(tagStyle.labelKey)}
                             </span>
                           )}
                         </div>
                         <div className="flex gap-3 text-[11px] text-gray-400 mb-1.5">
-                          <span>👥 {listing.ticketsAvailable} available</span>
-                          <span>👁️ {listing.view}</span>
+                          <span>👥 {t("stadium.available", { count: listing.ticketsAvailable })}</span>
+                          <span>{t("stadium.viewLabel", { view: listing.view })}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <span
@@ -726,7 +730,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                             className="text-[11px] font-medium"
                             style={{ color: cat.color }}
                           >
-                            {cat.label}
+                            {t(cat.labelKey)}
                           </span>
                         </div>
                       </div>
@@ -737,7 +741,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                           </p>
                           {ticketCount > 1 && (
                             <p className="text-[10px] text-gray-500">
-                              ₦{listing.price}/ticket
+                              ₦{listing.price}/{t("stadium.checkout.confirmation.ticket_one", { count: 1 })}
                             </p>
                           )}
                         </div>
@@ -746,7 +750,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                             {listing.rating}
                           </span>
                           <span className="text-[11px] font-semibold text-green-400">
-                            Amazing
+                            {t("stadium.amazing")}
                           </span>
                         </div>
                         {inCart ? (
@@ -754,7 +758,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                             onClick={openCheckout}
                             className="text-[11px] font-bold px-3.5 py-1.5 rounded-lg border border-yellow-400/50 text-yellow-400 bg-yellow-400/10 hover:bg-yellow-400/20 transition-all"
                           >
-                            In Cart ✓
+                            {t("stadium.inCart")}
                           </button>
                         ) : (
                           <button
@@ -765,7 +769,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                               boxShadow: `0 4px 12px ${cat.color}44`,
                             }}
                           >
-                            Add to Cart
+                            {t("stadium.addToCart")}
                           </button>
                         )}
                       </div>
@@ -778,10 +782,10 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
 
           <div className="md:px-3 px-2 py-2 md:py-3 border-t border-[#1f2937] flex items-center gap-2.5 shrink-0">
             <div className="flex-1 bg-white/[0.09] border border-[#1f2937] rounded-xl md:px-3 md:py-2 px-2 py-3 md:text-[11px] text-gray-400 text-[10px]">
-              🛡️ <span className="text-gray-300">100% buyer guarantee</span>
+              {t("stadium.buyerGuarantee")}
               {cartCount > 0 && (
                 <span className="text-yellow-400 ml-1 font-semibold">
-                  · {cartCount} in cart
+                  · {t("stadium.checkout.confirmation.ticketCount", { count: cartCount })} {t("stadium.inCart").replace(" ✓", "").toLowerCase()}
                 </span>
               )}
             </div>
@@ -798,7 +802,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                     : "none",
               }}
             >
-              {cartCount > 0 ? `CHECKOUT (${cartCount})` : "CHECKOUT"}
+              {cartCount > 0 ? t("stadium.checkoutCount", { count: cartCount }) : t("stadium.checkoutButton")}
             </button>
           </div>
         </div>

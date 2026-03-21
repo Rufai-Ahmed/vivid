@@ -211,6 +211,91 @@
     "twitter": "Twitter",
     "instagram": "Instagram"
   },
+  "stadium": {
+    "noTickets": "Aucun billet disponible",
+    "subtitle": "Parcourir les sièges",
+    "categories": {
+      "labels": {
+        "cat1": "Catégorie 1",
+        "cat2": "Catégorie 2",
+        "cat3": "Catégorie 3",
+        "cat4": "Catégorie 4"
+      },
+      "details": "Total"
+    },
+    "summary": {
+      "listings": "Sous-total",
+      "total": "Total"
+    },
+    "checkout": {
+      "titles": {
+        "cart": "Votre Panier",
+        "details": "Vos Détails",
+        "payment": "Paiement",
+        "confirmation": "Réservation Confirmée"
+      },
+      "cart": {
+        "qtyLabel": "Qté",
+        "serviceFee": "Frais de Service ({{percent}}%)"
+      },
+      "details": {
+        "personalInfo": "Informations Personnelles",
+        "firstNamePlaceholder": "Votre prénom",
+        "lastNamePlaceholder": "Votre nom",
+        "emailPlaceholder": "votre@email.com",
+        "phonePlaceholder": "+33 6 12 34 56 78",
+        "ticketInfo": "🎫 Les e-billets seront envoyés à votre adresse e-mail au format PDF. Présentez-les à l'entrée depuis votre téléphone ou imprimez-les."
+      },
+      "payment": {
+        "manualTransfer": "Virement Bancaire Manuel",
+        "transferInstruction": "Veuillez transférer le montant total exact sur le compte ci-dessous pour sécuriser vos billets.",
+        "bankName": "Nom de la Banque",
+        "accountName": "Nom du Compte",
+        "accountNumber": "Numéro de Compte",
+        "notConfigured": "Non configuré",
+        "loadError": "Échec du chargement des détails bancaires.",
+        "totalToCharge": "Total à facturer",
+        "sentConfirmation": "J'AI ENVOYÉ ₦{{amount}} →",
+        "copied": "Copié dans le presse-papiers !"
+      },
+      "confirmation": {
+        "title": "VOUS Y ÊTES !",
+        "subtitle": "Réservation confirmée pour {{email}}",
+        "newUserMsg": "Vérifiez vos e-mails ! Nous vous avons envoyé un lien pour définir votre mot de passe afin que vous puissiez accéder à votre tableau de bord.",
+        "existingUserMsg": "Billets confirmés ! Nous avons envoyé vos billets à {{email}}. Vous pouvez également les consulter dans votre tableau de bord.",
+        "reference": "Référence de Réservation",
+        "totalPaid": "Total Payé",
+        "passwordLabel": "Entrez le mot de passe pour vous connecter et continuer",
+        "loginToContinue": "SE CONNECTER POUR CONTINUER",
+        "applyVisa": "DEMANDER UN VISA",
+        "goToDashboard": "ALLER AU TABLEAU DE BORD",
+        "ticket_one": "{{count}} billet",
+        "ticket_other": "{{count}} billets"
+      }
+    },
+    "badge": "FIFA World Cup 2026",
+    "platform": "Plateforme Officielle de Billets",
+    "matchInfo": "Brésil vs Argentine",
+    "matchDetails": "Phase de Groupes · 14 juil. 2026 · 20:00",
+    "listingsCount": "{{count}} Listes",
+    "available": "{{count}} disponibles",
+    "viewLabel": "👁️ {{view}}",
+    "amazing": "Incroyable",
+    "inCart": "Dans le Panier ✓",
+    "addToCart": "Ajouter au Panier",
+    "buyerGuarantee": "🛡️ 100% garantie acheteur",
+    "checkoutButton": "PAYER",
+    "checkoutCount": "PAYER ({{count}})",
+    "clear": "✕ Effacer",
+    "listings": "Listes",
+    "venue": "Lieu",
+    "capacity": "Capacité",
+    "guaranteedAuthenticShort": "🔒 Garanti authentique",
+    "fromPrice": "À partir de ₦{{price}} · {{count}} listes",
+    "bestPrice": "Meilleur Prix",
+    "bestDeal": "Meilleure Offre",
+    "bestView": "Meilleure Vue"
+  },
   "language": {
     "select": "Sélectionner la Langue",
     "english": "Anglais",

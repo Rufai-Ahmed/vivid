@@ -392,6 +392,10 @@
         "payment": "Payment",
         "confirmation": "Booking Confirmed"
       },
+      "cart": {
+        "qtyLabel": "Qty",
+        "serviceFee": "Service Fee ({{percent}}%)"
+      },
       "details": {
         "personalInfo": "Personal Information",
         "firstNamePlaceholder": "John",

@@ -156,6 +156,10 @@
         "payment": "Pago",
         "confirmation": "Reserva Confirmada"
       },
+      "cart": {
+        "qtyLabel": "Cant.",
+        "serviceFee": "Tarifa de Servicio ({{percent}}%)"
+      },
       "details": {
         "personalInfo": "Información Personal",
         "firstNamePlaceholder": "Juan",

@@ -211,6 +211,91 @@
     "twitter": "Twitter",
     "instagram": "Instagram"
   },
+  "stadium": {
+    "noTickets": "Keine Tickets verfügbar",
+    "subtitle": "Sitzplätze durchsuchen",
+    "categories": {
+      "labels": {
+        "cat1": "Kategorie 1",
+        "cat2": "Kategorie 2",
+        "cat3": "Kategorie 3",
+        "cat4": "Kategorie 4"
+      },
+      "details": "Gesamt"
+    },
+    "summary": {
+      "listings": "Zwischensumme",
+      "total": "Gesamt"
+    },
+    "checkout": {
+      "titles": {
+        "cart": "Ihr Warenkorb",
+        "details": "Ihre Daten",
+        "payment": "Zahlung",
+        "confirmation": "Buchung Bestätigt"
+      },
+      "cart": {
+        "qtyLabel": "Menge",
+        "serviceFee": "Servicegebühr ({{percent}}%)"
+      },
+      "details": {
+        "personalInfo": "Persönliche Informationen",
+        "firstNamePlaceholder": "Ihr Vorname",
+        "lastNamePlaceholder": "Ihr Nachname",
+        "emailPlaceholder": "ihre@email.de",
+        "phonePlaceholder": "+49 123 4567890",
+        "ticketInfo": "🎫 E-Tickets werden als PDF an Ihre E-Mail-Adresse gesendet. Zeigen Sie diese am Eingang auf Ihrem Handy vor oder drucken Sie sie aus."
+      },
+      "payment": {
+        "manualTransfer": "Manuelle Banküberweisung",
+        "transferInstruction": "Bitte überweisen Sie den genauen Gesamtbetrag auf das unten stehende Konto, um Ihre Tickets zu sichern.",
+        "bankName": "Bankname",
+        "accountName": "Kontoinhaber",
+        "accountNumber": "Kontonummer",
+        "notConfigured": "Nicht konfiguriert",
+        "loadError": "Bankdaten konnten nicht geladen werden.",
+        "totalToCharge": "Gesamtbetrag",
+        "sentConfirmation": "ICH HABE ₦{{amount}} GESENDET →",
+        "copied": "In Zwischenablage kopiert!"
+      },
+      "confirmation": {
+        "title": "SIE SIND DABEI!",
+        "subtitle": "Buchung bestätigt für {{email}}",
+        "newUserMsg": "Überprüfen Sie Ihre E-Mails! Wir haben Ihnen einen Link zum Festlegen Ihres Passworts gesendet, damit Sie auf Ihr Dashboard zugreifen können.",
+        "existingUserMsg": "Tickets bestätigt! Wir haben Ihre Tickets an {{email}} gesendet. Sie können diese auch in Ihrem Dashboard einsehen.",
+        "reference": "Buchungsreferenz",
+        "totalPaid": "Gesamt Bezahlt",
+        "passwordLabel": "Passwort eingeben, um sich anzumelden & fortzufahren",
+        "loginToContinue": "ANMELDEN ZUM FORTFAHREN",
+        "applyVisa": "VISA BEANTRAGEN",
+        "goToDashboard": "ZUM DASHBOARD",
+        "ticket_one": "{{count}} Ticket",
+        "ticket_other": "{{count}} Tickets"
+      }
+    },
+    "badge": "FIFA World Cup 2026",
+    "platform": "Offizielle Ticket-Plattform",
+    "matchInfo": "Brasilien vs. Argentinien",
+    "matchDetails": "Gruppenphase · 14. Juli 2026 · 20:00",
+    "listingsCount": "{{count}} Angebote",
+    "available": "{{count}} verfügbar",
+    "viewLabel": "👁️ {{view}}",
+    "amazing": "Fantastisch",
+    "inCart": "Im Warenkorb ✓",
+    "addToCart": "In den Warenkorb",
+    "buyerGuarantee": "🛡️ 100% Käuferschutz",
+    "checkoutButton": "BEZAHLEN",
+    "checkoutCount": "BEZAHLEN ({{count}})",
+    "clear": "✕ Löschen",
+    "listings": "Angebote",
+    "venue": "Ort",
+    "capacity": "Kapazität",
+    "guaranteedAuthenticShort": "🔒 Garantiert authentisch",
+    "fromPrice": "Ab ₦{{price}} · {{count}} Angebote",
+    "bestPrice": "Bester Preis",
+    "bestDeal": "Bestes Angebot",
+    "bestView": "Beste Aussicht"
+  },
   "language": {
     "select": "Sprache Auswählen",
     "english": "Englisch",

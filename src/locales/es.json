@@ -29,6 +29,11 @@
     "cta": "Únete a Miles de Aficionados",
     "trust": "Confiado por Aficionados en Todo el Mundo"
   },
+  "stadium": {
+    "listings": "Listados",
+    "venue": "Lugar",
+    "capacity": "Capacidad"
+  },
   "stats": {
     "ticketsRedeemed": "Entradas Canjeadas",
     "countriesServed": "Países Atendidos",
@@ -203,7 +208,8 @@
       "fromPrice": "Desde ₦{{price}} · {{count}} listados",
       "bestPrice": "Mejor Precio",
       "bestDeal": "Mejor Oferta",
-      "bestView": "Mejor Vista"
+      "bestView": "Mejor Vista",
+      "clickToExpand": "Haz clic para expandir"
     }
   },
   "auth": {

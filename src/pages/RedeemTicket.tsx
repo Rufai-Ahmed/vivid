@@ -140,16 +140,7 @@ const RedeemTicket = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 h-16 border-b border-border bg-card/80 backdrop-blur-sm z-40 flex items-center justify-between px-4">
-        <Link
-          to="/dashboard"
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>{t("common.backToDashboard")}</span>
-        </Link>
-        <ThemeToggle />
-      </header>
+      <Navbar />
 
       <main className="pt-24 pb-16 px-4">
         <div className="container mx-auto max-w-lg">
@@ -237,7 +228,9 @@ const RedeemTicket = () => {
                 <div className="mt-8 pt-6 border-t border-border">
                   <h3 className="font-medium mb-4">{t("redeem.howToFind")}</h3>
                   <ul className="space-y-2 text-sm text-muted-foreground">
-                    {(t("redeem.steps", { returnObjects: true }) as string[]).map((step: string, index: number) => (
+                    {(
+                      t("redeem.steps", { returnObjects: true }) as string[]
+                    ).map((step: string, index: number) => (
                       <li key={index} className="flex items-start gap-2">
                         <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs flex-shrink-0">
                           {index + 1}

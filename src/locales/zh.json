@@ -29,6 +29,11 @@
     "cta": "加入成千上万的球迷",
     "trust": "受到全球球迷的信任"
   },
+  "stadium": {
+    "listings": "列表",
+    "venue": "场馆",
+    "capacity": "容量"
+  },
   "stats": {
     "ticketsRedeemed": "已兑换门票",
     "countriesServed": "服务国家",
@@ -294,7 +299,8 @@
     "fromPrice": "₦{{price}} 起 · {{count}} 个列表",
     "bestPrice": "最佳价格",
     "bestDeal": "超值优惠",
-    "bestView": "极佳视野"
+    "bestView": "极佳视野",
+    "clickToExpand": "点击展开"
   },
   "language": {
     "select": "选择语言",

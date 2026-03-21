@@ -30,6 +30,11 @@
     "cta": "Join Thousands of Fans",
     "trust": "Trusted by Fans Worldwide"
   },
+  "stadium": {
+    "listings": "Listings",
+    "venue": "Venue",
+    "capacity": "Capacity"
+  },
   "stats": {
     "ticketsRedeemed": "Tickets Redeemed",
     "countriesServed": "Countries Served",
@@ -452,6 +457,7 @@
       "bestPrice": "Best Price",
       "bestDeal": "Best Deal",
       "bestView": "Best View",
+      "clickToExpand": "Click to expand",
       "steps": {
         "cart": "Cart",
         "details": "Details",

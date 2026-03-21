@@ -29,6 +29,11 @@
     "cta": "Schließen Sie Sich Tausenden von Fans an",
     "trust": "Von Fans Weltweit Vertraut"
   },
+  "stadium": {
+    "listings": "Angebote",
+    "venue": "Veranstaltungsort",
+    "capacity": "Kapazität"
+  },
   "stats": {
     "ticketsRedeemed": "Tickets Eingelöst",
     "countriesServed": "Bediente Länder",
@@ -294,7 +299,8 @@
     "fromPrice": "Ab ₦{{price}} · {{count}} Angebote",
     "bestPrice": "Bester Preis",
     "bestDeal": "Bestes Angebot",
-    "bestView": "Beste Aussicht"
+    "bestView": "Beste Aussicht",
+    "clickToExpand": "Zum Vergrößern klicken"
   },
   "language": {
     "select": "Sprache Auswählen",

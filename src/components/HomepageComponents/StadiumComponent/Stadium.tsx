@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { apiFetch, endpoints } from "@/config/api";
 import { toast } from "sonner";
+import { X, Maximize2 } from "lucide-react";
 import {
   CategoryId,
   CheckoutStep,
@@ -213,6 +214,18 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
   const [checkoutStep, setCheckoutStep] = useState<CheckoutStep>("cart");
   const [processing, setProcessing] = useState(false);
   const [isNewUser, setIsNewUser] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false);
+
+  useEffect(() => {
+    if (isMaximized) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isMaximized]);
 
   const [buyer, setBuyer] = useState<BuyerDetails>({
     firstName: "",
@@ -362,9 +375,15 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
   };
 
   return (
-    <div className="text-white overflow-hidden font-sans relative flex-1 bg-[#0a0c10]">
+    <div
+      className={`text-white overflow-hidden font-sans relative flex-1 bg-[#0a0c10] transition-all duration-500 ease-in-out ${
+        isMaximized
+          ? "fixed inset-0 z-[100] h-screen w-screen animate-in fade-in zoom-in duration-300"
+          : "relative h-[680px] md:h-[580px] rounded-3xl border border-[#1f2937]"
+      }`}
+    >
       {/* ── Banner ───────────────────────── */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-[#1f2937]">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-[#1f2937] bg-[#0a0c10]/80 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-base shadow-lg shadow-yellow-400/20">
             ⚽
@@ -387,25 +406,51 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
               {t("stadium.matchDetails")}
             </p>
           </div>
-          {cartCount > 0 && (
+          <div className="flex items-center gap-2">
+            {cartCount > 0 && (
+              <button
+                onClick={openCheckout}
+                className="relative flex items-center gap-2 px-4 py-2 rounded-xl border border-yellow-400/40 bg-yellow-400/10 hover:bg-yellow-400/20 transition-all"
+              >
+                <span>🛒</span>
+                <span className="text-sm font-bold text-yellow-400">
+                  {t("stadium.checkout.confirmation.ticketCount", { count: cartCount })}
+                </span>
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-orange-500 rounded-full text-[9px] font-black text-white flex items-center justify-center">
+                  {cartCount}
+                </span>
+              </button>
+            )}
             <button
-              onClick={openCheckout}
-              className="relative flex items-center gap-2 px-4 py-2 rounded-xl border border-yellow-400/40 bg-yellow-400/10 hover:bg-yellow-400/20 transition-all"
+              onClick={() => setIsMaximized(!isMaximized)}
+              className="p-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-gray-400 hover:text-white"
+              title={isMaximized ? "Minimize" : "Full Screen"}
             >
-              <span>🛒</span>
-              <span className="text-sm font-bold text-yellow-400">
-                {t("stadium.checkout.confirmation.ticketCount", { count: cartCount })}
-              </span>
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-orange-500 rounded-full text-[9px] font-black text-white flex items-center justify-center">
-                {cartCount}
-              </span>
+              {isMaximized ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Maximize2 className="w-5 h-5" />
+              )}
             </button>
-          )}
+          </div>
         </div>
       </div>
 
       {/* ── Body ─────────────────────────── */}
-      <div className="flex flex-col md:flex-row h-[680px] md:h-[580px]">
+      <div
+        className={`flex flex-col md:flex-row transition-all duration-500 group relative ${
+          isMaximized ? "h-[calc(100vh-73px)]" : "h-[680px] md:h-[580px] cursor-pointer"
+        }`}
+        onClick={() => !isMaximized && setIsMaximized(true)}
+      >
+        {!isMaximized && (
+          <div className="absolute inset-0 z-10 bg-black/0 group-hover:bg-black/10 transition-all flex items-center justify-center pointer-events-none">
+            <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2">
+              <Maximize2 className="w-4 h-4" />
+              {t("stadium.clickToExpand")}
+            </div>
+          </div>
+        )}
         {/* Left */}
         <div className="flex flex-col flex-[0_0_56%] px-5 py-4 gap-3 border-r border-[#1f2937] overflow-hidden">
           <div className="flex flex-wrap gap-2">

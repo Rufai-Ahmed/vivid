@@ -19,12 +19,17 @@ const AdminAuth = () => {
   const [adminCode, setAdminCode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { login, signup, isAuthenticated, user } = useAuth();
+  const { login, signup, isAuthenticated, user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { theme } = useTheme();
   const { toast } = useToast();
 
   const logo = theme === "dark" ? logoDark : logoLight;
+
+  // Wait for auth to load before checking
+  if (authLoading) {
+    return null;
+  }
 
   // Redirect if already authenticated as admin
   if (isAuthenticated && user?.isAdmin) {

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState, useCallback } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
@@ -42,6 +43,85 @@ import { endpoints, apiFetch } from "@/config/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookingFormModal } from "@/components/hotels/BookingFormModal";
 import { MyBookingsTab } from "@/components/hotels/MyBookingsTab";
+
+// Hotel Image Carousel Component with auto-sliding
+const HotelImageCarousel = ({ hotel }: { hotel: any }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!hotel.images || hotel.images.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % hotel.images.length);
+    }, 3000); // Auto-slide every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [hotel.images]);
+
+  const goToPrevious = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev - 1 + hotel.images.length) % hotel.images.length);
+  };
+
+  const goToNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev + 1) % hotel.images.length);
+  };
+
+  if (!hotel.images || hotel.images.length === 0) {
+    return (
+      <div className="relative h-48 overflow-hidden bg-gray-200 flex items-center justify-center">
+        <span className="text-gray-400">No Image</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative h-48 overflow-hidden group">
+      <img
+        src={hotel.images[currentIndex]}
+        alt={hotel.name}
+        className="w-full h-full object-cover transition-opacity duration-500"
+      />
+      
+      {/* Navigation Arrows */}
+      {hotel.images.length > 1 && (
+        <>
+          <button
+            onClick={goToPrevious}
+            className="absolute left-1 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            onClick={goToNext}
+            className="absolute right-1 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+
+          {/* Dots Indicator */}
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            {hotel.images.map((_: any, idx: number) => (
+              <div
+                key={idx}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  idx === currentIndex ? "bg-white" : "bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {hotel.featured && (
+        <div className="absolute top-3 left-3 px-2 py-1 rounded-full bg-primary text-primary-foreground text-xs font-medium">
+          Featured
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Hotels = () => {
   const { t } = useTranslation();
@@ -317,36 +397,7 @@ const Hotels = () => {
                     className="group rounded-2xl border border-border bg-card overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                   >
                     {/* Image Carousel */}
-                    <div className="relative h-48 overflow-hidden">
-                      {hotel.images && hotel.images.length > 0 ? (
-                        <>
-                          <img
-                            src={hotel.images[0]}
-                            alt={hotel.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                          {hotel.images.length > 1 && (
-                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-                              {hotel.images.map((_, idx) => (
-                                <div
-                                  key={idx}
-                                  className="w-2 h-2 rounded-full bg-white/70"
-                                />
-                              ))}
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                          <span className="text-gray-400">No Image</span>
-                        </div>
-                      )}
-                      {hotel.featured && (
-                        <div className="absolute top-3 left-3 px-2 py-1 rounded-full bg-primary text-primary-foreground text-xs font-medium">
-                          Featured
-                        </div>
-                      )}
-                    </div>
+                    <HotelImageCarousel hotel={hotel} />
 
                     {/* Content */}
                     <div className="p-4">

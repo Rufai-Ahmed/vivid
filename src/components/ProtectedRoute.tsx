@@ -27,15 +27,17 @@ export default function ProtectedRoute({
     return <Navigate to="/dashboard" replace />;
   }
 
-  // Global Access Restriction: Users without tickets cannot access dashboard
-  if (user && user.role === "user" && !user.hasTicket) {
-    toast.error("Ticket Required", {
-      description:
-        "You must purchase a stadium ticket first to access your account.",
-      duration: 4000,
-    });
-    return <Navigate to="/" replace />;
-  }
+  // NOTE: Ticket requirement for dashboard access has been removed
+  // Users can now access their account without having a ticket
+  // if (user && user.role === "user" && !user.hasTicket) {
+  //   toast.error("Ticket Required", {
+  //     description:
+  //       "You must purchase a stadium ticket first to access your account.",
+  //     duration: 4000,
+  //   });
+  //   return <Navigate to="/" replace />;
+  // }
 
   return <>{children}</>;
 }
+

@@ -118,7 +118,7 @@ function CheckoutDrawer({
         onClick={onClose}
       />
       <div
-        className="absolute right-0 top-0 bottom-0 z-50 w-[420px] border-l border-[#1f2937] flex flex-col transition-transform duration-300 ease-out"
+        className="fixed right-0 top-0 bottom-0 z-50 w-[420px] max-w-[100vw] border-l border-[#1f2937] flex flex-col transition-transform duration-300 ease-out overflow-x-hidden"
         style={{
           transform: open ? "translateX(0)" : "translateX(100%)",
           background: "#0f172a",

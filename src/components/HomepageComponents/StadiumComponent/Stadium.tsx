@@ -378,7 +378,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
     <div
       className={`text-white overflow-hidden font-sans relative flex-1 bg-[#0a0c10] transition-all duration-500 ease-in-out ${
         isMaximized
-          ? "fixed inset-0 z-[100] h-screen w-screen animate-in fade-in zoom-in duration-300"
+          ? "fixed inset-0 z-[9999] h-screen w-screen animate-in top-0 left-0 right-0 bottom-0 fade-in zoom-in duration-300"
           : "relative h-[680px] md:h-[580px] rounded-3xl border border-[#1f2937]"
       }`}
     >

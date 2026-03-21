@@ -1,0 +1,162 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "about": "Über Uns",
+    "redeemTicket": "Ticket Einlösen",
+    "visaServices": "Visa-Dienstleistungen",
+    "hotels": "Hotels",
+    "worldCup": "Weltmeister",
+    "dashboard": "Dashboard",
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "getStarted": "Loslegen",
+    "logout": "Abmelden"
+  },
+  "hero": {
+    "title": "Ihr Tor zur Weltmeister 2026",
+    "subtitle": "Lösen Sie Gewinnertickets ein, beantragen Sie Visa und buchen Sie Hotels – alles auf einer nahtlosen Plattform. Erleben Sie das größte Sportereignis mit Vividstream Pro.",
+    "getStarted": "Loslegen",
+    "redeemTicket": "Ticket Einlösen",
+    "exploreWorldCup": "Weltmeister Erkunden"
+  },
+  "home": {
+    "stadium": "Stadien-Tickets",
+    "worldCupShowcase": "Weltmeister-Länder",
+    "features": "Funktionen",
+    "stats": "Statistiken",
+    "cta": "Schließen Sie Sich Tausenden von Fans an",
+    "trust": "Von Fans Weltweit Vertraut"
+  },
+  "about": {
+    "title": "Über Vividstream Pro",
+    "subtitle": "Wir sind die führende Plattform für FIFA Weltmeister 2026 Ticketverwaltung, Visa-Anträge und Reiseunterkünfte.",
+    "stats": {
+      "ticketsProcessed": "Tickets Verarbeitet",
+      "countriesServed": "Bediente Länder",
+      "hotelsBooked": "Gebuchte Hotels",
+      "uptime": "Verfügbarkeit"
+    },
+    "mission": {
+      "title": "Unsere Mission",
+      "description": "Fans weltweit nahtlosen Zugang zu FIFA Weltmeister 2026 Erlebnissen durch innovative Technologie, sichere Transaktionen und außergewöhnlichen Kundenservice zu bieten."
+    },
+    "vision": {
+      "title": "Unsere Vision",
+      "description": "Der globale Marktführer für Sportveranstaltungs-Management-Plattformen zu werden, Fans mit ihren Traum-Weltmeister-Erlebnissen zu verbinden und neue Standards für Zuverlässigkeit und Bequemlichkeit in der Branche zu setzen."
+    },
+    "services": {
+      "title": "Was Wir Tun",
+      "ticketManagement": {
+        "title": "Ticketverwaltung",
+        "description": "Sicherer Ticketkauf, Einlösung und Verwaltung über unsere optimierte digitale Plattform. Verifizierte Tickets garantiert."
+      },
+      "visaApplication": {
+        "title": "Visa-Antrag",
+        "description": "Vereinfachter Visa-Antragsprozess mit Expertenberatung. Wir helfen Ihnen bei den Dokumentationsanforderungen für ein problemloses Erlebnis."
+      },
+      "hotelBooking": {
+        "title": "Hotelbuchung",
+        "description": "Zugang zu exklusiven Hotelangeboten in der Nähe von Stadien und Fan-Zonen. Von Luxussuiten bis zu budgetfreundlichen Optionen."
+      },
+      "securePayments": {
+        "title": "Sichere Zahlungen",
+        "description": "Multiple Zahlungsoptionen einschließlich Kreditkarten und Kryptowährung. Ihre Transaktionen sind mit Banksicherheit geschützt."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Rund-um-die-Uhr Kundensupport in mehreren Sprachen. Unser Team ist hier, um Sie bei jedem Schritt Ihrer Reise zu unterstützen."
+      },
+      "verified": {
+        "title": "Verifiziertes Erlebnis",
+        "description": "Jedes Ticket und jede Buchung wird über offizielle Kanäle verifiziert. Garantiert authentische Erlebnisse für alle Kunden."
+      }
+    },
+    "whyChooseUs": {
+      "title": "Warum Vividstream Pro Wählen?",
+      "items": [
+        "Offizieller FIFA Weltmeister 2026 Partner",
+        "Sichere und verifizierte Tickettransaktionen",
+        "Wettbewerbsfähige Preise mit Preisgarantie",
+        "Einfacher Einlösungsprozess",
+        "Dediziertes Kundenerfolgsteam",
+        "Multiple Zahlungsoptionen"
+      ],
+      "customerRating": "Kundenbewertung",
+      "reviews": "Bewertungen",
+      "sslSecured": "SSL Gesichert",
+      "encryption": "256-Bit-Verschlüsselung für alle Transaktionen",
+      "happyCustomers": "Zufriedene Kunden",
+      "worldwide": "Weltweite Fan-Basis"
+    },
+    "contact": {
+      "title": "Kontaktieren Sie Uns",
+      "subtitle": "Haben Sie Fragen? Wir würden uns freuen, von Ihnen zu hören.",
+      "visitUs": "Besuchen Sie Uns",
+      "emailUs": "Emailen Sie Uns",
+      "callUs": "Rufen Sie Uns An",
+      "hours": "Mo-Fr, 9-18 Uhr EST"
+    },
+    "cta": {
+      "title": "Bereit für Weltmeister 2026?",
+      "subtitle": "Schließen Sie sich Tausenden von Fans an, die bereits ihre Plätze für das größte Sportereignis der Welt gesichert haben."
+    }
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmPassword": "Passwort Bestätigen",
+    "name": "Vollständiger Name",
+    "forgotPassword": "Passwort Vergessen?",
+    "noAccount": "Noch kein Konto?",
+    "hasAccount": "Bereits ein Konto?",
+    "createAccount": "Konto Erstellen",
+    "resetPassword": "Passwort Zurücksetzen",
+    "sendResetLink": "Zurücksetzungslink Senden",
+    "backToLogin": "Zurück zur Anmeldung"
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "submit": "Absenden",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Ansehen",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "continue": "Fortfahren",
+    "confirm": "Bestätigen",
+    "yes": "Ja",
+    "no": "Nein",
+    "or": "oder",
+    "learnMore": "Mehr Erfahren"
+  },
+  "footer": {
+    "services": "Dienstleistungen",
+    "company": "Unternehmen",
+    "legal": "Rechtliches",
+    "contact": "Kontakt",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "termsOfService": "Nutzungsbedingungen",
+    "cookiePolicy": "Cookie-Richtlinie",
+    "adminPortal": "Admin-Portal",
+    "careers": "Karriere",
+    "allRightsReserved": "Alle Rechte vorbehalten."
+  },
+  "language": {
+    "select": "Sprache Auswählen",
+    "english": "Englisch",
+    "spanish": "Spanisch",
+    "french": "Französisch",
+    "german": "Deutsch",
+    "chinese": "Chinesisch"
+  }
+}

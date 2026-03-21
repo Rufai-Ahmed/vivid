@@ -1,17 +1,23 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTranslation } from "react-i18next";
 import vividstreamLogoDark from "@/assets/vividstream-logo-dark-mode.png";
 import { Lock, Eye, EyeOff, ArrowRight, User, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Signup = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { signup, isAuthenticated } = useAuth();
+
+  // Get the redirect path from state, default to dashboard
+  const from = (location.state as { from?: string })?.from || "/dashboard";
   const logo = vividstreamLogoDark;
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +44,7 @@ const Signup = () => {
 
   // Redirect if already authenticated
   if (isAuthenticated) {
-    navigate("/dashboard");
+    navigate(from, { replace: true });
     return null;
   }
 
@@ -46,16 +52,16 @@ const Signup = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error("🔒 Password mismatch", {
-        description: "Please make sure both passwords match",
+      toast.error("🔒 " + t("signup.toast.passwordMismatch"), {
+        description: t("signup.errors.passwordMismatch"),
         duration: 4000,
       });
       return;
     }
 
     if (formData.password.length < 6) {
-      toast.error("🔐 Password too short", {
-        description: "Password must be at least 6 characters long",
+      toast.error("🔐 " + t("signup.errors.passwordMin"), {
+        description: t("signup.errors.passwordMin"),
         duration: 4000,
       });
       return;
@@ -75,7 +81,7 @@ const Signup = () => {
             "Welcome to Vividstream Pro! Redirecting to dashboard...",
           duration: 3000,
         });
-        navigate("/dashboard");
+        navigate(from, { replace: true });
       } else {
         // Enhanced error messages with icons and better descriptions
         const errorMessage = result.error || "Signup failed";
@@ -96,20 +102,20 @@ const Signup = () => {
             duration: 4000,
           });
         } else if (errorMessage.includes("Network")) {
-          toast.error("🌐 Connection error", {
-            description: "Please check your internet connection",
+          toast.error("🌐 " + t("login.toast.connectionError"), {
+            description: t("login.toast.checkConnection"),
             duration: 4000,
           });
         } else {
-          toast.error("⚠️ Registration failed", {
+          toast.error("⚠️ " + t("signup.toast.registrationFailed"), {
             description: errorMessage,
             duration: 4000,
           });
         }
       }
     } catch (error) {
-      toast.error("🚨 Unexpected error", {
-        description: "Something went wrong. Please try again later",
+      toast.error("🚨 " + t("login.toast.unexpectedError"), {
+        description: t("login.toast.somethingWrong"),
         duration: 4000,
       });
     } finally {
@@ -131,12 +137,9 @@ const Signup = () => {
             </div>
           </Link>
           <h2 className="text-3xl font-bold text-primary-foreground mb-2">
-            Start Your Journey Today
+            {t("signup.startJourney")}
           </h2>
-          <p className="text-primary">
-            Join thousands of users who trust Vividstream Pro for their event
-            ticketing and travel needs.
-          </p>
+          <p className="text-primary">{t("signup.joinUsers")}</p>
         </div>
       </div>
 
@@ -148,35 +151,128 @@ const Signup = () => {
 
         <div className="mx-auto w-full max-w-lg ">
           <div className="mb-8 mt-40 lg:mt-16">
-            <h1 className="text-3xl font-bold mb-2">Get Your Ticket</h1>
+            <h1 className="text-3xl font-bold mb-2">{t("signup.getTicket")}</h1>
             <p className="text-muted-foreground">
-              Access to Vividstream Pro requires a stadium ticket. Once you
-              purchase a ticket, your account will be automatically set up for
-              you.
+              {t("signup.ticketRequired")}
             </p>
           </div>
 
-          <div className="space-y-5">
-            <div className="p-6 bg-secondary/50 border border-border rounded-xl">
-              <h3 className="font-semibold mb-2 text-lg">Ticket Required</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Vividstream Pro is an exclusive platform for ticket holders.
-                Purchasing a stadium ticket grants you full access to dashboard
-                services including visa applications, hotel bookings, and other
-                premium tools.
-              </p>
-              <Button
-                type="button"
-                variant="gradient"
-                size="lg"
-                className="w-full"
-                onClick={() => navigate("/")}
-              >
-                Browse Stadium Tickets
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2">
+              <Label htmlFor="name">{t("signup.name")}</Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder={t("signup.namePlaceholder")}
+                  value={formData.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  className="pl-10"
+                  required
+                />
+              </div>
+              {errors.name && (
+                <p className="text-sm text-destructive">{errors.name}</p>
+              )}
             </div>
-          </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">{t("signup.email")}</Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder={t("signup.emailPlaceholder")}
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  className="pl-10"
+                  required
+                />
+              </div>
+              {errors.email && (
+                <p className="text-sm text-destructive">{errors.email}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">{t("signup.password")}</Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder={t("signup.passwordPlaceholder")}
+                  value={formData.password}
+                  onChange={(e) =>
+                    handleInputChange("password", e.target.value)
+                  }
+                  className="pl-10 pr-10"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-sm text-destructive">{errors.password}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">
+                {t("signup.confirmPassword")}
+              </Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  id="confirmPassword"
+                  type={showPassword ? "text" : "password"}
+                  placeholder={t("signup.confirmPasswordPlaceholder")}
+                  value={formData.confirmPassword}
+                  onChange={(e) =>
+                    handleInputChange("confirmPassword", e.target.value)
+                  }
+                  className="pl-10"
+                  required
+                />
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-sm text-destructive">
+                  {errors.confirmPassword}
+                </p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              variant="gradient"
+              size="lg"
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span className="animate-spin mr-2">⏳</span>
+                  {t("signup.creating")}
+                </>
+              ) : (
+                <>
+                  {t("signup.submit")}
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </>
+              )}
+            </Button>
+          </form>
 
           <p className="mt-8 text-center text-sm text-muted-foreground">
             Already have an account?{" "}

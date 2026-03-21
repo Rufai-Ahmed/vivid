@@ -1,0 +1,332 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "redeemTicket": "Redeem Ticket",
+    "visaServices": "Visa Services",
+    "hotels": "Hotels",
+    "worldCup": "World Cup",
+    "dashboard": "Dashboard",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "getStarted": "Get Started",
+    "logout": "Logout"
+  },
+  "hero": {
+    "title": "Your Gateway to World Cup 2026",
+    "subtitle": "Redeem winning tickets, apply for visas, and book hotels — all in one seamless platform. Experience the biggest sporting event with Vividstream Pro.",
+    "getStarted": "Get Started",
+    "redeemTicket": "Redeem Ticket",
+    "exploreWorldCup": "Explore World Cup"
+  },
+  "home": {
+    "stadium": "Stadium Tickets",
+    "worldCupShowcase": "World Cup Countries",
+    "features": "Features",
+    "stats": "Statistics",
+    "cta": "Join Thousands of Fans",
+    "trust": "Trusted by Fans Worldwide"
+  },
+  "about": {
+    "title": "About Vividstream Pro",
+    "subtitle": "We are the premier platform for FIFA World Cup 2026 ticket management, visa applications, and travel accommodations.",
+    "stats": {
+      "ticketsProcessed": "Tickets Processed",
+      "countriesServed": "Countries Served",
+      "hotelsBooked": "Hotels Booked",
+      "uptime": "Uptime"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "To provide football fans worldwide with seamless access to FIFA World Cup 2026 experiences through innovative technology, secure transactions, and exceptional customer service."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "To become the global leader in sports event management platforms, connecting fans with their dream World Cup experiences while setting new standards for reliability and convenience in the industry."
+    },
+    "services": {
+      "title": "What We Do",
+      "ticketManagement": {
+        "title": "Ticket Management",
+        "description": "Secure ticket purchase, redemption, and management through our streamlined digital platform. Verified tickets guaranteed."
+      },
+      "visaApplication": {
+        "title": "Visa Application",
+        "description": "Simplified visa application process with expert guidance. We help navigate the documentation requirements for a hassle-free experience."
+      },
+      "hotelBooking": {
+        "title": "Hotel Booking",
+        "description": "Access to exclusive hotel deals near stadiums and fan zones. From luxury suites to budget-friendly options."
+      },
+      "securePayments": {
+        "title": "Secure Payments",
+        "description": "Multiple payment options including credit cards and cryptocurrency. Your transactions are protected with bank-level security."
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Round-the-clock customer support in multiple languages. Our team is here to assist you at every step of your journey."
+      },
+      "verified": {
+        "title": "Verified Experience",
+        "description": "Every ticket and booking is verified through official channels. Guaranteed authentic experiences for all customers."
+      }
+    },
+    "whyChooseUs": {
+      "title": "Why Choose Vividstream Pro?",
+      "items": [
+        "Official FIFA World Cup 2026 partner",
+        "Secure and verified ticket transactions",
+        "Competitive pricing with price match guarantee",
+        "Easy redemption process",
+        "Dedicated customer success team",
+        "Multiple payment options"
+      ],
+      "customerRating": "Customer Rating",
+      "reviews": "reviews",
+      "sslSecured": "SSL Secured",
+      "encryption": "256-bit encryption for all transactions",
+      "happyCustomers": "Happy Customers",
+      "worldwide": "Worldwide fan base"
+    },
+    "contact": {
+      "title": "Get In Touch",
+      "subtitle": "Have questions? We'd love to hear from you.",
+      "visitUs": "Visit Us",
+      "emailUs": "Email Us",
+      "callUs": "Call Us",
+      "hours": "Mon-Fri, 9am-6pm EST"
+    },
+    "cta": {
+      "title": "Ready for World Cup 2026?",
+      "subtitle": "Join thousands of fans who have already secured their spots for the biggest sporting event in the world."
+    }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Full Name",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "createAccount": "Create Account",
+    "resetPassword": "Reset Password",
+    "sendResetLink": "Send Reset Link",
+    "backToLogin": "Back to Login"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "continue": "Continue",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "learnMore": "Learn More",
+    "fillRequired": "Please fill in all required fields",
+    "checkFields": "Check the highlighted fields"
+  },
+  "footer": {
+    "services": "Services",
+    "company": "Company",
+    "legal": "Legal",
+    "contact": "Contact",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "cookiePolicy": "Cookie Policy",
+    "adminPortal": "Admin Portal",
+    "careers": "Careers",
+    "allRightsReserved": "All rights reserved."
+  },
+  "language": {
+    "select": "Select Language",
+    "english": "English",
+    "spanish": "Spanish",
+    "french": "French",
+    "german": "German",
+    "chinese": "Chinese"
+  },
+  "login": {
+    "title": "Welcome back",
+    "subtitle": "Sign in to access your dashboard and manage your tickets.",
+    "backToHome": "Back to Home",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "errors": {
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "incorrectPassword": "Incorrect password",
+      "noAccountFound": "No account found with this email"
+    },
+    "toast": {
+      "welcomeBack": "Welcome back! Redirecting to dashboard...",
+      "loginSuccess": "Login successful",
+      "invalidCredentials": "Invalid credentials",
+      "invalidCredentialsDesc": "The email or password you entered is incorrect",
+      "accountNotFound": "Account not found",
+      "noAccountExists": "No account exists with this email address",
+      "ticketRequired": "Ticket Required",
+      "ticketRequiredDesc": "You must purchase a stadium ticket to access your dashboard.",
+      "getTicket": "Get Ticket",
+      "connectionError": "Connection error",
+      "checkConnection": "Please check your internet connection",
+      "loginFailed": "Login failed",
+      "unexpectedError": "Unexpected error",
+      "somethingWrong": "Something went wrong. Please try again later"
+    }
+  },
+  "signup": {
+    "title": "Create an account",
+    "subtitle": "Join thousands of fans for World Cup 2026.",
+    "backToHome": "Back to Home",
+    "namePlaceholder": "Enter your full name",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Create a password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "signupButton": "Create Account",
+    "terms": "I agree to the Terms of Service and Privacy Policy",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "startJourney": "Start Your Journey Today",
+    "joinUsers": "Join thousands of users who trust Vividstream Pro for their event ticketing and travel needs.",
+    "getTicket": "Get Your Ticket",
+    "ticketRequired": "Access to Vividstream Pro requires a stadium ticket. Once you purchase a ticket, your account will be automatically set up for you.",
+    "errors": {
+      "nameRequired": "Full name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match",
+      "termsRequired": "You must agree to the terms"
+    },
+    "toast": {
+      "accountCreated": "Account created successfully! Redirecting...",
+      "emailExists": "An account with this email already exists"
+    }
+  },
+  "forgotPassword": {
+    "title": "Forgot password?",
+    "subtitle": "Enter your email and we'll send you a reset link.",
+    "backToLogin": "Back to Login",
+    "emailPlaceholder": "Enter your email",
+    "resetButton": "Send Reset Link",
+    "rememberPassword": "Remember your password?",
+    "signIn": "Sign in",
+    "toast": {
+      "success": "Password reset link sent to your email!",
+      "error": "Failed to send reset link. Please try again."
+    }
+  },
+  "setPassword": {
+    "title": "Set new password",
+    "subtitle": "Create a new password for your account.",
+    "passwordPlaceholder": "Enter new password",
+    "confirmPasswordPlaceholder": "Confirm new password",
+    "setButton": "Set New Password",
+    "toast": {
+      "passwordSet": "Password set successfully! Redirecting...",
+      "passwordMismatch": "Passwords do not match"
+    }
+  },
+  "hotels": {
+    "title": "Find Your Perfect Stay",
+    "subtitle": "Book hotels near stadiums and fan zones for World Cup 2026",
+    "searchPlaceholder": "Search by city or hotel name...",
+    "filters": {
+      "priceRange": "Price Range",
+      "starRating": "Star Rating",
+      "amenities": "Amenities"
+    },
+    "sort": {
+      "recommended": "Recommended",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low",
+      "rating": "Highest Rated"
+    },
+    "book": "Book Now",
+    "perNight": "per night",
+    "available": "Available",
+    "noResults": "No hotels found matching your criteria",
+    "viewDetails": "View Details"
+  },
+  "visa": {
+    "title": "Visa Application",
+    "subtitle": "Apply for your World Cup 2026 visa with expert guidance",
+    "steps": {
+      "personal": "Personal Info",
+      "passport": "Passport Details",
+      "travel": "Travel Info",
+      "review": "Review & Submit"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "passportNumber": "Passport Number",
+      "passportExpiry": "Passport Expiry Date",
+      "nationality": "Nationality",
+      "dob": "Date of Birth",
+      "arrivalDate": "Arrival Date",
+      "departureDate": "Departure Date",
+      "purpose": "Purpose of Visit"
+    },
+    "submit": "Submit Application",
+    "toast": {
+      "submitted": "Application submitted successfully!",
+      "pending": "Your application is being processed."
+    }
+  },
+  "worldCup": {
+    "title": "World Cup 2026",
+    "subtitle": "Experience the biggest sporting event in the world",
+    "hostCities": "Host Cities",
+    "matches": "Matches",
+    "teams": "Teams",
+    "tickets": "Get Tickets",
+    "viewSchedule": "View Schedule"
+  },
+  "redeem": {
+    "title": "Redeem Your Ticket",
+    "subtitle": "Enter your ticket code to redeem and manage your World Cup experience",
+    "ticketCodePlaceholder": "Enter ticket code",
+    "redeemButton": "Redeem Ticket",
+    "noCode": "Don't have a code?",
+    "purchaseHere": "Purchase tickets here",
+    "toast": {
+      "success": "Ticket redeemed successfully!",
+      "invalidCode": "Invalid ticket code",
+      "alreadyRedeemed": "This ticket has already been redeemed"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "myTickets": "My Tickets",
+    "myBookings": "My Bookings",
+    "visaApplications": "Visa Applications",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "noTickets": "You haven't redeemed any tickets yet",
+    "noBookings": "No bookings found"
+  }
+}

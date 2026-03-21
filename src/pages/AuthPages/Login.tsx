@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
+import { useTranslation } from "react-i18next";
 import vividstreamLogoDark from "@/assets/vividstream-logo-dark-mode.png";
 import vividstreamLogoLight from "@/assets/vividstream-logo-light-mode.png";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Ticket } from "lucide-react";
@@ -12,8 +13,13 @@ import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, isAuthenticated } = useAuth();
+  
+  // Get the redirect path from state, default to dashboard
+  const from = (location.state as { from?: string })?.from || "/dashboard";
   const { theme } = useTheme();
   const logo = theme === "light" ? vividstreamLogoLight : vividstreamLogoDark;
   const [showPassword, setShowPassword] = useState(false);
@@ -47,14 +53,15 @@ const Login = () => {
 
     // Client-side validation
     const newErrors: { email?: string; password?: string } = {};
-    if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.password) newErrors.password = "Password is required";
+    if (!formData.email) newErrors.email = t("login.errors.emailRequired");
+    if (!formData.password)
+      newErrors.password = t("login.errors.passwordRequired");
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setIsLoading(false);
-      toast.error("⚠️ Please fill in all required fields", {
-        description: "Check the highlighted fields",
+      toast.error("⚠️ " + t("common.fillRequired"), {
+        description: t("common.checkFields"),
         duration: 3000,
       });
       return;
@@ -63,57 +70,56 @@ const Login = () => {
     try {
       const result = await login(formData.email, formData.password);
       if (result.success) {
-        toast.success("🎉 Welcome back! Redirecting to dashboard...", {
-          description: "Login successful",
+        toast.success("🎉 " + t("login.toast.welcomeBack"), {
+          description: t("login.toast.loginSuccess"),
           duration: 2000,
         });
-        navigate("/dashboard");
+        navigate(from, { replace: true });
       } else {
         // Enhanced error messages with icons and better descriptions
         const errorMessage = result.error || "Login failed";
 
         if (errorMessage.includes("Invalid credentials")) {
-          setErrors({ password: "Incorrect password" });
-          toast.error("❌ Invalid credentials", {
-            description: "The email or password you entered is incorrect",
+          setErrors({ password: t("login.errors.incorrectPassword") });
+          toast.error("❌ " + t("login.toast.invalidCredentials"), {
+            description: t("login.toast.invalidCredentialsDesc"),
             duration: 4000,
           });
         } else if (errorMessage.includes("don't have an account")) {
-          setErrors({ email: "No account found with this email" });
-          toast.error("👤 Account not found", {
-            description: "No account exists with this email address",
+          setErrors({ email: t("login.errors.noAccountFound") });
+          toast.error("👤 " + t("login.toast.accountNotFound"), {
+            description: t("login.toast.noAccountExists"),
             duration: 4000,
             action: {
-              label: "Sign up",
+              label: t("login.signUp"),
               onClick: () => navigate("/signup"),
             },
           });
         } else if (errorMessage.includes("stadium ticket first")) {
-          toast.error("🎟️ Ticket Required", {
-            description:
-              "You must purchase a stadium ticket to access your dashboard.",
+          toast.error("🎟️ " + t("login.toast.ticketRequired"), {
+            description: t("login.toast.ticketRequiredDesc"),
             duration: 4000,
             action: {
-              label: "Get Ticket",
+              label: t("login.toast.getTicket"),
               onClick: () => navigate("/"),
             },
           });
           setTimeout(() => navigate("/"), 2000);
         } else if (errorMessage.includes("Network")) {
-          toast.error("🌐 Connection error", {
-            description: "Please check your internet connection",
+          toast.error("🌐 " + t("login.toast.connectionError"), {
+            description: t("login.toast.checkConnection"),
             duration: 4000,
           });
         } else {
-          toast.error("⚠️ Login failed", {
+          toast.error("⚠️ " + t("login.toast.loginFailed"), {
             description: errorMessage,
             duration: 4000,
           });
         }
       }
     } catch (error) {
-      toast.error("🚨 Unexpected error", {
-        description: "Something went wrong. Please try again later",
+      toast.error("🚨 " + t("login.toast.unexpectedError"), {
+        description: t("login.toast.somethingWrong"),
         duration: 4000,
       });
     } finally {
@@ -129,7 +135,7 @@ const Login = () => {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
               {" "}
-              <h1 className="text-3xl font-bold ">Welcome back</h1>
+              <h1 className="text-3xl font-bold ">{t("login.title")}</h1>
               <div className="absolute top-8 right-10 lg:right-0">
                 <ThemeToggle />
               </div>
@@ -138,13 +144,11 @@ const Login = () => {
                 className="hidden lg:block bg-[#00A987] py-1 px-2 rounded-md items-center gap-2"
               >
                 <h2 className="text-sm text-secondary font-bold ">
-                  Back to Home
+                  {t("login.backToHome")}
                 </h2>
               </Link>
             </div>
-            <p className="text-muted-foreground">
-              Sign in to access your dashboard and manage your tickets.
-            </p>
+            <p className="text-muted-foreground">{t("login.subtitle")}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">

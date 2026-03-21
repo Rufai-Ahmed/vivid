@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import vividstreamLogoDark from "@/assets/vividstream-logo-dark-mode.png";
 import vividstreamLogoLight from "@/assets/vividstream-logo-light-mode.png";
 import { useTheme } from "../ThemeProvider";
 
 const Footer = () => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const logo = theme === "light" ? vividstreamLogoLight : vividstreamLogoDark;
 
@@ -21,7 +23,7 @@ const Footer = () => {
             </p>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Services</h4>
+            <h4 className="font-semibold mb-4">{t("footer.services")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
@@ -58,7 +60,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="font-semibold mb-4">{t("footer.company")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
@@ -84,7 +86,7 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
+            <h4 className="font-semibold mb-4">{t("footer.legal")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <a href="#" className="hover:text-primary transition-colors">

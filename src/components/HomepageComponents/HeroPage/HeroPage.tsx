@@ -3,8 +3,10 @@ import { Trophy, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 const HeroPage = () => {
+  const { t } = useTranslation();
   const [currentCountryIndex, setCurrentCountryIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -27,12 +29,12 @@ const HeroPage = () => {
           } else {
             setIsDeleting(false);
             setCurrentCountryIndex(
-              (prev) => (prev + 1) % worldCupCountries.length
+              (prev) => (prev + 1) % worldCupCountries.length,
             );
           }
         }
       },
-      isDeleting ? 50 : 100
+      isDeleting ? 50 : 100,
     );
 
     return () => clearTimeout(timeout);
@@ -113,7 +115,7 @@ const HeroPage = () => {
                       </span>
                     </div>
                   );
-                }
+                },
               )}
             </div>
           </div>
@@ -124,18 +126,18 @@ const HeroPage = () => {
           >
             <Link to="/signup">
               <Button variant="hero" size="xl">
-                Get Started
+                {t("hero.getStarted")}
                 <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
             <Link to="/redeem-ticket">
               <Button variant="gradient" size="xl">
-                Redeem Ticket
+                {t("hero.redeemTicket")}
               </Button>
             </Link>
             <Link to="/worldcup">
               <Button variant="glass" size="xl">
-                Explore World Cup
+                {t("hero.exploreWorldCup")}
               </Button>
             </Link>
           </div>

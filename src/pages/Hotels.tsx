@@ -4,6 +4,7 @@ import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import {
@@ -43,6 +44,7 @@ import { BookingFormModal } from "@/components/hotels/BookingFormModal";
 import { MyBookingsTab } from "@/components/hotels/MyBookingsTab";
 
 const Hotels = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [bookingLoading, setBookingLoading] = useState<string | null>(null); // Stores ID of hotel being booked

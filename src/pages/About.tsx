@@ -2,6 +2,7 @@ import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import Footer from "@/components/Footer/Footer";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import {
   Trophy,
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 
 const About = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -60,19 +62,27 @@ const About = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-4xl font-bold text-gradient mb-2">500K+</div>
-              <div className="text-muted-foreground">Tickets Processed</div>
+              <div className="text-muted-foreground">
+                {t("about.stats.ticketsProcessed")}
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-gradient mb-2">150+</div>
-              <div className="text-muted-foreground">Countries Served</div>
+              <div className="text-muted-foreground">
+                {t("about.stats.countriesServed")}
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-gradient mb-2">50K+</div>
-              <div className="text-muted-foreground">Hotels Booked</div>
+              <div className="text-muted-foreground">
+                {t("about.stats.hotelsBooked")}
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-gradient mb-2">99.9%</div>
-              <div className="text-muted-foreground">Uptime</div>
+              <div className="text-muted-foreground">
+                {t("about.stats.uptime")}
+              </div>
             </div>
           </div>
         </div>

@@ -1,0 +1,162 @@
+{
+  "nav": {
+    "home": "首页",
+    "about": "关于我们",
+    "redeemTicket": "兑换门票",
+    "visaServices": "签证服务",
+    "hotels": "酒店",
+    "worldCup": "世界杯",
+    "dashboard": "仪表板",
+    "signIn": "登录",
+    "signUp": "注册",
+    "getStarted": "开始",
+    "logout": "退出"
+  },
+  "hero": {
+    "title": "通往2026年世界杯的大门",
+    "subtitle": "在统一的平台上兑换中奖门票、申请签证和预订酒店。通过Vividstream Pro体验最大的体育赛事。",
+    "getStarted": "开始",
+    "redeemTicket": "兑换门票",
+    "exploreWorldCup": "探索世界杯"
+  },
+  "home": {
+    "stadium": "体育场门票",
+    "worldCupShowcase": "世界杯参赛国",
+    "features": "功能",
+    "stats": "统计数据",
+    "cta": "加入成千上万的球迷",
+    "trust": "受到全球球迷的信任"
+  },
+  "about": {
+    "title": "关于Vividstream Pro",
+    "subtitle": "我们是2026年FIFA世界杯门票管理、签证申请和旅行住宿的首要平台。",
+    "stats": {
+      "ticketsProcessed": "已处理门票",
+      "countriesServed": "服务国家",
+      "hotelsBooked": "已预订酒店",
+      "uptime": "正常运行时间"
+    },
+    "mission": {
+      "title": "我们的使命",
+      "description": "通过创新技术、安全交易和卓越的客户服务，为全球足球爱好者提供畅享2026年FIFA世界杯体验的机会。"
+    },
+    "vision": {
+      "title": "我们的愿景",
+      "description": "成为全球体育赛事管理平台的领导者，连接球迷与他们梦想中的世界杯体验，同时为行业树立可靠性和便捷性的新标准。"
+    },
+    "services": {
+      "title": "我们的服务",
+      "ticketManagement": {
+        "title": "门票管理",
+        "description": "通过我们优化的数字平台进行安全的门票购买、兑换和管理。保证验证门票。"
+      },
+      "visaApplication": {
+        "title": "签证申请",
+        "description": "简化签证申请流程，提供专家指导。我们帮助您轻松完成文档要求。"
+      },
+      "hotelBooking": {
+        "title": "酒店预订",
+        "description": "预订体育场和球迷区附近的优惠酒店。从豪华套房到经济实惠的选择。"
+      },
+      "securePayments": {
+        "title": "安全支付",
+        "description": "多种支付选项，包括信用卡和加密货币。您的交易受到银行级安全保护。"
+      },
+      "support": {
+        "title": "全天候支持",
+        "description": "多语言全天候客户支持。我们的团队在这里帮助您完成旅程的每一步。"
+      },
+      "verified": {
+        "title": "经验证",
+        "description": "每张门票和预订都通过官方渠道验证。为所有客户提供保证的真实体验。"
+      }
+    },
+    "whyChooseUs": {
+      "title": "为什么选择Vividstream Pro？",
+      "items": [
+        "2026年FIFA世界杯官方合作伙伴",
+        "安全且验证的门票交易",
+        "具有价格匹配保证的竞争性价格",
+        "简单的兑换流程",
+        "专属客户成功团队",
+        "多种支付选项"
+      ],
+      "customerRating": "客户评分",
+      "reviews": "评价",
+      "sslSecured": "SSL安全",
+      "encryption": "所有交易采用256位加密",
+      "happyCustomers": "满意的客户",
+      "worldwide": "全球粉丝基础"
+    },
+    "contact": {
+      "title": "联系我们",
+      "subtitle": "有问题？我们很乐意听取您的意见。",
+      "visitUs": "访问我们",
+      "emailUs": "给我们发邮件",
+      "callUs": "给我们打电话",
+      "hours": "周一至周五，上午9点至下午6点（美国东部时间）"
+    },
+    "cta": {
+      "title": "准备好参加2026年世界杯了吗？",
+      "subtitle": "加入成千上万的球迷，他们已经为世界上最大的体育赛事预订了位置。"
+    }
+  },
+  "auth": {
+    "signIn": "登录",
+    "signUp": "注册",
+    "email": "电子邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "name": "全名",
+    "forgotPassword": "忘记密码？",
+    "noAccount": "没有账户？",
+    "hasAccount": "已有账户？",
+    "createAccount": "创建账户",
+    "resetPassword": "重置密码",
+    "sendResetLink": "发送重置链接",
+    "backToLogin": "返回登录"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "submit": "提交",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "view": "查看",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "continue": "继续",
+    "confirm": "确认",
+    "yes": "是",
+    "no": "否",
+    "or": "或",
+    "learnMore": "了解更多"
+  },
+  "footer": {
+    "services": "服务",
+    "company": "公司",
+    "legal": "法律",
+    "contact": "联系方式",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款",
+    "cookiePolicy": "Cookie政策",
+    "adminPortal": "管理门户",
+    "careers": " careers",
+    "allRightsReserved": "版权所有。"
+  },
+  "language": {
+    "select": "选择语言",
+    "english": "英语",
+    "spanish": "西班牙语",
+    "french": "法语",
+    "german": "德语",
+    "chinese": "中文"
+  }
+}

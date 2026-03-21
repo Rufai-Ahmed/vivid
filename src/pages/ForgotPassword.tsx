@@ -5,12 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/components/ThemeProvider";
+import { useTranslation } from "react-i18next";
 import vividstreamLogoDark from "@/assets/vividstream-logo-dark-mode.png";
 import vividstreamLogoLight from "@/assets/vividstream-logo-light-mode.png";
 import { Mail, ArrowRight, ArrowLeft, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 
 const ForgotPassword = () => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const logo = theme === "light" ? vividstreamLogoLight : vividstreamLogoDark;
   const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +27,9 @@ const ForgotPassword = () => {
       // Simulated password reset - replace with actual backend later
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setIsSubmitted(true);
-      toast.success("Password reset link sent to your email!");
+      toast.success(t('forgotPassword.toast.success'));
     } catch (error) {
-      toast.error("Failed to send reset link. Please try again.");
+      toast.error(t('forgotPassword.toast.error'));
     } finally {
       setIsLoading(false);
     }

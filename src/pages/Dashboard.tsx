@@ -1,4 +1,5 @@
 import { ChatWidget } from "@/components/ChatWidget";
+import { useTranslation } from "react-i18next";
 import Sidebar from "./DashboardPages/SideBar/Sidebar";
 import MobileHeader from "./DashboardPages/MobileHeader/MobileHeader";
 import DashboardHeader from "./DashboardPages/DashBoardHeader/DashboardHeader";
@@ -7,6 +8,7 @@ import ContentGrid from "./DashboardPages/ContentGrid/ContentGrid";
 import QuickActions from "./DashboardPages/QuickActions/QuickActions";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background">
       {/* Sidebar */}

@@ -1,14 +1,17 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Menu, X, LogOut, User } from "lucide-react";
 import vividstreamLogoDark from "@/assets/vividstream-logo-dark-mode.png";
 import vividstreamLogoLight from "@/assets/vividstream-logo-light-mode.png";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/components/ThemeProvider";
+import { useTranslation } from "react-i18next";
 
 export function Navbar() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,22 +22,22 @@ export function Navbar() {
 
   // Public links (visible only when NOT authenticated)
   const publicLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/redeem-ticket", label: "Redeem Ticket" },
-    { href: "/visa-application", label: "Visa Services" },
-    { href: "/hotels", label: "Hotels" },
-    { href: "/worldcup", label: "World Cup" },
+    { href: "/", label: t("nav.home") },
+    { href: "/about", label: t("nav.about") },
+    { href: "/redeem-ticket", label: t("nav.redeemTicket") },
+    { href: "/visa-application", label: t("nav.visaServices") },
+    { href: "/hotels", label: t("nav.hotels") },
+    { href: "/worldcup", label: t("nav.worldCup") },
   ];
 
   // Protected links (only visible when authenticated - no Home)
   const protectedLinks = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/about", label: "About" },
-    { href: "/dashboard/redeem", label: "Redeem Ticket" },
-    { href: "/dashboard/visa", label: "Visa Services" },
-    { href: "/dashboard/hotels", label: "Hotels" },
-    { href: "/dashboard/world-cup", label: "World Cup" },
+    { href: "/dashboard", label: t("nav.dashboard") },
+    { href: "/about", label: t("nav.about") },
+    { href: "/dashboard/redeem", label: t("nav.redeemTicket") },
+    { href: "/dashboard/visa", label: t("nav.visaServices") },
+    { href: "/dashboard/hotels", label: t("nav.hotels") },
+    { href: "/dashboard/world-cup", label: t("nav.worldCup") },
   ];
 
   const navLinks = isAuthenticated ? protectedLinks : publicLinks;
@@ -82,6 +85,7 @@ export function Navbar() {
 
           {/* Right Side */}
           <div className="hidden md:flex items-center gap-4">
+            <LanguageSwitcher />
             <ThemeToggle />
             {isAuthenticated ? (
               <>
@@ -98,19 +102,19 @@ export function Navbar() {
                   className="gap-2"
                 >
                   <LogOut className="w-4 h-4" />
-                  Logout
+                  {t("nav.logout")}
                 </Button>
               </>
             ) : (
               <>
                 <Link to="/login">
                   <Button variant="ghost" size="sm">
-                    Sign In
+                    {t("nav.signIn")}
                   </Button>
                 </Link>
                 <Link to="/signup">
                   <Button variant="gradient" size="sm">
-                    Get Started
+                    {t("nav.getStarted")}
                   </Button>
                 </Link>
               </>
@@ -119,6 +123,7 @@ export function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center gap-2">
+            <LanguageSwitcher />
             <ThemeToggle />
             <Button
               variant="ghost"

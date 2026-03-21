@@ -1,0 +1,162 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Nosotros",
+    "redeemTicket": "Canjear Entrada",
+    "visaServices": "Servicios de Visa",
+    "hotels": "Hoteles",
+    "worldCup": "Copa Mundo",
+    "dashboard": "Panel",
+    "signIn": "Iniciar Sesión",
+    "signUp": "Registrarse",
+    "getStarted": "Comenzar",
+    "logout": "Cerrar Sesión"
+  },
+  "hero": {
+    "title": "Tu Puerta de Entrada a la Copa Mundo 2026",
+    "subtitle": "Canjea entradas ganadoras, solicita visas y reserva hoteles, todo en una plataforma perfecta. Vive el mayor evento deportivo con Vividstream Pro.",
+    "getStarted": "Comenzar",
+    "redeemTicket": "Canjear Entrada",
+    "exploreWorldCup": "Explorar Copa Mundo"
+  },
+  "home": {
+    "stadium": "Entradas de Estadio",
+    "worldCupShowcase": "Países de la Copa Mundo",
+    "features": "Características",
+    "stats": "Estadísticas",
+    "cta": "Únete a Miles de Aficionados",
+    "trust": "Confiado por Aficionados en Todo el Mundo"
+  },
+  "about": {
+    "title": "Sobre Vividstream Pro",
+    "subtitle": "Somos la plataforma principal para la gestión de entradas de la Copa FIFA 2026, solicitudes de visa y alojamiento de viajes.",
+    "stats": {
+      "ticketsProcessed": "Entradas Procesadas",
+      "countriesServed": "Países Atendidos",
+      "hotelsBooked": "Hoteles Reservados",
+      "uptime": "Tiempo Activo"
+    },
+    "mission": {
+      "title": "Nuestra Misión",
+      "description": "Proporcionar a los aficionados al fútbol de todo el mundo acceso seamless a las experiencias de la Copa FIFA 2026 a través de tecnología innovadora, transacciones seguras y servicio al cliente excepcional."
+    },
+    "vision": {
+      "title": "Nuestra Visión",
+      "description": "Convertirnos en el líder global en plataformas de gestión de eventos deportivos, conectando a los aficionados con sus experiencias soñadas de la Copa Mundo mientras establecemos nuevos estándares de confiabilidad y conveniencia en la industria."
+    },
+    "services": {
+      "title": "Qué Hacemos",
+      "ticketManagement": {
+        "title": "Gestión de Entradas",
+        "description": "Compra segura, canje y gestión de entradas a través de nuestra plataforma digital optimizada. Entradas verificadas garantizadas."
+      },
+      "visaApplication": {
+        "title": "Solicitud de Visa",
+        "description": "Proceso simplificado de solicitud de visa con orientación experta. Te ayudamos a navegar los requisitos de documentación para una experiencia sin complicaciones."
+      },
+      "hotelBooking": {
+        "title": "Reserva de Hoteles",
+        "description": "Acceso a ofertas exclusivas de hoteles cerca de estadios y zonas de aficionados. Desde suites de lujo hasta opciones económicas."
+      },
+      "securePayments": {
+        "title": "Pagos Seguros",
+        "description": "Múltiples opciones de pago incluyendo tarjetas de crédito y criptomonedas. Tus transacciones están protegidas con seguridad de nivel bancario."
+      },
+      "support": {
+        "title": "Soporte 24/7",
+        "description": "Atención al cliente las 24 horas en múltiples idiomas. Nuestro equipo está aquí para ayudarte en cada paso de tu viaje."
+      },
+      "verified": {
+        "title": "Experiencia Verificada",
+        "description": "Cada entrada y reserva se verifica a través de canales oficiales. Experiencias auténticas garantizadas para todos los clientes."
+      }
+    },
+    "whyChooseUs": {
+      "title": "Por Qué Elegir Vividstream Pro?",
+      "items": [
+        "Socio oficial de la Copa FIFA 2026",
+        "Transacciones de entradas seguras y verificadas",
+        "Precios competitivos con garantía de igualación de precio",
+        "Proceso de canje fácil",
+        "Equipo de éxito dedicado al cliente",
+        "Múltiples opciones de pago"
+      ],
+      "customerRating": "Calificación del Cliente",
+      "reviews": "reseñas",
+      "sslSecured": "SSL Seguro",
+      "encryption": "Cifrado de 256 bits para todas las transacciones",
+      "happyCustomers": "Clientes Felices",
+      "worldwide": "Base de aficionados mundial"
+    },
+    "contact": {
+      "title": "Contáctanos",
+      "subtitle": "Tienes preguntas? Nos encantaría saber de ti.",
+      "visitUs": "Visítanos",
+      "emailUs": "Escríbenos",
+      "callUs": "Llámanos",
+      "hours": "Lun-Vie, 9am-6pm EST"
+    },
+    "cta": {
+      "title": "Listo para la Copa Mundo 2026?",
+      "subtitle": "Únete a miles de aficionados que ya han asegurado sus lugares para el mayor evento deportivo del mundo."
+    }
+  },
+  "auth": {
+    "signIn": "Iniciar Sesión",
+    "signUp": "Registrarse",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "name": "Nombre Completo",
+    "forgotPassword": "Olvidaste tu Contraseña?",
+    "noAccount": "No tienes una cuenta?",
+    "hasAccount": "Ya tienes una cuenta?",
+    "createAccount": "Crear Cuenta",
+    "resetPassword": "Restablecer Contraseña",
+    "sendResetLink": "Enviar Enlace de Restablecimiento",
+    "backToLogin": "Volver a Iniciar Sesión"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "continue": "Continuar",
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No",
+    "or": "o",
+    "learnMore": "Más Información"
+  },
+  "footer": {
+    "services": "Servicios",
+    "company": "Empresa",
+    "legal": "Legal",
+    "contact": "Contacto",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio",
+    "cookiePolicy": "Política de Cookies",
+    "adminPortal": "Portal de Admin",
+    "careers": "Carreras",
+    "allRightsReserved": "Todos los derechos reservados."
+  },
+  "language": {
+    "select": "Seleccionar Idioma",
+    "english": "Inglés",
+    "spanish": "Español",
+    "french": "Francés",
+    "german": "Alemán",
+    "chinese": "Chino"
+  }
+}

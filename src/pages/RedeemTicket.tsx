@@ -5,6 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ChatWidget } from "@/components/ChatWidget";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   Ticket,
@@ -14,12 +22,15 @@ import {
   Sparkles,
   AlertCircle,
   Mail,
+  LogIn,
+  UserPlus,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { endpoints, apiFetch } from "@/config/api";
 
 const RedeemTicket = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [ticketCode, setTicketCode] = useState("");
@@ -27,6 +38,7 @@ const RedeemTicket = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRedeemed, setIsRedeemed] = useState(false);
   const [error, setError] = useState("");
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const handleRedeem = async () => {
     if (!ticketCode.trim()) {
@@ -91,7 +103,7 @@ const RedeemTicket = () => {
       } else {
         // Regular ticket redemption (requires login)
         if (!user) {
-          toast.error("You must be logged in to redeem this ticket.");
+          setAuthModalOpen(true);
           setIsLoading(false);
           return;
         }
@@ -296,6 +308,46 @@ const RedeemTicket = () => {
       </main>
 
       <ChatWidget />
+
+      {/* Auth Modal for non-logged in users */}
+      <Dialog open={authModalOpen} onOpenChange={setAuthModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center text-xl">
+              Sign in to Redeem Your Ticket
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              You need an account to redeem your ticket. Choose an option below:
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3 mt-4">
+            <Button
+              variant="gradient"
+              size="lg"
+              className="w-full"
+              onClick={() => {
+                setAuthModalOpen(false);
+                navigate("/login", { state: { from: "/redeem-ticket" } });
+              }}
+            >
+              <LogIn className="w-5 h-5 mr-2" />
+              Sign In
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full"
+              onClick={() => {
+                setAuthModalOpen(false);
+                navigate("/signup", { state: { from: "/redeem-ticket" } });
+              }}
+            >
+              <UserPlus className="w-5 h-5 mr-2" />
+              Sign Up
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -1,0 +1,162 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "redeemTicket": "Échanger le Billet",
+    "visaServices": "Services Visa",
+    "hotels": "Hôtels",
+    "worldCup": "Coupe du Monde",
+    "dashboard": "Tableau de Bord",
+    "signIn": "Connexion",
+    "signUp": "S'inscrire",
+    "getStarted": "Commencer",
+    "logout": "Déconnexion"
+  },
+  "hero": {
+    "title": "Votre Passerelle vers la Coupe du Monde 2026",
+    "subtitle": "Échangez des billets gagnants, demandez des visas et réservez des hôtels, tout sur une plateforme transparente. Vivez le plus grand événement sportif avec Vividstream Pro.",
+    "getStarted": "Commencer",
+    "redeemTicket": "Échanger le Billet",
+    "exploreWorldCup": "Explorer la Coupe du Monde"
+  },
+  "home": {
+    "stadium": "Billets de Stade",
+    "worldCupShowcase": "Pays de la Coupe du Monde",
+    "features": "Fonctionnalités",
+    "stats": "Statistiques",
+    "cta": "Rejoignez des Milliers de Fans",
+    "trust": "Approuvé par des Fans du Monde Entier"
+  },
+  "about": {
+    "title": "À Propos de Vividstream Pro",
+    "subtitle": "Nous sommes la plateforme principale pour la gestion des billets de la Coupe du Monde FIFA 2026, les demandes de visa et les hébergements.",
+    "stats": {
+      "ticketsProcessed": "Billets Traités",
+      "countriesServed": "Pays Desservis",
+      "hotelsBooked": "Hôtels Réservés",
+      "uptime": "Disponibilité"
+    },
+    "mission": {
+      "title": "Notre Mission",
+      "description": "Fournir aux fans de football du monde entier un accès transparent aux expériences de la Coupe du Monde FIFA 2026 grâce à une technologie innovante, des transactions sécurisées et un service client exceptionnel."
+    },
+    "vision": {
+      "title": "Notre Vision",
+      "description": "Devenir le leader mondial des plateformes de gestion d'événements sportifs, reliant les fans à leurs expériences de Coupe du Monde rêvées tout en établissant de nouvelles normes de fiabilité et de commodité dans l'industrie."
+    },
+    "services": {
+      "title": "Ce Que Nous Faisons",
+      "ticketManagement": {
+        "title": "Gestion des Billets",
+        "description": "Achat sécurisé, échange et gestion des billets via notre plateforme numérique optimisée. Billets vérifiés garantis."
+      },
+      "visaApplication": {
+        "title": "Demande de Visa",
+        "description": "Processus simplifié de demande de visa avec accompagnement expert. Nous vous aidons à naviguer les exigences de documentation pour une expérience sans tracas."
+      },
+      "hotelBooking": {
+        "title": "Réservation d'Hôtels",
+        "description": "Accès à des offres exclusives d'hôtels près des stades et des zones de fans. Des suites de luxe aux options économiques."
+      },
+      "securePayments": {
+        "title": "Paiements Sécurisés",
+        "description": "Options de paiement multiples incluant cartes de crédit et cryptomonnaie. Vos transactions sont protégées par un sécurité de niveau bancaire."
+      },
+      "support": {
+        "title": "Support 24/7",
+        "description": "Support client 24h/24 en plusieurs langues. Notre équipe est là pour vous accompagner à chaque étape de votre parcours."
+      },
+      "verified": {
+        "title": "Expérience Vérifiée",
+        "description": "Chaque billet et réservation est vérifié via des canaux officiels. Expériences authentiques garanties pour tous les clients."
+      }
+    },
+    "whyChooseUs": {
+      "title": "Pourquoi Choisir Vividstream Pro?",
+      "items": [
+        "Partenaire officiel de la Coupe du Monde FIFA 2026",
+        "Transactions de billets sécurisées et vérifiées",
+        "Prix compétitifs avec garantie de correspondance de prix",
+        "Processus d'échange facile",
+        "Équipe dédiée au succès client",
+        "Options de paiement multiples"
+      ],
+      "customerRating": "Note Clients",
+      "reviews": "avis",
+      "sslSecured": "SSL Sécurisé",
+      "encryption": "Chiffrement 256 bits pour toutes les transactions",
+      "happyCustomers": "Clients Satisfaits",
+      "worldwide": "Base de fans mondiale"
+    },
+    "contact": {
+      "title": "Contactez-Nous",
+      "subtitle": "Vous avez des questions? Nous serions ravis de vous entendre.",
+      "visitUs": "Visitez-Nous",
+      "emailUs": "Envoyez-Nous un Email",
+      "callUs": "Appelez-Nous",
+      "hours": "Lun-Ven, 9h-18h EST"
+    },
+    "cta": {
+      "title": "Prêt pour la Coupe du Monde 2026?",
+      "subtitle": "Rejoignez des milliers de fans qui ont déjà sécurisé leur place pour le plus grand événement sportif au monde."
+    }
+  },
+  "auth": {
+    "signIn": "Connexion",
+    "signUp": "S'inscrire",
+    "email": "Email",
+    "password": "Mot de Passe",
+    "confirmPassword": "Confirmer le Mot de Passe",
+    "name": "Nom Complet",
+    "forgotPassword": "Mot de Passe Oublié?",
+    "noAccount": "Pas de compte?",
+    "hasAccount": "Déjà un compte?",
+    "createAccount": "Créer un Compte",
+    "resetPassword": "Réinitialiser le Mot de Passe",
+    "sendResetLink": "Envoyer le Lien de Réinitialisation",
+    "backToLogin": "Retour à la Connexion"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "continue": "Continuer",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non",
+    "or": "ou",
+    "learnMore": "En Savoir Plus"
+  },
+  "footer": {
+    "services": "Services",
+    "company": "Entreprise",
+    "legal": "Légal",
+    "contact": "Contact",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions d'Utilisation",
+    "cookiePolicy": "Politique des Cookies",
+    "adminPortal": "Portail Admin",
+    "careers": "Carrières",
+    "allRightsReserved": "Tous droits réservés."
+  },
+  "language": {
+    "select": "Sélectionner la Langue",
+    "english": "Anglais",
+    "spanish": "Espagnol",
+    "french": "Français",
+    "german": "Allemand",
+    "chinese": "Chinois"
+  }
+}

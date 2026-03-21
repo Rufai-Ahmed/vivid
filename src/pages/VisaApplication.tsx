@@ -5,6 +5,7 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useTranslation } from "react-i18next";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -38,6 +39,7 @@ import { toast } from "sonner";
 import { endpoints, apiFetch } from "@/config/api";
 
 const VisaApplication = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState(1);

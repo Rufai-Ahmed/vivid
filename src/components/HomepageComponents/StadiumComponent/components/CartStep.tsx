@@ -101,7 +101,7 @@ export function CartStep({
                   </p>
                   <p className="text-xs text-gray-500">
                     ${listing.price}/
-                    {t("stadium.checkout.confirmation.ticket_one", {
+                    {t("stadium.checkout.confirmation.ticketCount_one", {
                       count: 1,
                     })}
                   </p>
@@ -129,7 +129,7 @@ export function CartStep({
           <span className="text-white">${fees.toLocaleString()}</span>
         </div>
         <div className="flex justify-between font-black text-base border-t border-[#1f2937] pt-2 mt-1">
-          <span className="text-white">{t("stadium.categories.details")}</span>
+          <span className="text-white">{t("common.confirm", "Total")}</span>
           <span className="text-yellow-400">${total.toLocaleString()}</span>
         </div>
       </div>

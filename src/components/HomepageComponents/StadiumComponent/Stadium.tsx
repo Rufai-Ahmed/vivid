@@ -345,14 +345,18 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
         qty: item.qty,
       }));
 
+      const formData = new FormData();
+      formData.append("buyer", JSON.stringify(buyer));
+      formData.append("cart", JSON.stringify(formattedCart));
+      const { slip, ...restPayment } = payment;
+      formData.append("payment", JSON.stringify(restPayment));
+      if (slip) {
+        formData.append("paymentSlip", slip);
+      }
+
       const res = await apiFetch(endpoints.tickets.stadium.purchase, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          buyer,
-          cart: formattedCart,
-          payment,
-        }),
+        body: formData,
       });
 
       if (res.ok) {

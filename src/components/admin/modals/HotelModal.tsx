@@ -132,6 +132,8 @@ export const HotelModal = ({
         };
         reader.readAsDataURL(file);
       });
+      // Reset input value so selecting the same file next time triggers onChange
+      e.target.value = "";
     }
   };
 

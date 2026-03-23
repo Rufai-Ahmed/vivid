@@ -6,6 +6,7 @@ import { Loader2, Copy, Building, Bitcoin } from "lucide-react";
 import { toast } from "sonner";
 
 export function PaymentStep({
+  payment,
   onChange,
   total,
   onBack,
@@ -43,6 +44,12 @@ export function PaymentStep({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      onChange({ ...payment, slip: e.target.files[0] });
+    }
+  };
+
   const fetchSettings = async () => {
     try {
       const API_BASE_URL =
@@ -63,7 +70,7 @@ export function PaymentStep({
     toast.success(t("stadium.checkout.payment.copied"));
   };
 
-  const valid = true; // Always valid for manual payment
+  const valid = (paymentMethod === "bank" || paymentMethod === "crypto") ? !!payment.slip : true;
 
   return (
     <div className="flex flex-col gap-4">
@@ -208,6 +215,20 @@ export function PaymentStep({
             </div>
           </div>
         </>
+      )}
+
+      {/* Payment Slip Upload */}
+      {(paymentMethod === "bank" || paymentMethod === "crypto") && (
+        <div className="bg-white/[0.03] border border-[#1f2937] rounded-xl p-4 flex flex-col space-y-2">
+          <label className="text-xs text-gray-400 font-semibold mb-1">Upload Payment Slip / Proof</label>
+          <input 
+            type="file" 
+            accept="image/*,application/pdf"
+            onChange={handleFileChange}
+            className="text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-400/10 file:text-yellow-400 hover:file:bg-yellow-400/20"
+          />
+          {payment.slip && <span className="text-xs text-green-400 mt-1">✔ {payment.slip.name}</span>}
+        </div>
       )}
 
       <div className="bg-white/[0.03] border border-[#1f2937] rounded-xl px-4 py-3 flex justify-between items-center">

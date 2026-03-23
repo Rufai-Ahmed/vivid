@@ -42,6 +42,7 @@ export interface PaymentDetails {
   expiry: string;
   cvv: string;
   nameOnCard: string;
+  slip?: File | null;
 }
 
 export const CATEGORIES: Category[] = [

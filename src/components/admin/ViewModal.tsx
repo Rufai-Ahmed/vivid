@@ -71,6 +71,24 @@ export const ViewModal = ({
               );
             }
 
+            // Handle payment slip
+            if (key === "paymentSlipUrl" && value) {
+              return (
+                <div key={key} className="space-y-2 col-span-full">
+                  <span className="text-sm font-semibold text-muted-foreground">
+                    Payment Slip Proof
+                  </span>
+                  <div className="flex justify-center mt-2">
+                    <img
+                      src={value as string}
+                      alt="Payment Slip"
+                      className="max-w-full rounded-md border"
+                    />
+                  </div>
+                </div>
+              );
+            }
+
             // Handle date fields
             const isDate =
               value instanceof Date ||

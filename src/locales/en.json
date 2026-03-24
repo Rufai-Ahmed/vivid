@@ -60,7 +60,7 @@
     "secureEncrypted": "Secure & Encrypted",
     "secureEncryptedDesc": "Your data is protected with enterprise-grade security and SSL encryption.",
     "multiplePayment": "Multiple Payment Options",
-    "multiplePaymentDesc": "Pay with crypto (BTC, ETH, USDT) or traditional card payments.",
+    "multiplePaymentDesc": "Securely pay with cryptocurrency (BTC, ETH, USDT).",
     "globalCoverage": "Global Coverage",
     "globalCoverageDesc": "Serving customers in over 120 countries with localized support."
   },
@@ -108,7 +108,7 @@
       },
       "securePayments": {
         "title": "Secure Payments",
-        "description": "Multiple payment options including credit cards and cryptocurrency. Your transactions are protected with bank-level security."
+        "description": "Secure cryptocurrency payment options including BTC, ETH, and USDT. Your transactions are protected with blockchain security."
       },
       "support": {
         "title": "24/7 Support",
@@ -415,17 +415,17 @@
         "ticketInfo": "🎫 E-tickets will be sent to your email address as PDF. Show at the gate from your phone or print."
       },
       "payment": {
-        "manualTransfer": "Manual Bank Transfer",
-        "transferInstruction": "Please transfer the exact total amount to the account below to secure your tickets.",
-        "bankName": "Bank Name",
-        "accountName": "Account Name",
-        "accountNumber": "Account Number",
+        "manualTransfer": "Cryptocurrency Payment",
+        "transferInstruction": "Please send the exact total amount to the wallet address below to secure your tickets.",
+        "bankName": "Asset Type",
+        "accountName": "Network",
+        "accountNumber": "Wallet Address",
         "notConfigured": "Not configured",
-        "loadError": "Failed to load bank details.",
+        "loadError": "Failed to load payment details.",
         "totalToCharge": "Total to charge",
         "sentConfirmation": "I'VE SENT ${{amount}} →",
         "copied": "Copied to clipboard!",
-        "bankTransfer": "Bank Transfer",
+        "bankTransfer": "Cryptocurrency",
         "crypto": "Cryptocurrency",
         "cryptoPayment": "Crypto Payment",
         "cryptoInstruction": "Send {{type}} to the wallet address below to complete your purchase.",

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Copy } from "lucide-react";
 import { Navbar } from "@/components/bloc/Header/Navbar";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
@@ -550,72 +550,106 @@ const Hotels = () => {
         open={paymentModal.open}
         onOpenChange={(open) => setPaymentModal((prev) => ({ ...prev, open }))}
       >
-        <DialogContent>
+        <DialogContent className="max-w-md bg-[#0a0a0b] border-white/5">
           <DialogHeader>
-            <DialogTitle>Complete Your Booking</DialogTitle>
-            <DialogDescription>
-              Pay for your stay at <strong>{paymentModal.hotelName}</strong>.
-              Amount: <strong>${paymentModal.amount}</strong>
+            <DialogTitle className="text-2xl font-black tracking-tight">Complete Your Booking</DialogTitle>
+            <DialogDescription className="text-gray-400">
+              Pay for your stay at <span className="text-white font-semibold">{paymentModal.hotelName}</span>
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 py-4">
-            <div className="p-4 bg-muted rounded-lg text-sm space-y-2">
-              <p className="font-medium">Bank Transfer Details:</p>
-              <div className="grid grid-cols-2 gap-2">
-                <span className="text-muted-foreground">Bank Name:</span>
-                <span>{globalSettings?.bankName || "Loading..."}</span>
-                <span className="text-muted-foreground">Account Name:</span>
-                <span>{globalSettings?.accountName || "Loading..."}</span>
-                <span className="text-muted-foreground">Account Number:</span>
-                <span className="font-mono">
-                  {globalSettings?.accountNumber || "Loading..."}
-                </span>
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                Please use your booking Reference ID as the payment reference.
-              </p>
+          <div className="space-y-6 py-6">
+            <div className="flex justify-between items-end p-4 bg-white/[0.03] border border-white/5 rounded-2xl">
+              <span className="text-xs text-gray-500 uppercase tracking-widest">Total Amount</span>
+              <span className="text-3xl font-black text-white tracking-tighter">${paymentModal.amount.toLocaleString()}</span>
             </div>
 
-            <div className="space-y-2">
-              <Label>Payment Method</Label>
-              <Select
-                value={paymentMethod}
-                onValueChange={(val: any) => setPaymentMethod(val)}
-                disabled
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="manual">Manual / Bank Transfer</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {globalSettings?.cryptoWalletAddress ? (
+              <div className="space-y-4">
+                <div className="bg-gradient-to-br from-primary/20 to-purple-500/20 border border-primary/20 rounded-2xl p-6 flex flex-col items-center text-center space-y-2">
+                  <Bitcoin className="w-10 h-10 text-primary animate-bounce-slow" />
+                  <h3 className="font-bold text-white uppercase tracking-wider">
+                    {globalSettings.cryptoType || "Crypto"} Payment
+                  </h3>
+                  <p className="text-xs text-gray-400 leading-relaxed max-w-[200px]">
+                    Send the exact amount to the wallet address below.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex justify-between items-center group relative">
+                    <div className="w-full pr-10">
+                      <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">{t("stadium.checkout.payment.accountNumber")}</p>
+                      <p className="font-mono text-sm text-yellow-400 break-all leading-tight">
+                        {globalSettings.cryptoWalletAddress}
+                      </p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-white/10"
+                      onClick={() => {
+                        navigator.clipboard.writeText(globalSettings.cryptoWalletAddress);
+                        toast.success("Address copied!");
+                      }}
+                    >
+                      <Copy className="w-4 h-4 text-gray-400" />
+                    </Button>
+                  </div>
+
+                  <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex justify-between items-center">
+                    <div>
+                      <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">{t("stadium.checkout.payment.accountName")}</p>
+                      <p className="font-bold text-white uppercase">{globalSettings.cryptoType || "BTC"}</p>
+                    </div>
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  </div>
+                </div>
+
+                <div className="p-4 bg-yellow-400/5 border border-yellow-400/10 rounded-xl">
+                  <p className="text-[10px] text-yellow-400 uppercase tracking-widest mb-1 font-bold">Important</p>
+                  <p className="text-[11px] text-yellow-400/70 leading-relaxed">
+                    Once sent, our team will verify the transaction on the blockchain. Your booking will be confirmed within 1-2 hours.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="py-8 text-center space-y-4 bg-red-500/5 border border-red-500/10 rounded-2xl">
+                <div className="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center mx-auto">
+                   <Bitcoin className="w-6 h-6 text-red-500" />
+                </div>
+                <div className="space-y-1">
+                  <p className="font-bold text-red-100 uppercase tracking-wider">Payment Not Configured</p>
+                  <p className="text-xs text-red-400/60 max-w-[200px] mx-auto">Please contact support to complete your hotel booking.</p>
+                </div>
+              </div>
+            )}
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="flex-col sm:flex-col gap-3">
             <Button
-              variant="outline"
-              onClick={() =>
-                setPaymentModal((prev) => ({ ...prev, open: false }))
-              }
-            >
-              Cancel
-            </Button>
-            <Button
+              className="w-full h-12 text-sm font-black tracking-widest uppercase transition-all active:scale-[0.98]"
               variant="gradient"
               onClick={handlePayment}
-              disabled={isProcessingPayment}
+              disabled={isProcessingPayment || !globalSettings?.cryptoWalletAddress}
             >
               {isProcessingPayment ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Processing...
+                  Verifying...
                 </>
               ) : (
-                "Confirm Payment Sent"
+                "I'VE SENT PAYMENT"
               )}
+            </Button>
+            <Button
+              variant="ghost"
+              className="w-full h-10 text-xs text-gray-500 hover:text-white"
+              onClick={() =>
+                setPaymentModal((prev) => ({ ...prev, open: false }))
+              }
+            >
+              CANCEL TRANSACTION
             </Button>
           </DialogFooter>
         </DialogContent>

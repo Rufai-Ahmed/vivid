@@ -148,7 +148,7 @@ function CheckoutDrawer({
   return (
     <>
       <div
-        className="absolute inset-0 z-40 transition-all duration-300"
+        className="fixed inset-0 z-[10000] transition-all duration-300"
         style={{
           backgroundColor: open ? "rgba(0,0,0,0.65)" : "rgba(0,0,0,0)",
           pointerEvents: open ? "auto" : "none",
@@ -157,7 +157,7 @@ function CheckoutDrawer({
         onClick={onClose}
       />
       <div
-        className="fixed right-0 top-0 bottom-0 z-50 w-[420px] max-w-[100vw] border-l border-[#1f2937] flex flex-col transition-transform duration-300 ease-out overflow-x-hidden"
+        className="fixed right-0 top-0 bottom-0 z-[10001] w-[420px] max-w-[100vw] border-l border-[#1f2937] flex flex-col transition-transform duration-300 ease-out overflow-x-hidden"
         style={{
           transform: open ? "translateX(0)" : "translateX(100%)",
           background: "#0f172a",

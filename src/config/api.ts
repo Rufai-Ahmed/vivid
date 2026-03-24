@@ -122,5 +122,6 @@ export const endpoints = {
     retry: (id: string) => `${API_BASE_URL}/bulk-tickets/${id}/retry`,
     redeem: `${API_BASE_URL}/bulk-tickets/redeem`,
     template: `${API_BASE_URL}/bulk-tickets/template`,
+    freeTicketCampaign: `${API_BASE_URL}/bulk-tickets/free-ticket-campaign`,
   },
 };

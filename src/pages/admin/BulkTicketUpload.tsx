@@ -140,16 +140,16 @@ export default function BulkTicketUpload() {
     setDistributing(true);
 
     try {
-      const response = await fetch(endpoints.bulkTickets.create, {
+      // Use the new free ticket campaign endpoint for professional FIFA World Cup emails
+      const response = await fetch(endpoints.bulkTickets.freeTicketCampaign, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
-          name,
-          recipients,
-          emailTemplate: customEmailTemplate || undefined,
+          campaignName: name,
+          recipients: recipients,
         }),
       });
 
@@ -159,7 +159,7 @@ export default function BulkTicketUpload() {
 
       const data = await response.json();
       toast.success(
-        "Bulk distribution started! Emails are being sent in background.",
+        `Distribution completed! ${data.summary?.sent || 0} emails sent successfully.`,
       );
 
       // Reset form

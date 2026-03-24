@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { PartyPopper, Check, Calendar, MapPin, Ticket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
@@ -82,10 +83,10 @@ export function ConfirmationStep({
             border: "2px solid #FFD700",
           }}
         >
-          🎉
+          <PartyPopper className="w-full h-full text-warning" />
         </div>
         <div className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-xs font-black text-white">
-          ✓
+          <Check className="w-full h-full text-white" />
         </div>
       </div>
 

@@ -108,6 +108,9 @@ export const BettingTab = () => {
       formData.append("teamB", data.teamB);
       formData.append("date", data.date);
       formData.append("venue", data.venue);
+      if (data.address) {
+        formData.append("address", data.address);
+      }
       formData.append("status", data.status);
 
       if (data.winner) {

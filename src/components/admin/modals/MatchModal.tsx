@@ -43,6 +43,7 @@ export const MatchModal = ({
         teamB: match.teamB,
         date: match.date ? new Date(match.date).toISOString().slice(0, 16) : "",
         venue: match.venue,
+        address: match.address || "",
         status: match.status,
         winner: match.winner || "pending",
         "odds.teamAWin": match.odds?.teamAWin,
@@ -56,6 +57,7 @@ export const MatchModal = ({
         status: "scheduled",
         winner: "pending",
         venue: "",
+        address: "",
         "odds.teamAWin": 1.0,
         "odds.teamBWin": 1.0,
         "odds.draw": 1.0,
@@ -180,6 +182,10 @@ export const MatchModal = ({
           <div className="space-y-2">
             <Label htmlFor="venue">Venue</Label>
             <Input id="venue" {...register("venue", { required: true })} />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="address">Address</Label>
+            <Input id="address" {...register("address")} />
           </div>
 
           <div className="grid grid-cols-3 gap-4">

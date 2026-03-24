@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Ticket } from "lucide-react";
 import { CartItem, CATEGORIES } from "../types";
 
 export function CartStep({
@@ -22,7 +23,9 @@ export function CartStep({
   if (cart.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-4">
-        <div className="text-5xl">🎫</div>
+        <div className="text-5xl text-primary">
+          <Ticket className="w-16 h-16" />
+        </div>
         <p className="text-gray-400 text-sm">{t("stadium.noTickets")}</p>
         <button
           onClick={onBack}

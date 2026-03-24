@@ -21,6 +21,17 @@ import {
   CreditCard,
   Bitcoin,
   Loader2,
+  Waves,
+  Sprout,
+  Beer,
+  Palmtree,
+  UtensilsCrossed,
+  Bus,
+  WashingMachine,
+  PawPrint,
+  Dices,
+  Flag,
+  Trophy,
 } from "lucide-react";
 import {
   Dialog,
@@ -290,17 +301,42 @@ const Hotels = () => {
   };
 
   const getAmenityIcon = (amenity: string) => {
-    switch (amenity) {
+    const a = amenity.toLowerCase();
+    switch (a) {
       case "wifi":
         return <Wifi className="w-4 h-4" />;
       case "parking":
         return <Car className="w-4 h-4" />;
       case "breakfast":
+      case "restaurant":
         return <Coffee className="w-4 h-4" />;
       case "gym":
         return <Dumbbell className="w-4 h-4" />;
+      case "pool":
+        return <Waves className="w-4 h-4" />;
+      case "spa":
+        return <Sprout className="w-4 h-4" />;
+      case "bar":
+      case "nightclub":
+        return <Beer className="w-4 h-4" />;
+      case "beach access":
+        return <Palmtree className="w-4 h-4" />;
+      case "room service":
+        return <UtensilsCrossed className="w-4 h-4" />;
+      case "airport shuttle":
+        return <Bus className="w-4 h-4" />;
+      case "laundry":
+        return <WashingMachine className="w-4 h-4" />;
+      case "pet friendly":
+        return <PawPrint className="w-4 h-4" />;
+      case "casino":
+        return <Dices className="w-4 h-4" />;
+      case "golf course":
+        return <Flag className="w-4 h-4" />;
+      case "tennis court":
+        return <Trophy className="w-4 h-4" />;
       default:
-        return null;
+        return <Star className="w-4 h-4 opacity-50" />;
     }
   };
 
@@ -416,8 +452,8 @@ const Hotels = () => {
                         <span>{hotel.location}</span>
                       </div>
 
-                      <div className="flex items-center gap-2 mb-4">
-                        {hotel.amenities.map((amenity) => (
+                      <div className="flex flex-wrap items-center gap-2 mb-4">
+                        {hotel.amenities?.slice(0, 4).map((amenity: string) => (
                           <div
                             key={amenity}
                             className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground"
@@ -426,6 +462,11 @@ const Hotels = () => {
                             {getAmenityIcon(amenity)}
                           </div>
                         ))}
+                        {hotel.amenities?.length > 4 && (
+                          <span className="text-xs text-muted-foreground">
+                            +{hotel.amenities.length - 4}
+                          </span>
+                        )}
                       </div>
 
                       <div className="flex items-end justify-between">

@@ -47,17 +47,17 @@ const HeroPage = () => {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse-slow " />
 
       {/* Floating Trophy Elements */}
-      <div className="absolute top-40 right-20 text-6xl animate-bounce opacity-20">
-        🏆
+      <div className="absolute top-40 right-20 w-16 h-16 animate-bounce opacity-20">
+        <Trophy className="w-full h-full text-primary" />
       </div>
-      <div className="absolute bottom-32 left-20 text-4xl animate-pulse opacity-20">
-        ⚽
+      <div className="absolute bottom-32 left-20 w-12 h-12 animate-pulse opacity-20">
+        <Trophy className="w-full h-full text-primary" />
       </div>
       <div
-        className="absolute top-60 left-1/4 text-3xl animate-bounce opacity-15"
+        className="absolute top-60 left-1/4 w-8 h-8 animate-bounce opacity-15"
         style={{ animationDelay: "0.5s" }}
       >
-        🥇
+        <Trophy className="w-full h-full text-primary" />
       </div>
 
       <div className="container mx-auto relative z-10">

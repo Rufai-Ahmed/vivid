@@ -3,7 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { apiFetch, endpoints } from "@/config/api";
-import { X, Maximize2 } from "lucide-react";
+import {
+  X,
+  Maximize2,
+  MessageCircle,
+  Coins,
+  Tag,
+  Eye,
+  ShoppingCart,
+  Trophy,
+  Users,
+  Ticket,
+} from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   CategoryId,
@@ -52,26 +63,41 @@ const PRICE_LABELS = [
 
 const TAG_STYLES: Record<
   string,
-  { color: string; bg: string; emoji: string; labelKey: string }
+  { color: string; bg: string; icon: React.ReactNode; labelKey: string }
 > = {
   "Best Price": {
     color: "#4FC3F7",
     bg: "rgba(79,195,247,0.12)",
-    emoji: "💰",
+    icon: <MessageCircle className="w-3 h-3" />,
     labelKey: "stadium.bestPrice",
   },
   "Best Deal": {
     color: "#4ade80",
     bg: "rgba(74,222,128,0.12)",
-    emoji: "🏷️",
+    icon: <Coins className="w-3 h-3" />,
     labelKey: "stadium.bestDeal",
   },
   "Best View": {
     color: "#FFD700",
     bg: "rgba(255,215,0,0.12)",
-    emoji: "👁️",
+    icon: <Eye className="w-3 h-3" />,
     labelKey: "stadium.bestView",
   },
+};
+
+const getCategoryIcon = (id: CategoryId) => {
+  switch (id) {
+    case 1:
+      return <Trophy className="w-4 h-4" />;
+    case 2:
+      return <Tag className="w-4 h-4" />;
+    case 3:
+      return <Eye className="w-4 h-4" />;
+    case 4:
+      return <Ticket className="w-4 h-4" />;
+    default:
+      return null;
+  }
 };
 
 function CheckoutDrawer({
@@ -150,8 +176,8 @@ function CheckoutDrawer({
             </h2>
           </div>
           {step !== "confirmation" && (
-            <div className="bg-yellow-400/10 border border-yellow-400/30 rounded-lg px-3 py-1 text-xs text-yellow-400 font-bold">
-              ⚽ {t("stadium.badge")}
+            <div className="bg-yellow-400/10 border border-yellow-400/30 rounded-lg px-3 py-1 text-xs text-yellow-400 font-bold flex items-center">
+              <Trophy className="w-4 h-4 mr-1" /> {t("stadium.badge")}
             </div>
           )}
         </div>
@@ -405,7 +431,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
       <div className="flex items-center justify-between px-6 py-4 border-b border-[#1f2937] bg-[#0a0c10]/80 backdrop-blur-md shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-base shadow-lg shadow-yellow-400/20">
-            ⚽
+            <Trophy className="w-5 h-5 text-primary" />
           </div>
           <div>
             <p className="font-black text-base tracking-widest text-yellow-400  leading-none">
@@ -431,7 +457,7 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                 onClick={openCheckout}
                 className="relative flex items-center gap-2 px-4 py-2 rounded-xl border border-yellow-400/40 bg-yellow-400/10 hover:bg-yellow-400/20 transition-all"
               >
-                <span>🛒</span>
+                <ShoppingCart className="w-5 h-5 text-primary-foreground" />
                 <span className="text-sm font-bold text-yellow-400">
                   {t("stadium.checkout.confirmation.ticketCount", {
                     count: cartCount,
@@ -718,7 +744,10 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                   className="text-sm font-medium"
                   style={{ color: activeCatInfo.color }}
                 >
-                  · {t(activeCatInfo.labelKey)}
+                  <span className="flex items-center gap-1">
+                    {getCategoryIcon(activeCatInfo.id)}
+                    · {t(activeCatInfo.labelKey)}
+                  </span>
                 </span>
               )}
             </div>
@@ -788,20 +817,21 @@ const Stadium = ({ auth: { user }, loginPath = "/login" }: StadiumProps) => {
                           </span>
                           {tagStyle && listing.tag && (
                             <span
-                              className="text-[10px] font-bold px-2 py-0.5 rounded-full border"
+                              className="text-[10px] font-bold px-2 py-0.5 rounded-full border flex items-center gap-1"
                               style={{
                                 color: tagStyle.color,
                                 backgroundColor: tagStyle.bg,
-                                borderColor: tagStyle.color + "55",
+                                borderColor: tagStyle.color,
                               }}
                             >
-                              {tagStyle.emoji} {t(tagStyle.labelKey)}
+                              {tagStyle.icon}
+                              {t(tagStyle.labelKey)}
                             </span>
                           )}
                         </div>
                         <div className="flex gap-3 text-[11px] text-gray-400 mb-1.5">
-                          <span>
-                            👥{" "}
+                          <span className="flex items-center gap-1">
+                            <Users className="w-3 h-3 text-muted-foreground" />{" "}
                             {t("stadium.available", {
                               count: listing.ticketsAvailable,
                             })}

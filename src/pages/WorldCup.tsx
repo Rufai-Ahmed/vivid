@@ -36,6 +36,7 @@ interface Match {
   teamB: string;
   date: string;
   venue: string;
+  address?: string;
   odds: {
     teamAWin: number;
     draw: number;
@@ -307,9 +308,16 @@ const WorldCup = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                    <MapPin className="w-4 h-4" />
-                    <span>{match.venue}</span>
+                  <div className="flex flex-col gap-1 text-sm text-muted-foreground mb-4">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4" />
+                      <span>{match.venue}</span>
+                    </div>
+                    {match.address && (
+                      <div className="flex items-center gap-2 pl-6 text-xs italic">
+                        <span>{match.address}</span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-3 gap-2">

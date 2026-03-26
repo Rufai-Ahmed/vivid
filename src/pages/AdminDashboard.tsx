@@ -81,8 +81,15 @@ const AdminDashboard = () => {
     const handleSwitchTab = (e: CustomEvent) => {
       setActiveTab(e.detail);
     };
-    window.addEventListener("admin-switch-tab", handleSwitchTab as EventListener);
-    return () => window.removeEventListener("admin-switch-tab", handleSwitchTab as EventListener);
+    window.addEventListener(
+      "admin-switch-tab",
+      handleSwitchTab as EventListener,
+    );
+    return () =>
+      window.removeEventListener(
+        "admin-switch-tab",
+        handleSwitchTab as EventListener,
+      );
   }, []);
 
   const handleLogout = () => {
@@ -292,49 +299,50 @@ const AdminDashboard = () => {
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
-            className="space-y-6"
+            className="space-y-6 w-full"
           >
-            <TabsList className="bg-secondary/50 p-1 rounded-xl overflow-x-auto flex-nowrap w-full">
+            <TabsList className="flex w-full justify-start overflow-x-auto whitespace-nowrap">
+              {" "}
               {user?.role === "receptionist" ? (
                 <TabsTrigger value="bookings" className="rounded-lg">
                   Bookings
                 </TabsTrigger>
               ) : (
                 <>
-                  <TabsTrigger value="tickets" className="rounded-lg">
+                  <TabsTrigger value="tickets" className="rounded-lg flex-shrink-0">
                     Tickets
                   </TabsTrigger>
-                  <TabsTrigger value="stadium" className="rounded-lg">
+                  <TabsTrigger value="stadium" className="rounded-lg flex-shrink-0">
                     Stadium
                   </TabsTrigger>
-                  <TabsTrigger value="users" className="rounded-lg">
+                  <TabsTrigger value="users" className="rounded-lg flex-shrink-0">
                     Users
                   </TabsTrigger>
-                  <TabsTrigger value="admins" className="rounded-lg">
+                  <TabsTrigger value="admins" className="rounded-lg flex-shrink-0">
                     Admins
                   </TabsTrigger>
-                  <TabsTrigger value="betting" className="rounded-lg">
+                  <TabsTrigger value="betting" className="rounded-lg flex-shrink-0">
                     Betting
                   </TabsTrigger>
-                  <TabsTrigger value="visa" className="rounded-lg">
+                  <TabsTrigger value="visa" className="rounded-lg flex-shrink-0">
                     Visa
                   </TabsTrigger>
-                  <TabsTrigger value="hotels" className="rounded-lg">
+                  <TabsTrigger value="hotels" className="rounded-lg flex-shrink-0">
                     Hotels
                   </TabsTrigger>
-                  <TabsTrigger value="bookings" className="rounded-lg">
+                  <TabsTrigger value="bookings" className="rounded-lg flex-shrink-0">
                     Bookings
                   </TabsTrigger>
-                  <TabsTrigger value="payments" className="rounded-lg">
+                  <TabsTrigger value="payments" className="rounded-lg flex-shrink-0">
                     Payments
                   </TabsTrigger>
-                  <TabsTrigger value="settings" className="rounded-lg">
+                  <TabsTrigger value="settings" className="rounded-lg flex-shrink-0">
                     Settings
                   </TabsTrigger>
-                  <TabsTrigger value="bulk" className="rounded-lg">
+                  <TabsTrigger value="bulk" className="rounded-lg flex-shrink-0">
                     Bulk Tickets
                   </TabsTrigger>
-                  <TabsTrigger value="wallets" className="rounded-lg">
+                  <TabsTrigger value="wallets" className="rounded-lg flex-shrink-0">
                     Crypto Wallets
                   </TabsTrigger>
                 </>

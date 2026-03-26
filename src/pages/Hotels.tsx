@@ -160,6 +160,8 @@ const Hotels = () => {
   >("manual");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [globalSettings, setGlobalSettings] = useState<any>(null);
+  const [wallets, setWallets] = useState<any[]>([]);
+  const [selectedWallet, setSelectedWallet] = useState<any>(null);
 
   // Booking Form State
   const [bookingFormOpen, setBookingFormOpen] = useState(false);
@@ -193,9 +195,7 @@ const Hotels = () => {
 
         const [hotelsRes, settingsRes] = await Promise.all([
           apiFetch(`${endpoints.hotels.getAll}?${queryParams}`),
-          apiFetch(
-            `${import.meta.env.VITE_API_URL || "http://localhost:3000/api"}/admin/settings`,
-          ),
+          apiFetch(endpoints.cryptoWallets.getActive),
         ]);
 
         if (hotelsRes.ok) {
@@ -604,63 +604,76 @@ const Hotels = () => {
               </span>
             </div>
 
-            {globalSettings?.cryptoWalletAddress ? (
+            {wallets.length > 0 ? (
               <div className="space-y-4">
+                {/* Wallet Selection */}
                 <div className="bg-gradient-to-br from-primary/20 to-purple-500/20 border border-primary/20 rounded-2xl p-6 flex flex-col items-center text-center space-y-2">
                   <Bitcoin className="w-10 h-10 text-primary animate-bounce-slow" />
                   <h3 className="font-bold text-white uppercase tracking-wider">
-                    {globalSettings.cryptoType || "Crypto"} Payment
+                    Crypto Payment
                   </h3>
-                  <p className="text-xs text-gray-400 leading-relaxed max-w-[200px]">
-                    Send the exact amount to the wallet address below.
-                  </p>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex justify-between items-center group relative">
-                    <div className="w-full pr-10">
-                      <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">
-                        {t("stadium.checkout.payment.accountNumber")}
-                      </p>
-                      <p className="font-mono text-sm text-yellow-400 break-all leading-tight">
-                        {globalSettings.cryptoWalletAddress}
-                      </p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-white/10"
-                      onClick={() => {
-                        navigator.clipboard.writeText(
-                          globalSettings.cryptoWalletAddress,
-                        );
-                        toast.success("Address copied!");
-                      }}
-                    >
-                      <Copy className="w-4 h-4 text-gray-400" />
-                    </Button>
-                  </div>
+                {/* Wallet Selector */}
+                <select
+                  value={selectedWallet?._id || ""}
+                  onChange={(e) => {
+                    const wallet = wallets.find((w) => w._id === e.target.value);
+                    setSelectedWallet(wallet || null);
+                  }}
+                  className="w-full bg-[#1a1a2e] border border-[#374151] rounded-xl px-4 py-3 text-white"
+                >
+                  {wallets.map((wallet) => (
+                    <option key={wallet._id} value={wallet._id}>
+                      {wallet.cryptocurrency} ({wallet.network})
+                    </option>
+                  ))}
+                </select>
 
-                  <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex justify-between items-center">
-                    <div>
-                      <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">
-                        {t("stadium.checkout.payment.accountName")}
-                      </p>
-                      <p className="font-bold text-white uppercase">
-                        {globalSettings.cryptoType || "BTC"}
-                      </p>
+                {selectedWallet && (
+                  <div className="space-y-3">
+                    <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex justify-between items-center group relative">
+                      <div className="w-full pr-10">
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">
+                          Wallet Address
+                        </p>
+                        <p className="font-mono text-sm text-yellow-400 break-all leading-tight">
+                          {selectedWallet.address}
+                        </p>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 hover:bg-white/10"
+                        onClick={() => {
+                          navigator.clipboard.writeText(selectedWallet.address);
+                          toast.success("Address copied!");
+                        }}
+                      >
+                        <Copy className="w-4 h-4 text-gray-400" />
+                      </Button>
                     </div>
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+
+                    <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl flex justify-between items-center">
+                      <div>
+                        <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">
+                          Network
+                        </p>
+                        <p className="font-bold text-white uppercase">
+                          {selectedWallet.network}
+                        </p>
+                      </div>
+                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="p-4 bg-yellow-400/5 border border-yellow-400/10 rounded-xl">
                   <p className="text-[10px] text-yellow-400 uppercase tracking-widest mb-1 font-bold">
                     Important
                   </p>
                   <p className="text-[11px] text-yellow-400/70 leading-relaxed">
-                    Once sent, our team will verify the transaction on the
-                    blockchain. Your booking will be confirmed within 1-2 hours.
+                    Once sent, our team will verify the transaction on the blockchain. Your booking will be confirmed within 1-2 hours.
                   </p>
                 </div>
               </div>
@@ -687,7 +700,7 @@ const Hotels = () => {
               variant="gradient"
               onClick={handlePayment}
               disabled={
-                isProcessingPayment || !globalSettings?.cryptoWalletAddress
+                isProcessingPayment || wallets.length === 0
               }
             >
               {isProcessingPayment ? (

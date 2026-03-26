@@ -113,6 +113,7 @@ export const endpoints = {
   admin: {
     stats: `${API_BASE_URL}/admin/stats`,
     getAdmins: `${API_BASE_URL}/admin/admins`,
+    settings: `${API_BASE_URL}/admin/settings`,
   },
   bulkTickets: {
     getAll: `${API_BASE_URL}/bulk-tickets/all`,
@@ -123,5 +124,17 @@ export const endpoints = {
     redeem: `${API_BASE_URL}/bulk-tickets/redeem`,
     template: `${API_BASE_URL}/bulk-tickets/template`,
     freeTicketCampaign: `${API_BASE_URL}/bulk-tickets/free-ticket-campaign`,
+  },
+  cryptoWallets: {
+    getAll: `${API_BASE_URL}/crypto-wallets`,
+    getActive: `${API_BASE_URL}/crypto-wallets/active`,
+    getOne: (id: string) => `${API_BASE_URL}/crypto-wallets/${id}`,
+    create: `${API_BASE_URL}/crypto-wallets`,
+    update: (id: string) => `${API_BASE_URL}/crypto-wallets/${id}`,
+    deactivate: (id: string) => `${API_BASE_URL}/crypto-wallets/${id}/deactivate`,
+    reactivate: (id: string) => `${API_BASE_URL}/crypto-wallets/${id}/reactivate`,
+    supportedCryptos: `${API_BASE_URL}/crypto-wallets/supported-cryptos`,
+    byNetwork: `${API_BASE_URL}/crypto-wallets/by-network`,
+    default: (crypto: string) => `${API_BASE_URL}/crypto-wallets/default?cryptocurrency=${crypto}`,
   },
 };

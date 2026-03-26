@@ -36,6 +36,9 @@ import { UsersTab } from "@/components/admin/tabs/UsersTab";
 import { AdminsTab } from "@/components/admin/tabs/AdminsTab";
 import { SettingsTab } from "@/components/admin/tabs/SettingsTab";
 import { BulkTicketsTab } from "@/components/admin/tabs/BulkTicketsTab";
+import { CryptoWalletsTab } from "@/components/admin/tabs/CryptoWalletsTab";
+import { CryptoWalletStatusWidget } from "@/components/admin/widgets/CryptoWalletStatusWidget";
+import { Wallet } from "lucide-react";
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -49,6 +52,12 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (user?.role === "receptionist") {
       setActiveTab("bookings");
+    }
+    // Check for pending tab switch from Settings
+    const pendingTab = (window as any).adminPendingTab;
+    if (pendingTab) {
+      setActiveTab(pendingTab);
+      delete (window as any).adminPendingTab;
     }
   }, [user]);
 
@@ -66,6 +75,15 @@ const AdminDashboard = () => {
 
     fetchStats();
   }, [user]);
+
+  // Listen for tab switch events from child components
+  useEffect(() => {
+    const handleSwitchTab = (e: CustomEvent) => {
+      setActiveTab(e.detail);
+    };
+    window.addEventListener("admin-switch-tab", handleSwitchTab as EventListener);
+    return () => window.removeEventListener("admin-switch-tab", handleSwitchTab as EventListener);
+  }, []);
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
@@ -141,6 +159,12 @@ const AdminDashboard = () => {
             tab: "settings",
           },
           { id: "bulk", label: "Bulk Tickets", icon: Mail, tab: "bulk" },
+          {
+            id: "wallets",
+            label: "Crypto Wallets",
+            icon: Wallet,
+            tab: "wallets",
+          },
         ];
 
   const handleNavClick = (tab: string | null) => {
@@ -227,7 +251,7 @@ const AdminDashboard = () => {
           {
             /* Stats Grid - Hide for receptionist */
             user?.role !== "receptionist" && (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
                 {stats.map((stat, index) => (
                   <div
                     key={index}
@@ -258,6 +282,8 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                 ))}
+                {/* Crypto Wallet Status Widget */}
+                <CryptoWalletStatusWidget />
               </div>
             )
           }
@@ -268,7 +294,7 @@ const AdminDashboard = () => {
             onValueChange={setActiveTab}
             className="space-y-6"
           >
-            <TabsList className="bg-secondary/50 p-1 rounded-xl">
+            <TabsList className="bg-secondary/50 p-1 rounded-xl overflow-x-auto flex-nowrap w-full">
               {user?.role === "receptionist" ? (
                 <TabsTrigger value="bookings" className="rounded-lg">
                   Bookings
@@ -307,6 +333,9 @@ const AdminDashboard = () => {
                   </TabsTrigger>
                   <TabsTrigger value="bulk" className="rounded-lg">
                     Bulk Tickets
+                  </TabsTrigger>
+                  <TabsTrigger value="wallets" className="rounded-lg">
+                    Crypto Wallets
                   </TabsTrigger>
                 </>
               )}
@@ -354,6 +383,10 @@ const AdminDashboard = () => {
 
             <TabsContent value="bulk">
               <BulkTicketsTab />
+            </TabsContent>
+
+            <TabsContent value="wallets">
+              <CryptoWalletsTab />
             </TabsContent>
           </Tabs>
         </div>

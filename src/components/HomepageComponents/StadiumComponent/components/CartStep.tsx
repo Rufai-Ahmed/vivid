@@ -56,18 +56,25 @@ export function CartStep({
                       · {listing.row}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 mb-3">
-                    <span
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: cat.color }}
-                    />
-                    <span className="text-xs" style={{ color: cat.color }}>
-                      {t(cat.labelKey)}
-                    </span>
-                    <span className="text-xs text-gray-500 ml-1">
-                      · {listing.view}
-                    </span>
-                  </div>
+                  <div className="flex items-center gap-1.5 mb-1">
+                      <span
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: cat.color }}
+                      />
+                      <span className="text-xs" style={{ color: cat.color }}>
+                        {t(cat.labelKey)}
+                      </span>
+                      <span className="text-xs text-gray-500 ml-1">
+                        · {listing.view}
+                      </span>
+                    </div>
+                    {listing.address && (
+                      <div className="flex items-center gap-1.5 mb-3">
+                        <span className="text-xs text-gray-500">
+                          📍 {listing.address}
+                        </span>
+                      </div>
+                    )}
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-500">
                       {t("stadium.checkout.cart.qtyLabel")}:

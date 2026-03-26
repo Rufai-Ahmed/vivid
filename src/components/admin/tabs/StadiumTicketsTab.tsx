@@ -170,6 +170,9 @@ export const StadiumTicketsTab = () => {
                 Availability
               </th>
               <th className="text-left p-4 text-sm font-medium text-muted-foreground">
+                Address
+              </th>
+              <th className="text-left p-4 text-sm font-medium text-muted-foreground">
                 Tag
               </th>
               <th className="text-left p-4 text-sm font-medium text-muted-foreground">
@@ -180,7 +183,7 @@ export const StadiumTicketsTab = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={6} className="p-4 text-center">
+                <td colSpan={7} className="p-4 text-center">
                   Loading...
                 </td>
               </tr>
@@ -197,6 +200,9 @@ export const StadiumTicketsTab = () => {
                   <td className="p-4 font-mono text-sm">${ticket.price}</td>
                   <td className="p-4 font-mono text-sm">
                     {ticket.ticketsAvailable} tickets
+                  </td>
+                  <td className="p-4 font-mono text-sm">
+                    {ticket.address || "-"}
                   </td>
                   <td className="p-4 text-muted-foreground">
                     {ticket.tag || "-"}

@@ -118,9 +118,7 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">{t("footer.contact")}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <span className="block">
-                  {t("footer.address")}
-                </span>
+                <span className="block">{t("footer.address")}</span>
               </li>
               <li>
                 <span className="block">{t("footer.phone")}</span>
@@ -134,7 +132,7 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">{t("footer.followUs")}</h4>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.facebook.com/profile.php?id=61578472863638&mibextid=ZbWKwL"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
                 {t("footer.facebook")}

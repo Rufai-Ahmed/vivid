@@ -19,6 +19,7 @@ import VisaApplication from "./pages/VisaApplication";
 import Hotels from "./pages/Hotels";
 import RedeemTicket from "./pages/RedeemTicket";
 import PaymentVerification from "./pages/PaymentVerification";
+import Unsubscribe from "./pages/Unsubscribe";
 import NotFound from "./pages/NotFound";
 import About from "./pages/About";
 import BulkTicketUpload from "./pages/admin/BulkTicketUpload";
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/visa-application" element={<VisaApplication />} />
               <Route path="/hotels" element={<Hotels />} />
               <Route path="/about" element={<About />} />
+              <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/redeem-ticket" element={<RedeemTicket />} />
               <Route path="/redeem" element={<RedeemTicket />} />
               <Route path="/worldcup" element={<WorldCup />} />

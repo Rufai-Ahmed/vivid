@@ -54,6 +54,7 @@ export const endpoints = {
     delete: (id: string) => `${API_BASE_URL}/users/${id}`,
     logout: `${API_BASE_URL}/users/logout`,
     setPassword: `${API_BASE_URL}/users/set-password`,
+    unsubscribe: `${API_BASE_URL}/users/unsubscribe`,
   },
   visa: {
     create: `${API_BASE_URL}/visa-applications/apply-visa`,
